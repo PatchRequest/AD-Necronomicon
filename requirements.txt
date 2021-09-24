@@ -1,0 +1,5 @@
+pyasn1==0.4.8
+six==1.16.0
+ordereddict==1.1
+pycryptodomex==3.10.1
+pyOpenSSL==20.0.1

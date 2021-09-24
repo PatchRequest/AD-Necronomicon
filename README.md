@@ -8,7 +8,7 @@ Lets take a little peak into the Necronomicon and look if we can find your Activ
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 
 ```bash
-pip install foobar
+pip install -r requirements.txt
 ```
 
 ## Usage
