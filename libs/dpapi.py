@@ -19,7 +19,7 @@ from libs.uuid import bin_to_string
 from libs.dcerpc.v5.enum import Enum
 from libs.dcerpc.v5.dtypes import RPC_SID
 
-# Algorithm classes
+  
 ALG_CLASS_ANY                   = (0)
 ALG_CLASS_SIGNATURE             = (1 << 13)
 ALG_CLASS_MSG_ENCRYPT           = (2 << 13)
@@ -28,7 +28,7 @@ ALG_CLASS_HASH                  = (4 << 13)
 ALG_CLASS_KEY_EXCHANGE          = (5 << 13)
 ALG_CLASS_ALL                   = (7 << 13)
 
-# Algorithm types
+  
 ALG_TYPE_ANY                    = (0)
 ALG_TYPE_DSS                    = (1 << 9)
 ALG_TYPE_RSA                    = (2 << 9)
@@ -47,7 +47,7 @@ ALG_SID_DSS_PKCS                = 1
 ALG_SID_DSS_DMS                 = 2
 ALG_SID_ECDSA                   = 3
 
-# Block cipher sub ids
+  
 ALG_SID_DES                     = 1
 ALG_SID_3DES                    = 3
 ALG_SID_DESX                    = 4
@@ -65,24 +65,24 @@ ALG_SID_AES                     = 17
 ALG_SID_SKIPJACK                = 10
 ALG_SID_TEK                     = 11
 
-CRYPT_MODE_CBCI                 = 6       # ANSI CBC Interleaved
-CRYPT_MODE_CFBP                 = 7       # ANSI CFB Pipelined
-CRYPT_MODE_OFBP                 = 8       # ANSI OFB Pipelined
-CRYPT_MODE_CBCOFM               = 9       # ANSI CBC + OF Masking
-CRYPT_MODE_CBCOFMI              = 10      # ANSI CBC + OFM Interleaved
+CRYPT_MODE_CBCI                 = 6         
+CRYPT_MODE_CFBP                 = 7         
+CRYPT_MODE_OFBP                 = 8         
+CRYPT_MODE_CBCOFM               = 9         
+CRYPT_MODE_CBCOFMI              = 10        
 
 ALG_SID_RC2                     = 2
 ALG_SID_RC4                     = 1
 ALG_SID_SEAL                    = 2
 
-# Diffie - Hellman sub - ids
+  
 ALG_SID_DH_SANDF                = 1
 ALG_SID_DH_EPHEM                = 2
 ALG_SID_AGREED_KEY_ANY          = 3
 ALG_SID_KEA                     = 4
 ALG_SID_ECDH                    = 5
 
-# Hash sub ids
+  
 ALG_SID_MD2                     = 1
 ALG_SID_MD4                     = 2
 ALG_SID_MD5                     = 3
@@ -99,7 +99,7 @@ ALG_SID_SHA_256                 = 12
 ALG_SID_SHA_384                 = 13
 ALG_SID_SHA_512                 = 14
 
-# secure channel sub ids
+  
 ALG_SID_SSL3_MASTER             = 1
 ALG_SID_SCHANNEL_MASTER_HASH    = 2
 ALG_SID_SCHANNEL_MAC_KEY        = 3
@@ -121,7 +121,7 @@ class FLAGS(Enum):
     CRYPTPROTECT_CRED_REGENERATE = 0x80
     CRYPTPROTECT_SYSTEM = 0x20000000
 
-# algorithm identifier definitions
+  
 class ALGORITHMS(Enum):
     CALG_MD2                = (ALG_CLASS_HASH | ALG_TYPE_ANY | ALG_SID_MD2)
     CALG_MD4                = (ALG_CLASS_HASH | ALG_TYPE_ANY | ALG_SID_MD4)
@@ -196,7 +196,7 @@ class CREDENTIAL_PERSIST(Enum):
     CRED_PERSIST_ENTERPRISE = 0x3
 
 ALGORITHMS_DATA = {
-    # Algorithm: key/SaltLen, CryptHashModule, Mode, IVLen, BlockSize
+      
     ALGORITHMS.CALG_SHA.value: (160//8, SHA1, None, None, 512//8),
     ALGORITHMS.CALG_HMAC.value: (160//8, SHA512, None, None, 512//8),
     ALGORITHMS.CALG_3DES.value: (192//8, DES3, DES3.MODE_CBC, 64//8),
@@ -357,13 +357,13 @@ class CredentialFile(Structure):
         ('_Data', '_-Data', 'self["Size"]'),
         ('Data', ':'),
     )
-    #def dump(self):
-    #    print("[CREDENTIAL FILE]")
-    #    print("Version    : %8x (%d)" % (self['Version'], self['Version']))
-    #    print("MachineKey : %s" % hexlify(self['MachineKey']))
-    #    print("UserKey    : %s" % hexlify(self['UserKey']))
-    #    print("CryptAlgo   : %.8x (%d) (%s)" % (self['CryptAlgo'], self['CryptAlgo'], ALGORITHMS(self['CryptAlgo']).name))
-    #    print()
+      
+      
+      
+      
+      
+      
+      
 
 
 class DPAPI_BLOB(Structure):
@@ -443,7 +443,7 @@ class DPAPI_BLOB(Structure):
 
 
         if len(derivedKey) < ALGORITHMS_DATA[self['CryptAlgo']][0]:
-            # Extend the key
+              
             derivedKey += b'\x00'*ALGORITHMS_DATA[self['HashAlgo']][4]
             ipad = bytearray([ i ^ 0x36 for i in bytearray(derivedKey)][:ALGORITHMS_DATA[self['HashAlgo']][4]])
             opad = bytearray([ i ^ 0x5c for i in bytearray(derivedKey)][:ALGORITHMS_DATA[self['HashAlgo']][4]])
@@ -461,19 +461,19 @@ class DPAPI_BLOB(Structure):
 
         sessionKey = sessionKey.digest()
 
-        # Derive the key
+          
         derivedKey = self.deriveKey(sessionKey)
 
         cipher = ALGORITHMS_DATA[self['CryptAlgo']][1].new(derivedKey[:ALGORITHMS_DATA[self['CryptAlgo']][0]],
                                 mode=ALGORITHMS_DATA[self['CryptAlgo']][2], iv=b'\x00'*ALGORITHMS_DATA[self['CryptAlgo']][3])
         cleartext = unpad(cipher.decrypt(self['Data']), ALGORITHMS_DATA[self['CryptAlgo']][1].block_size)
 
-        # Now check the signature
+          
 
-        # ToDo Fix this, it's just ugly, more testing so we can remove one
+          
         toSign = (self.rawData[20:][:len(self.rawData)-20-len(self['Sign'])-4])
 
-        # Calculate the different HMACKeys
+          
         keyHash2 = keyHash + b"\x00"*ALGORITHMS_DATA[self['HashAlgo']][1].block_size
         ipad = bytearray([i ^ 0x36 for i in bytearray(keyHash2)][:ALGORITHMS_DATA[self['HashAlgo']][1].block_size])
         opad = bytearray([i ^ 0x5c for i in bytearray(keyHash2)][:ALGORITHMS_DATA[self['HashAlgo']][1].block_size])
@@ -572,7 +572,7 @@ class VAULT_VCRD(Structure):
     def __init__(self, data = None, alignment = 0):
         Structure.__init__(self, data, alignment)
         if data is not None:
-            # Process the MAP entries
+              
             self.mapEntries = list()
             data = self['AttributeMaps']
             for i in range(self['AttributesMapsSize']//len(VAULT_ATTRIBUTE_MAP_ENTRY())):
@@ -593,7 +593,7 @@ class VAULT_VCRD(Structure):
                 attribute = VAULT_ATTRIBUTE(self.rawData[entry['Offset']:][:self.attributesLen[i]])
                 self.attributes.append(attribute)
 
-            # Do we have remaining data?
+              
             self['Data'] = self.rawData[self.mapEntries[-1]['Offset']+len(self.attributes[-1].getData()):]
 
     def dump(self):
@@ -637,7 +637,7 @@ class VAULT_VPOL(Structure):
         self['Blob'].dump()
         print()
 
-# from bcrypt.h
+  
 class BCRYPT_KEY_DATA_BLOB_HEADER(Structure):
     structure = (
         ('dwMagic','<L=0'),
@@ -647,7 +647,7 @@ class BCRYPT_KEY_DATA_BLOB_HEADER(Structure):
         ('bKey',':'),
     )
 
-# from https://media.defcon.org/DEF%20CON%2024/DEF%20CON%2024%20presentations/DEFCON-24-Jkambic-Cunning-With-Cng-Soliciting-Secrets-From-Schannel-WP.pdf
+  
 class BCRYPT_KSSM_DATA_BLOB_HEADER(Structure):
     structure = (
         ('cbLength','<L=0'),
@@ -656,13 +656,13 @@ class BCRYPT_KSSM_DATA_BLOB_HEADER(Structure):
         ('dwUnknown3','<L=0'),
         ('dwKeyBitLen','<L=0'),
         ('cbKeyLength','<L=0'),
-        #('_bKey','_-bKey', 'self["cbKeyData"]'),
-        #('AesKey','32s=""'),
-        #('dwUnknown4','<L=0'),
-        #('KeySchedule','448s=""'),
-        #('dwUnknown5','<L=0'),
-        #('cbScheduleLen','<L=0'),
-        #('Unknown6','16s=""'),
+          
+          
+          
+          
+          
+          
+          
     )
 
 class BCRYPT_KEY_WRAP(Structure):
@@ -782,8 +782,8 @@ class NGC_LOCAL_ACCOOUNT(Structure):
         ('_CipherText', '_-CipherText', 'self["CipherTextSize"]'),
         ('CipherText', ':'),
     )
-#    def __init__(self, data=None, alignment = 0):
-#        hexdump(data)
+  
+  
     def dump(self):
         print("[NGC LOCAL ACCOOUNT]")
         print('UnlockKey    : %s' % hexlify(self["UnlockKey"]))
@@ -824,7 +824,7 @@ VAULT_KNOWN_SCHEMAS = {
 }
 
 class CREDENTIAL_ATTRIBUTE(Structure):
-    # some info here https://docs.microsoft.com/en-us/windows/desktop/api/wincred/ns-wincred-_credential_attributea
+      
     structure = (
         ('Flags','<L=0'),
 
@@ -839,12 +839,12 @@ class CREDENTIAL_ATTRIBUTE(Structure):
 
     def dump(self):
         print("KeyWord : %s" % (self['KeyWord'].decode('utf-16le')))
-        #print("Flags   : %8x (%s)" % (self['Flags'], getFlags(CREDENTIAL_FLAGS, self['Flags'])))
+          
         print("Data    : ")
         hexdump(self['Data'])
 
 class CREDENTIAL_BLOB(Structure):
-    # some info here https://docs.microsoft.com/en-us/windows/desktop/api/wincred/ns-wincred-_credentiala
+      
     structure = (
         ('Flags','<L=0'),
         ('Size','<L=0'),
@@ -887,7 +887,7 @@ class CREDENTIAL_BLOB(Structure):
         Structure.__init__(self, data, alignment)
         self.attributes = 0
         if data is not None:
-            # Unpack the attributes
+              
             remaining = self['Remaining']
             self.attributes = list()
             for i in range(self['AttrCount']):
@@ -998,21 +998,21 @@ class DPAPI_DOMAIN_RSA_MASTER_KEY(Structure):
 
 def privatekeyblob_to_pkcs1(key):
     '''
-    parse private key into pkcs#1 format
+    parse private key into pkcs  
     :param key:
     :return:
     '''
-    modulus = bytes_to_long(key['modulus'][::-1]) # n
-    prime1 = bytes_to_long(key['prime1'][::-1]) # p
-    prime2 = bytes_to_long(key['prime2'][::-1]) # q
+    modulus = bytes_to_long(key['modulus'][::-1])   
+    prime1 = bytes_to_long(key['prime1'][::-1])   
+    prime2 = bytes_to_long(key['prime2'][::-1])   
     exp1 = bytes_to_long(key['exponent1'][::-1])
     exp2 = bytes_to_long(key['exponent2'][::-1])
     coefficient = bytes_to_long(key['coefficient'][::-1])
-    privateExp = bytes_to_long(key['privateExponent'][::-1]) # d
+    privateExp = bytes_to_long(key['privateExponent'][::-1])   
     if PY3:
         long = int
-    pubExp = long(key['rsapubkey']['pubexp']) # e
-    # RSA.Integer(prime2).inverse(prime1) # u
+    pubExp = long(key['rsapubkey']['pubexp'])   
+      
 
     r = RSA.construct((modulus, pubExp, privateExp, prime1, prime2))
     return r

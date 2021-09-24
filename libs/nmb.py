@@ -13,7 +13,7 @@ from six import byte2int, indexbytes, b
 
 from libs.structure import Structure
 
-# Our random number generator
+  
 try:
     rand = random.SystemRandom()
 except NotImplementedError:
@@ -21,22 +21,22 @@ except NotImplementedError:
     pass
 
 
-################################################################################
-# CONSTANTS
-################################################################################
-# Taken from socket module reference
+  
+  
+  
+  
 INADDR_ANY = '0.0.0.0'
 BROADCAST_ADDR = '<broadcast>'
 
-# Default port for NetBIOS name service
+  
 NETBIOS_NS_PORT = 137
-# Default port for NetBIOS session service
+  
 NETBIOS_SESSION_PORT = 139
 
-# Default port for SMB session service
+  
 SMB_SESSION_PORT = 445
 
-# Owner Node Type Constants
+  
 NODE_B = 0x0000
 NODE_P = 0x2000
 NODE_M = 0x4000
@@ -44,7 +44,7 @@ NODE_RESERVED = 0x6000
 NODE_GROUP = 0x8000
 NODE_UNIQUE = 0x0
 
-# Name Type Constants
+  
 TYPE_UNKNOWN = 0x01
 TYPE_WORKSTATION = 0x00
 TYPE_CLIENT = 0x03
@@ -56,7 +56,7 @@ TYPE_BROWSER = 0x1E
 TYPE_NETDDE  = 0x1F
 TYPE_STATUS = 0x21
 
-# Opcodes values
+  
 OPCODE_QUERY = 0
 OPCODE_REGISTRATION = 0x5 << 11
 OPCODE_RELEASE = 0x6 << 11
@@ -65,7 +65,7 @@ OPCODE_REFRESH = 0x8 << 11
 OPCODE_REQUEST = 0 << 11
 OPCODE_RESPONSE = 0x10 << 11
 
-# NM_FLAGS
+  
 NM_FLAGS_BROADCAST = 0x1 << 4
 NM_FLAGS_UNICAST = 0 << 4
 NM_FLAGS_RA = 0x8 << 4
@@ -73,39 +73,39 @@ NM_FLAGS_RD = 0x10 << 4
 NM_FLAGS_TC = 0x20 << 4
 NM_FLAGS_AA = 0x40 << 4
 
-# QUESTION_TYPE
-QUESTION_TYPE_NB = 0x20     # NetBIOS general Name Service Resource Record
-QUESTION_TYPE_NBSTAT = 0x21 # NetBIOS NODE STATUS Resource Record
-# QUESTION_CLASS
-QUESTION_CLASS_IN = 0x1     # Internet class
+  
+QUESTION_TYPE_NB = 0x20       
+QUESTION_TYPE_NBSTAT = 0x21   
+  
+QUESTION_CLASS_IN = 0x1       
 
-# RESOURCE RECORD RR_TYPE field definitions
-RR_TYPE_A = 0x1             # IP address Resource Record
-RR_TYPE_NS = 0x2            # Name Server Resource Record
-RR_TYPE_NULL = 0xA          # NULL Resource Record
-RR_TYPE_NB = 0x20           # NetBIOS general Name Service Resource Record
-RR_TYPE_NBSTAT = 0x21       # NetBIOS NODE STATUS Resource Record
+  
+RR_TYPE_A = 0x1               
+RR_TYPE_NS = 0x2              
+RR_TYPE_NULL = 0xA            
+RR_TYPE_NB = 0x20             
+RR_TYPE_NBSTAT = 0x21         
 
-# RESOURCE RECORD RR_CLASS field definitions
-RR_CLASS_IN = 1             # Internet class
+  
+RR_CLASS_IN = 1               
 
-# RCODE values
-RCODE_FMT_ERR   = 0x1       # Format Error.  Request was invalidly formatted.
-RCODE_SRV_ERR   = 0x2       # Server failure.  Problem with NBNS, cannot process name.
-RCODE_IMP_ERR   = 0x4       # Unsupported request error.  Allowable only for challenging NBNS when gets an Update type
-                            # registration request.
-RCODE_RFS_ERR   = 0x5       # Refused error.  For policy reasons server will not register this name from this host.
-RCODE_ACT_ERR   = 0x6       # Active error.  Name is owned by another node.
-RCODE_CFT_ERR   = 0x7       # Name in conflict error.  A UNIQUE name is owned by more than one node.
+  
+RCODE_FMT_ERR   = 0x1         
+RCODE_SRV_ERR   = 0x2         
+RCODE_IMP_ERR   = 0x4         
+                              
+RCODE_RFS_ERR   = 0x5         
+RCODE_ACT_ERR   = 0x6         
+RCODE_CFT_ERR   = 0x7         
 
-# NAME_FLAGS
-NAME_FLAGS_PRM = 0x0200       # Permanent Name Flag.  If one (1) then entry is for the permanent node name.  Flag is zero
-                              # (0) for all other names.
-NAME_FLAGS_ACT = 0x0400       # Active Name Flag.  All entries have this flag set to one (1).
-NAME_FLAG_CNF  = 0x0800       # Conflict Flag.  If one (1) then name on this node is in conflict.
-NAME_FLAG_DRG  = 0x1000       # Deregister Flag.  If one (1) then this name is in the process of being deleted.
+  
+NAME_FLAGS_PRM = 0x0200         
+                                
+NAME_FLAGS_ACT = 0x0400         
+NAME_FLAG_CNF  = 0x0800         
+NAME_FLAG_DRG  = 0x1000         
 
-# NB_FLAGS
+  
 NB_FLAGS_ONT_B = 0
 NB_FLAGS_ONT_P = 1 << 13
 NB_FLAGS_ONT_M = 2 << 13
@@ -116,7 +116,7 @@ NAME_TYPES = {TYPE_UNKNOWN: 'Unknown', TYPE_WORKSTATION: 'Workstation', TYPE_CLI
               TYPE_MASTER_BROWSER: 'Master Browser', TYPE_BROWSER: 'Browser Server', TYPE_NETDDE: 'NetDDE Server',
               TYPE_STATUS: 'Status'}
 
-# NetBIOS Session Types
+  
 NETBIOS_SESSION_MESSAGE = 0x0
 NETBIOS_SESSION_REQUEST = 0x81
 NETBIOS_SESSION_POSITIVE_RESPONSE = 0x82
@@ -124,11 +124,11 @@ NETBIOS_SESSION_NEGATIVE_RESPONSE = 0x83
 NETBIOS_SESSION_RETARGET_RESPONSE = 0x84
 NETBIOS_SESSION_KEEP_ALIVE = 0x85
 
-################################################################################
-# HELPERS
-################################################################################
+  
+  
+  
 def encode_name(name, nametype, scope):
-    # ToDo: Rewrite this simpler, we're using less than written
+      
     """
     Perform first and second level encoding of name as specified in RFC 1001 (Section 4)
     
@@ -161,13 +161,13 @@ def encode_name(name, nametype, scope):
     else:
         return b(encoded_name) + b'\0'
 
-# Internal method for use in encode_name()
+  
 def _do_first_level_encoding(m):
     s = ord(m.group(0))
     return string.ascii_uppercase[s >> 4] + string.ascii_uppercase[s & 0x0f]
 
 def decode_name(name):
-    # ToDo: Rewrite this simpler, we're using less than written
+      
     """
     Perform first and second level decoding of name as specified in RFC 1001 (Section 4)
 
@@ -251,9 +251,9 @@ class NetBIOSTimeout(Exception):
     def __init__(self, message = 'The NETBIOS connection with the remote host timed out.'):
         Exception.__init__(self, message)
 
-################################################################################
-# 4.2 NAME SERVER PACKETS
-################################################################################
+  
+  
+  
 class NBNSResourceRecord(Structure):
     structure = (
         ('RR_NAME','z=\x00'),
@@ -305,7 +305,7 @@ class NBPositiveNameQueryResponse(NBNSResourceRecord):
             rdata = rdata[len(entry):]
             self.entries.append(socket.inet_ntoa(entry['NB_ADDRESS']))
 
-# 4.2.1.  GENERAL FORMAT OF NAME SERVICE PACKETS
+  
 class NAME_SERVICE_PACKET(Structure):
     commonHdr = (
         ('NAME_TRN_ID','>H=0'),
@@ -319,7 +319,7 @@ class NAME_SERVICE_PACKET(Structure):
         ('ANSWERS',':'),
     )
 
-# 4.2.1.2.  QUESTION SECTION
+  
 class QUESTION_ENTRY(Structure):
     commonHdr = (
         ('QUESTION_NAME','z'),
@@ -327,7 +327,7 @@ class QUESTION_ENTRY(Structure):
         ('QUESTION_CLASS','>H=0'),
     )
 
-# 4.2.1.3.  RESOURCE RECORD
+  
 class RESOURCE_RECORD(Structure):
     structure = (
         ('RR_NAME','z=\x00'),
@@ -338,7 +338,7 @@ class RESOURCE_RECORD(Structure):
         ('RDATA',':=""'),
     )
 
-# 4.2.2.  NAME REGISTRATION REQUEST
+  
 class NAME_REGISTRATION_REQUEST(NAME_SERVICE_PACKET):
     structure = (
         ('QUESTION_NAME', ':'),
@@ -366,7 +366,7 @@ class NAME_REGISTRATION_REQUEST(NAME_SERVICE_PACKET):
         self['RR_TYPE'] = RR_TYPE_NB
         self['RR_CLASS'] = RR_CLASS_IN
 
-# 4.2.3.  NAME OVERWRITE REQUEST & DEMAND
+  
 class NAME_OVERWRITE_REQUEST(NAME_REGISTRATION_REQUEST):
     def __init__(self, data=None):
         NAME_REGISTRATION_REQUEST.__init__(self,data)
@@ -376,7 +376,7 @@ class NAME_OVERWRITE_REQUEST(NAME_REGISTRATION_REQUEST):
         self['NSCOUNT'] = 0
         self['ARCOUNT'] = 1
 
-# 4.2.4.  NAME REFRESH REQUEST
+  
 class NAME_REFRESH_REQUEST(NAME_REGISTRATION_REQUEST):
     def __init__(self, data=None):
         NAME_REGISTRATION_REQUEST.__init__(self,data)
@@ -386,23 +386,23 @@ class NAME_REFRESH_REQUEST(NAME_REGISTRATION_REQUEST):
         self['NSCOUNT'] = 0
         self['ARCOUNT'] = 1
 
-# 4.2.5.  POSITIVE NAME REGISTRATION RESPONSE
-# 4.2.6.  NEGATIVE NAME REGISTRATION RESPONSE
-# 4.2.7.  END-NODE CHALLENGE REGISTRATION RESPONSE
+  
+  
+  
 class NAME_REGISTRATION_RESPONSE(NAME_REGISTRATION_REQUEST):
     def __init__(self, data=None):
         NAME_REGISTRATION_REQUEST.__init__(self,data)
 
-# 4.2.8.  NAME CONFLICT DEMAND
+  
 class NAME_CONFLICT_DEMAND(NAME_REGISTRATION_REQUEST):
     def __init__(self, data=None):
         NAME_REGISTRATION_REQUEST.__init__(self,data)
 
-# ToDo: 4.2.9.  NAME RELEASE REQUEST & DEMAND
-# ToDo: 4.2.10.  POSITIVE NAME RELEASE RESPONSE
-# ToDo: 4.2.11.  NEGATIVE NAME RELEASE RESPONSE
+  
+  
+  
 
-# 4.2.12.  NAME QUERY REQUEST
+  
 class NAME_QUERY_REQUEST(NAME_SERVICE_PACKET):
     structure = (
         ('QUESTION_NAME', ':'),
@@ -421,17 +421,17 @@ class NAME_QUERY_REQUEST(NAME_SERVICE_PACKET):
         self['QUESTION_TYPE'] = QUESTION_TYPE_NB
         self['QUESTION_CLASS'] = QUESTION_CLASS_IN
 
-# 4.2.13.  POSITIVE NAME QUERY RESPONSE
+  
 class ADDR_ENTRY(Structure):
     structure = (
         ('NB_FLAGS', '>H=0'),
         ('NB_ADDRESS', '4s=b""'),
     )
 
-# ToDo: 4.2.15.  REDIRECT NAME QUERY RESPONSE
-# ToDo: 4.2.16.  WAIT FOR ACKNOWLEDGEMENT (WACK) RESPONSE
+  
+  
 
-# 4.2.17.  NODE STATUS REQUEST
+  
 class NODE_STATUS_REQUEST(NAME_QUERY_REQUEST):
     def __init__(self, data=None):
         NAME_QUERY_REQUEST.__init__(self,data)
@@ -439,7 +439,7 @@ class NODE_STATUS_REQUEST(NAME_QUERY_REQUEST):
         self['FLAGS'] = 0
         self['QUESTION_TYPE'] = QUESTION_TYPE_NBSTAT
 
-# 4.2.18.  NODE STATUS RESPONSE
+  
 class NODE_NAME_ENTRY(Structure):
     structure = (
         ('NAME','15s=b""'),
@@ -472,8 +472,8 @@ class STATISTICS(Structure):
     )
 
 class NetBIOS:
-    # Creates a NetBIOS instance without specifying any default NetBIOS domain nameserver.
-    # All queries will be sent through the servport.
+      
+      
     def __init__(self, servport = NETBIOS_NS_PORT):
         self.__servport = NETBIOS_NS_PORT
         self.__nameserver = None
@@ -486,7 +486,7 @@ class NetBIOS:
         s = socket.socket(af, socktype, proto)
         has_bind = 1
         for _i in range(0, 10):
-            # We try to bind to a port for 10 tries
+              
             try:
                 s.bind((INADDR_ANY, rand.randint(10000, 60000)))
                 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
@@ -507,7 +507,7 @@ class NetBIOS:
                 ready, _, _ = select.select([self.__sock.fileno()], [], [], timeout)
                 if not ready:
                     if tries:
-                        # Retry again until tries == 0
+                          
                         tries -= 1
                     else:
                         raise NetBIOSTimeout
@@ -528,33 +528,33 @@ class NetBIOS:
             except socket.error as ex:
                 raise NetBIOSError('Connection error: %s' % str(ex))
 
-    # Set the default NetBIOS domain nameserver.
+      
     def set_nameserver(self, nameserver):
         self.__nameserver = nameserver
 
-    # Return the default NetBIOS domain nameserver, or None if none is specified.
+      
     def get_nameserver(self):
         return self.__nameserver
 
-    # Set the broadcast address to be used for query.
+      
     def set_broadcastaddr(self, broadcastaddr):
         self.__broadcastaddr = broadcastaddr
 
-    # Return the broadcast address to be used, or BROADCAST_ADDR if default broadcast address is used.   
+      
     def get_broadcastaddr(self):
         return self.__broadcastaddr
 
-    # Returns a NBPositiveNameQueryResponse instance containing the host information for nbname.
-    # If a NetBIOS domain nameserver has been specified, it will be used for the query.
-    # Otherwise, the query is broadcasted on the broadcast address.
+      
+      
+      
     def gethostbyname(self, nbname, qtype = TYPE_WORKSTATION, scope = None, timeout = 1):
         resp = self.name_query_request(nbname, self.__nameserver, qtype, scope, timeout)
         return resp
 
-    # Returns a list of NBNodeEntry instances containing node status information for nbname.
-    # If destaddr contains an IP address, then this will become an unicast query on the destaddr.
-    # Raises NetBIOSTimeout if timeout (in secs) is reached.
-    # Raises NetBIOSError for other errors
+      
+      
+      
+      
     def getnodestatus(self, nbname, destaddr = None, type = TYPE_WORKSTATION, scope = None, timeout = 1):
         if destaddr:
             return self.node_status_request(nbname, destaddr, type, scope, timeout)
@@ -619,9 +619,9 @@ class NetBIOS:
         self.mac = answ.get_mac()
         return answ.entries
 
-################################################################################
-# 4.2 SESSION SERVICE PACKETS
-################################################################################
+  
+  
+  
 
 class NetBIOSSessionPacket:
     def __init__(self, data=0):
@@ -687,12 +687,12 @@ class NetBIOSSession:
         self.__local_type = local_type
 
         assert remote_name
-        # if destination port SMB_SESSION_PORT and remote name *SMBSERVER, we're changing it to its IP address
-        # helping solving the client mistake ;)
+          
+          
         if remote_name == '*SMBSERVER' and sess_port == SMB_SESSION_PORT:
             remote_name = remote_host
 
-        # If remote name is *SMBSERVER let's try to query its name.. if can't be guessed, continue and hope for the best
+          
 
         if remote_name == '*SMBSERVER':
             nb = NetBIOS()
@@ -713,7 +713,7 @@ class NetBIOSSession:
         self.__remote_host = remote_host
 
         if sock is not None:
-            # We are acting as a server
+              
             self._sock = sock
         else:
             self._sock = self._setup_connection((remote_host, sess_port), timeout)
@@ -757,8 +757,8 @@ class NetBIOSUDPSessionPacket(Structure):
     FLAGS_B_NODE         = 0
 
     structure = (
-        ('Type','B=16'),    # Direct Unique Datagram
-        ('Flags','B=2'),    # FLAGS_FIRST_FRAGMENT
+        ('Type','B=16'),      
+        ('Flags','B=2'),      
         ('ID','<H'),
         ('_SourceIP','>L'),
         ('SourceIP','"'),
@@ -805,7 +805,7 @@ class NetBIOSUDPSession(NetBIOSSession):
         return answer
 
     def send_packet(self, data):
-        # Yes... I know...
+          
         self._sock.connect(self.peer)
 
         p = NetBIOSUDPSessionPacket()
@@ -821,16 +821,16 @@ class NetBIOSUDPSession(NetBIOSSession):
         self._sock = self._setup_connection(self.peer)
 
     def recv_packet(self, timeout = None):
-        # The next loop is a workaround for a bigger problem:
-        # When data reaches higher layers, the lower headers are lost,
-        # and with them, for example, the source IP. Hence, SMB users
-        # can't know where packets are coming from... we need a better
-        # solution, right now, we will filter everything except packets
-        # coming from the remote_host specified in __init__()
+          
+          
+          
+          
+          
+          
 
         while 1:
             data, peer = self._sock.recvfrom(8192)
-#            print "peer: %r  self.peer: %r" % (peer, self.peer)
+  
             if peer == self.peer:
                 break
 
@@ -881,7 +881,7 @@ class NetBIOSTCPSession(NetBIOSSession):
         data = self.__read(timeout)
         NBSPacket = NetBIOSSessionPacket(data)
         if NBSPacket.get_type() == NETBIOS_SESSION_KEEP_ALIVE:
-            # Discard packet
+              
             return self.recv_packet(timeout)
         return NetBIOSSessionPacket(data)
 
@@ -900,7 +900,7 @@ class NetBIOSTCPSession(NetBIOSSession):
             elif p.get_type() == NETBIOS_SESSION_POSITIVE_RESPONSE:
                 break
             else:
-                # Ignore all other messages, most probably keepalive messages
+                  
                 pass
 
     def polling_read(self, read_length, timeout):

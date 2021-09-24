@@ -25,10 +25,10 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'LSAD SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
-# 2.2.1.1.2 ACCESS_MASK for Policy Objects
+  
+  
+  
+  
 POLICY_VIEW_LOCAL_INFORMATION   = 0x00000001
 POLICY_VIEW_AUDIT_INFORMATION   = 0x00000002
 POLICY_GET_PRIVATE_INFORMATION  = 0x00000004
@@ -43,17 +43,17 @@ POLICY_SERVER_ADMIN             = 0x00000400
 POLICY_LOOKUP_NAMES             = 0x00000800
 POLICY_NOTIFICATION             = 0x00001000
 
-# 2.2.1.1.3 ACCESS_MASK for Account Objects
+  
 ACCOUNT_VIEW                 = 0x00000001
 ACCOUNT_ADJUST_PRIVILEGES    = 0x00000002
 ACCOUNT_ADJUST_QUOTAS        = 0x00000004
 ACCOUNT_ADJUST_SYSTEM_ACCESS = 0x00000008
 
-# 2.2.1.1.4 ACCESS_MASK for Secret Objects
+  
 SECRET_SET_VALUE   = 0x00000001
 SECRET_QUERY_VALUE = 0x00000002
 
-# 2.2.1.1.5 ACCESS_MASK for Trusted Domain Objects
+  
 TRUSTED_QUERY_DOMAIN_NAME = 0x00000001
 TRUSTED_QUERY_CONTROLLERS = 0x00000002
 TRUSTED_SET_CONTROLLERS   = 0x00000004
@@ -62,7 +62,7 @@ TRUSTED_SET_POSIX         = 0x00000010
 TRUSTED_SET_AUTH          = 0x00000020
 TRUSTED_QUERY_AUTH        = 0x00000040
 
-# 2.2.1.2 POLICY_SYSTEM_ACCESS_MODE
+  
 POLICY_MODE_INTERACTIVE             = 0x00000001
 POLICY_MODE_NETWORK                 = 0x00000002
 POLICY_MODE_BATCH                   = 0x00000004
@@ -76,19 +76,19 @@ POLICY_MODE_DENY_REMOTE_INTERACTIVE = 0x00000800
 POLICY_MODE_ALL                     = 0x00000FF7
 POLICY_MODE_ALL_NT4                 = 0x00000037
 
-# 2.2.4.4 LSAPR_POLICY_AUDIT_EVENTS_INFO
-# EventAuditingOptions
+  
+  
 POLICY_AUDIT_EVENT_UNCHANGED = 0x00000000
 POLICY_AUDIT_EVENT_NONE      = 0x00000004
 POLICY_AUDIT_EVENT_SUCCESS   = 0x00000001
 POLICY_AUDIT_EVENT_FAILURE   = 0x00000002
 
-# 2.2.4.19 POLICY_DOMAIN_KERBEROS_TICKET_INFO
-# AuthenticationOptions
+  
+  
 POLICY_KERBEROS_VALIDATE_CLIENT = 0x00000080
 
-# 2.2.7.21 LSA_FOREST_TRUST_RECORD
-# Flags
+  
+  
 LSA_TLN_DISABLED_NEW          = 0x00000001
 LSA_TLN_DISABLED_ADMIN        = 0x00000002
 LSA_TLN_DISABLED_CONFLICT     = 0x00000004
@@ -98,20 +98,20 @@ LSA_NB_DISABLED_ADMIN         = 0x00000004
 LSA_NB_DISABLED_CONFLICT      = 0x00000008
 LSA_FTRECORD_DISABLED_REASONS = 0x0000FFFF
 
-################################################################################
-# STRUCTURES
-################################################################################
-# 2.2.2.1 LSAPR_HANDLE
+  
+  
+  
+  
 class LSAPR_HANDLE(NDRSTRUCT):
     align = 1
     structure =  (
         ('Data','20s=""'),
     )
 
-# 2.2.2.3 LSA_UNICODE_STRING
+  
 LSA_UNICODE_STRING = RPC_UNICODE_STRING
 
-# 2.2.3.1 STRING
+  
 class STRING(NDRSTRUCT):
     commonHdr = (
         ('MaximumLength','<H=len(Data)-12'),
@@ -133,17 +133,17 @@ class STRING(NDRSTRUCT):
             msg = self.__class__.__name__
         if msg != '':
             print("%s" % msg, end=' ')
-        # Here just print the data
+          
         print(" %r" % (self['Data']), end=' ')
 
     def __setitem__(self, key, value):
         if key == 'Data':
             self.fields['MaximumLength'] = None
             self.fields['Length'] = None
-            self.data = None        # force recompute
+            self.data = None          
         return NDR.__setitem__(self, key, value)
 
-# 2.2.3.2 LSAPR_ACL
+  
 class LSAPR_ACL(NDRSTRUCT):
     structure =  (
         ('AclRevision', UCHAR),
@@ -152,7 +152,7 @@ class LSAPR_ACL(NDRSTRUCT):
         ('Dummy1',NDRUniConformantArray),
     )
 
-# 2.2.3.4 LSAPR_SECURITY_DESCRIPTOR
+  
 LSAPR_SECURITY_DESCRIPTOR = SECURITY_DESCRIPTOR
 
 class PLSAPR_SECURITY_DESCRIPTOR(NDRPOINTER):
@@ -160,7 +160,7 @@ class PLSAPR_SECURITY_DESCRIPTOR(NDRPOINTER):
         ('Data', LSAPR_SECURITY_DESCRIPTOR),
     )
 
-# 2.2.3.5 SECURITY_IMPERSONATION_LEVEL
+  
 class SECURITY_IMPERSONATION_LEVEL(NDRENUM):
     class enumItems(Enum):
         SecurityAnonymous      = 0
@@ -168,10 +168,10 @@ class SECURITY_IMPERSONATION_LEVEL(NDRENUM):
         SecurityImpersonation  = 2
         SecurityDelegation     = 3
 
-# 2.2.3.6 SECURITY_CONTEXT_TRACKING_MODE
+  
 SECURITY_CONTEXT_TRACKING_MODE = UCHAR
 
-# 2.2.3.7 SECURITY_QUALITY_OF_SERVICE
+  
 class SECURITY_QUALITY_OF_SERVICE(NDRSTRUCT):
     structure = (
         ('Length', DWORD), 
@@ -185,7 +185,7 @@ class PSECURITY_QUALITY_OF_SERVICE(NDRPOINTER):
         ('Data', SECURITY_QUALITY_OF_SERVICE),
     )
 
-# 2.2.2.4 LSAPR_OBJECT_ATTRIBUTES
+  
 class LSAPR_OBJECT_ATTRIBUTES(NDRSTRUCT):
     structure = (
         ('Length', DWORD), 
@@ -196,7 +196,7 @@ class LSAPR_OBJECT_ATTRIBUTES(NDRSTRUCT):
         ('SecurityQualityOfService', PSECURITY_QUALITY_OF_SERVICE), 
     )
 
-# 2.2.2.5 LSAPR_SR_SECURITY_DESCRIPTOR
+  
 class LSAPR_SR_SECURITY_DESCRIPTOR(NDRSTRUCT):
     structure = (
         ('Length', DWORD), 
@@ -208,10 +208,10 @@ class PLSAPR_SR_SECURITY_DESCRIPTOR(NDRPOINTER):
         ('Data', LSAPR_SR_SECURITY_DESCRIPTOR),
     )
 
-# 2.2.3.3 SECURITY_DESCRIPTOR_CONTROL
+  
 SECURITY_DESCRIPTOR_CONTROL = ULONG
 
-# 2.2.4.1 POLICY_INFORMATION_CLASS
+  
 class POLICY_INFORMATION_CLASS(NDRENUM):
     class enumItems(Enum):
         PolicyAuditLogInformation           = 1
@@ -230,7 +230,7 @@ class POLICY_INFORMATION_CLASS(NDRENUM):
         PolicyLocalAccountDomainInformation = 14
         PolicyLastEntry                     = 15
 
-# 2.2.4.3 POLICY_AUDIT_LOG_INFO
+  
 class POLICY_AUDIT_LOG_INFO(NDRSTRUCT):
     structure = (
         ('AuditLogPercentFull', DWORD), 
@@ -241,7 +241,7 @@ class POLICY_AUDIT_LOG_INFO(NDRSTRUCT):
         ('NextAuditRecordId', DWORD), 
     )
 
-# 2.2.4.4 LSAPR_POLICY_AUDIT_EVENTS_INFO
+  
 class DWORD_ARRAY(NDRUniConformantArray):
     item = DWORD
 
@@ -257,66 +257,66 @@ class LSAPR_POLICY_AUDIT_EVENTS_INFO(NDRSTRUCT):
         ('MaximumAuditEventCount', DWORD), 
     )
 
-# 2.2.4.5 LSAPR_POLICY_PRIMARY_DOM_INFO
+  
 class LSAPR_POLICY_PRIMARY_DOM_INFO(NDRSTRUCT):
     structure = (
         ('Name', RPC_UNICODE_STRING), 
         ('Sid', PRPC_SID), 
     )
 
-# 2.2.4.6 LSAPR_POLICY_ACCOUNT_DOM_INFO
+  
 class LSAPR_POLICY_ACCOUNT_DOM_INFO(NDRSTRUCT):
     structure = (
         ('DomainName', RPC_UNICODE_STRING), 
         ('DomainSid', PRPC_SID), 
     )
 
-# 2.2.4.7 LSAPR_POLICY_PD_ACCOUNT_INFO
+  
 class LSAPR_POLICY_PD_ACCOUNT_INFO(NDRSTRUCT):
     structure = (
         ('Name', RPC_UNICODE_STRING), 
     )
 
-# 2.2.4.8 POLICY_LSA_SERVER_ROLE
+  
 class POLICY_LSA_SERVER_ROLE(NDRENUM):
     class enumItems(Enum):
         PolicyServerRoleBackup   = 2
         PolicyServerRolePrimary  = 3
 
-# 2.2.4.9 POLICY_LSA_SERVER_ROLE_INFO
+  
 class POLICY_LSA_SERVER_ROLE_INFO(NDRSTRUCT):
     structure = (
         ('LsaServerRole', POLICY_LSA_SERVER_ROLE), 
     )
 
-# 2.2.4.10 LSAPR_POLICY_REPLICA_SRCE_INFO
+  
 class LSAPR_POLICY_REPLICA_SRCE_INFO(NDRSTRUCT):
     structure = (
         ('ReplicaSource', RPC_UNICODE_STRING), 
         ('ReplicaAccountName', RPC_UNICODE_STRING), 
     )
 
-# 2.2.4.11 POLICY_MODIFICATION_INFO
+  
 class POLICY_MODIFICATION_INFO(NDRSTRUCT):
     structure = (
         ('ModifiedId', LARGE_INTEGER), 
         ('DatabaseCreationTime', LARGE_INTEGER), 
     )
 
-# 2.2.4.12 POLICY_AUDIT_FULL_SET_INFO
+  
 class POLICY_AUDIT_FULL_SET_INFO(NDRSTRUCT):
     structure = (
         ('ShutDownOnFull', UCHAR), 
     )
 
-# 2.2.4.13 POLICY_AUDIT_FULL_QUERY_INFO
+  
 class POLICY_AUDIT_FULL_QUERY_INFO(NDRSTRUCT):
     structure = (
         ('ShutDownOnFull', UCHAR), 
         ('LogIsFull', UCHAR), 
     )
 
-# 2.2.4.14 LSAPR_POLICY_DNS_DOMAIN_INFO
+  
 class LSAPR_POLICY_DNS_DOMAIN_INFO(NDRSTRUCT):
     structure = (
         ('Name', RPC_UNICODE_STRING), 
@@ -326,7 +326,7 @@ class LSAPR_POLICY_DNS_DOMAIN_INFO(NDRSTRUCT):
         ('Sid', PRPC_SID), 
     )
 
-# 2.2.4.2 LSAPR_POLICY_INFORMATION
+  
 class LSAPR_POLICY_INFORMATION(NDRUNION):
     union = {
         POLICY_INFORMATION_CLASS.PolicyAuditLogInformation          : ('PolicyAuditLogInfo', POLICY_AUDIT_LOG_INFO),
@@ -349,27 +349,27 @@ class PLSAPR_POLICY_INFORMATION(NDRPOINTER):
        ('Data', LSAPR_POLICY_INFORMATION),
     )
 
-# 2.2.4.15 POLICY_DOMAIN_INFORMATION_CLASS
+  
 class POLICY_DOMAIN_INFORMATION_CLASS(NDRENUM):
     class enumItems(Enum):
         PolicyDomainQualityOfServiceInformation = 1
         PolicyDomainEfsInformation              = 2
         PolicyDomainKerberosTicketInformation   = 3
 
-# 2.2.4.17 POLICY_DOMAIN_QUALITY_OF_SERVICE_INFO
+  
 class POLICY_DOMAIN_QUALITY_OF_SERVICE_INFO(NDRSTRUCT):
     structure = (
         ('QualityOfService', DWORD), 
     )
 
-# 2.2.4.18 LSAPR_POLICY_DOMAIN_EFS_INFO
+  
 class LSAPR_POLICY_DOMAIN_EFS_INFO(NDRSTRUCT):
     structure = (
         ('InfoLength', DWORD), 
         ('EfsBlob', LPBYTE), 
     )
 
-# 2.2.4.19 POLICY_DOMAIN_KERBEROS_TICKET_INFO
+  
 class POLICY_DOMAIN_KERBEROS_TICKET_INFO(NDRSTRUCT):
     structure = (
         ('AuthenticationOptions', DWORD), 
@@ -380,7 +380,7 @@ class POLICY_DOMAIN_KERBEROS_TICKET_INFO(NDRSTRUCT):
         ('Reserved', LARGE_INTEGER), 
     )
 
-# 2.2.4.16 LSAPR_POLICY_DOMAIN_INFORMATION
+  
 class LSAPR_POLICY_DOMAIN_INFORMATION(NDRUNION):
     union = {
         POLICY_DOMAIN_INFORMATION_CLASS.PolicyDomainQualityOfServiceInformation : ('PolicyDomainQualityOfServiceInfo', POLICY_DOMAIN_QUALITY_OF_SERVICE_INFO ),
@@ -393,7 +393,7 @@ class PLSAPR_POLICY_DOMAIN_INFORMATION(NDRPOINTER):
         ('Data', LSAPR_POLICY_DOMAIN_INFORMATION),
     )
 
-# 2.2.4.20 POLICY_AUDIT_EVENT_TYPE
+  
 class POLICY_AUDIT_EVENT_TYPE(NDRENUM):
     class enumItems(Enum):
         AuditCategorySystem                 = 0
@@ -406,13 +406,13 @@ class POLICY_AUDIT_EVENT_TYPE(NDRENUM):
         AuditCategoryDirectoryServiceAccess = 7
         AuditCategoryAccountLogon           = 8
 
-# 2.2.5.1 LSAPR_ACCOUNT_INFORMATION
+  
 class LSAPR_ACCOUNT_INFORMATION(NDRSTRUCT):
     structure = (
         ('Sid', PRPC_SID), 
     )
 
-# 2.2.5.2 LSAPR_ACCOUNT_ENUM_BUFFER
+  
 class LSAPR_ACCOUNT_INFORMATION_ARRAY(NDRUniConformantArray):
     item = LSAPR_ACCOUNT_INFORMATION
 
@@ -427,7 +427,7 @@ class LSAPR_ACCOUNT_ENUM_BUFFER(NDRSTRUCT):
         ('Information', PLSAPR_ACCOUNT_INFORMATION_ARRAY), 
     )
 
-# 2.2.5.3 LSAPR_USER_RIGHT_SET
+  
 class RPC_UNICODE_STRING_ARRAY(NDRUniConformantArray):
     item = RPC_UNICODE_STRING
 
@@ -442,14 +442,14 @@ class LSAPR_USER_RIGHT_SET(NDRSTRUCT):
         ('UserRights', PRPC_UNICODE_STRING_ARRAY), 
     )
 
-# 2.2.5.4 LSAPR_LUID_AND_ATTRIBUTES
+  
 class LSAPR_LUID_AND_ATTRIBUTES(NDRSTRUCT):
     structure = (
         ('Luid', LUID), 
         ('Attributes', ULONG), 
     )
 
-# 2.2.5.5 LSAPR_PRIVILEGE_SET
+  
 class LSAPR_LUID_AND_ATTRIBUTES_ARRAY(NDRUniConformantArray):
     item = LSAPR_LUID_AND_ATTRIBUTES
 
@@ -465,7 +465,7 @@ class PLSAPR_PRIVILEGE_SET(NDRPOINTER):
         ('Data', LSAPR_PRIVILEGE_SET),
     )
 
-# 2.2.6.1 LSAPR_CR_CIPHER_VALUE
+  
 class PCHAR_ARRAY(NDRPOINTER):
     referent = (
         ('Data', NDRUniConformantVaryingArray),
@@ -488,14 +488,14 @@ class PPLSAPR_CR_CIPHER_VALUE(NDRPOINTER):
         ('Data', PLSAPR_CR_CIPHER_VALUE),
     )
 
-# 2.2.7.1 LSAPR_TRUST_INFORMATION
+  
 class LSAPR_TRUST_INFORMATION(NDRSTRUCT):
     structure = (
         ('Name', RPC_UNICODE_STRING), 
         ('Sid', PRPC_SID), 
     )
 
-# 2.2.7.2 TRUSTED_INFORMATION_CLASS
+  
 class TRUSTED_INFORMATION_CLASS(NDRENUM):
     class enumItems(Enum):
         TrustedDomainNameInformation          = 1
@@ -512,36 +512,36 @@ class TRUSTED_INFORMATION_CLASS(NDRENUM):
         TrustedDomainFullInformation2Internal = 12
         TrustedDomainSupportedEncryptionTypes = 13
 
-# 2.2.7.4 LSAPR_TRUSTED_DOMAIN_NAME_INFO
+  
 class LSAPR_TRUSTED_DOMAIN_NAME_INFO(NDRSTRUCT):
     structure = (
         ('Name', RPC_UNICODE_STRING), 
     )
 
-# 2.2.7.5 LSAPR_TRUSTED_CONTROLLERS_INFO
+  
 class LSAPR_TRUSTED_CONTROLLERS_INFO(NDRSTRUCT):
     structure = (
         ('Entries', ULONG), 
         ('Names', PRPC_UNICODE_STRING_ARRAY), 
     )
 
-# 2.2.7.6 TRUSTED_POSIX_OFFSET_INFO
+  
 class TRUSTED_POSIX_OFFSET_INFO(NDRSTRUCT):
     structure = (
         ('Offset', ULONG), 
     )
 
-# 2.2.7.7 LSAPR_TRUSTED_PASSWORD_INFO
+  
 class LSAPR_TRUSTED_PASSWORD_INFO(NDRSTRUCT):
     structure = (
         ('Password', PLSAPR_CR_CIPHER_VALUE), 
         ('OldPassword', PLSAPR_CR_CIPHER_VALUE), 
     )
 
-# 2.2.7.8 LSAPR_TRUSTED_DOMAIN_INFORMATION_BASIC
+  
 LSAPR_TRUSTED_DOMAIN_INFORMATION_BASIC = LSAPR_TRUST_INFORMATION
 
-# 2.2.7.9 LSAPR_TRUSTED_DOMAIN_INFORMATION_EX
+  
 class LSAPR_TRUSTED_DOMAIN_INFORMATION_EX(NDRSTRUCT):
     structure = (
         ('Name', RPC_UNICODE_STRING), 
@@ -552,7 +552,7 @@ class LSAPR_TRUSTED_DOMAIN_INFORMATION_EX(NDRSTRUCT):
         ('TrustAttributes', ULONG), 
     )
 
-# 2.2.7.10 LSAPR_TRUSTED_DOMAIN_INFORMATION_EX2
+  
 class LSAPR_TRUSTED_DOMAIN_INFORMATION_EX2(NDRSTRUCT):
     structure = (
         ('Name', RPC_UNICODE_STRING), 
@@ -565,7 +565,7 @@ class LSAPR_TRUSTED_DOMAIN_INFORMATION_EX2(NDRSTRUCT):
         ('ForestTrustInfo', LPBYTE), 
     )
 
-# 2.2.7.17 LSAPR_AUTH_INFORMATION
+  
 class LSAPR_AUTH_INFORMATION(NDRSTRUCT):
     structure = (
         ('LastUpdateTime', LARGE_INTEGER), 
@@ -579,7 +579,7 @@ class PLSAPR_AUTH_INFORMATION(NDRPOINTER):
         ('Data', LSAPR_AUTH_INFORMATION),
     )
 
-# 2.2.7.11 LSAPR_TRUSTED_DOMAIN_AUTH_INFORMATION
+  
 class LSAPR_TRUSTED_DOMAIN_AUTH_INFORMATION(NDRSTRUCT):
     structure = (
         ('IncomingAuthInfos', ULONG), 
@@ -590,20 +590,20 @@ class LSAPR_TRUSTED_DOMAIN_AUTH_INFORMATION(NDRSTRUCT):
         ('OutgoingPreviousAuthenticationInformation', PLSAPR_AUTH_INFORMATION), 
     )
 
-# 2.2.7.16 LSAPR_TRUSTED_DOMAIN_AUTH_BLOB
+  
 class LSAPR_TRUSTED_DOMAIN_AUTH_BLOB(NDRSTRUCT):
     structure = (
         ('AuthSize', ULONG), 
         ('AuthBlob', LPBYTE), 
     )
 
-# 2.2.7.12 LSAPR_TRUSTED_DOMAIN_AUTH_INFORMATION_INTERNAL
+  
 class LSAPR_TRUSTED_DOMAIN_AUTH_INFORMATION_INTERNAL(NDRSTRUCT):
     structure = (
         ('AuthBlob', LSAPR_TRUSTED_DOMAIN_AUTH_BLOB), 
     )
 
-# 2.2.7.13 LSAPR_TRUSTED_DOMAIN_FULL_INFORMATION
+  
 class LSAPR_TRUSTED_DOMAIN_FULL_INFORMATION(NDRSTRUCT):
     structure = (
         ('Information', LSAPR_TRUSTED_DOMAIN_INFORMATION_EX), 
@@ -611,7 +611,7 @@ class LSAPR_TRUSTED_DOMAIN_FULL_INFORMATION(NDRSTRUCT):
         ('AuthInformation', LSAPR_TRUSTED_DOMAIN_AUTH_INFORMATION), 
     )
 
-# 2.2.7.14 LSAPR_TRUSTED_DOMAIN_FULL_INFORMATION_INTERNAL
+  
 class LSAPR_TRUSTED_DOMAIN_FULL_INFORMATION_INTERNAL(NDRSTRUCT):
     structure = (
         ('Information', LSAPR_TRUSTED_DOMAIN_INFORMATION_EX), 
@@ -619,7 +619,7 @@ class LSAPR_TRUSTED_DOMAIN_FULL_INFORMATION_INTERNAL(NDRSTRUCT):
         ('AuthInformation', LSAPR_TRUSTED_DOMAIN_AUTH_INFORMATION_INTERNAL), 
     )
 
-# 2.2.7.15 LSAPR_TRUSTED_DOMAIN_FULL_INFORMATION2
+  
 class LSAPR_TRUSTED_DOMAIN_FULL_INFORMATION2(NDRSTRUCT):
     structure = (
         ('Information', LSAPR_TRUSTED_DOMAIN_INFORMATION_EX), 
@@ -627,13 +627,13 @@ class LSAPR_TRUSTED_DOMAIN_FULL_INFORMATION2(NDRSTRUCT):
         ('AuthInformation', LSAPR_TRUSTED_DOMAIN_AUTH_INFORMATION), 
     )
 
-# 2.2.7.18 TRUSTED_DOMAIN_SUPPORTED_ENCRYPTION_TYPES
+  
 class TRUSTED_DOMAIN_SUPPORTED_ENCRYPTION_TYPES(NDRSTRUCT):
     structure = (
         ('SupportedEncryptionTypes', ULONG), 
     )
 
-# 2.2.7.3 LSAPR_TRUSTED_DOMAIN_INFO
+  
 class LSAPR_TRUSTED_DOMAIN_INFO(NDRUNION):
     union = {
         TRUSTED_INFORMATION_CLASS.TrustedDomainNameInformation          : ('TrustedDomainNameInfo', LSAPR_TRUSTED_DOMAIN_NAME_INFO ),
@@ -651,7 +651,7 @@ class LSAPR_TRUSTED_DOMAIN_INFO(NDRUNION):
         TRUSTED_INFORMATION_CLASS.TrustedDomainSupportedEncryptionTypes : ('TrustedDomainSETs', TRUSTED_DOMAIN_SUPPORTED_ENCRYPTION_TYPES),
     }
 
-# 2.2.7.19 LSAPR_TRUSTED_ENUM_BUFFER
+  
 class LSAPR_TRUST_INFORMATION_ARRAY(NDRUniConformantArray):
     item = LSAPR_TRUST_INFORMATION
 
@@ -666,7 +666,7 @@ class LSAPR_TRUSTED_ENUM_BUFFER(NDRSTRUCT):
         ('Information', PLSAPR_TRUST_INFORMATION_ARRAY), 
     )
 
-# 2.2.7.20 LSAPR_TRUSTED_ENUM_BUFFER_EX
+  
 class LSAPR_TRUSTED_DOMAIN_INFORMATION_EX_ARRAY(NDRUniConformantArray):
     item = LSAPR_TRUSTED_DOMAIN_INFORMATION_EX
 
@@ -681,14 +681,14 @@ class LSAPR_TRUSTED_ENUM_BUFFER_EX(NDRSTRUCT):
         ('EnumerationBuffer', PLSAPR_TRUSTED_DOMAIN_INFORMATION_EX_ARRAY), 
     )
 
-# 2.2.7.22 LSA_FOREST_TRUST_RECORD_TYPE
+  
 class LSA_FOREST_TRUST_RECORD_TYPE(NDRENUM):
     class enumItems(Enum):
         ForestTrustTopLevelName   = 0
         ForestTrustTopLevelNameEx = 1
         ForestTrustDomainInfo     = 2
 
-# 2.2.7.24 LSA_FOREST_TRUST_DOMAIN_INFO
+  
 class LSA_FOREST_TRUST_DOMAIN_INFO(NDRSTRUCT):
     structure = (
         ('Sid', PRPC_SID), 
@@ -696,7 +696,7 @@ class LSA_FOREST_TRUST_DOMAIN_INFO(NDRSTRUCT):
         ('NetbiosName', LSA_UNICODE_STRING), 
     )
 
-# 2.2.7.21 LSA_FOREST_TRUST_RECORD
+  
 class LSA_FOREST_TRUST_DATA_UNION(NDRUNION):
     union = {
         LSA_FOREST_TRUST_RECORD_TYPE.ForestTrustTopLevelName   : ('TopLevelName', LSA_UNICODE_STRING ),
@@ -717,14 +717,14 @@ class PLSA_FOREST_TRUST_RECORD(NDRPOINTER):
         ('Data', LSA_FOREST_TRUST_RECORD),
     )
 
-# 2.2.7.23 LSA_FOREST_TRUST_BINARY_DATA
+  
 class LSA_FOREST_TRUST_BINARY_DATA(NDRSTRUCT):
     structure = (
         ('Length', ULONG), 
         ('Buffer', LPBYTE), 
     )
 
-# 2.2.7.25 LSA_FOREST_TRUST_INFORMATION
+  
 class LSA_FOREST_TRUST_RECORD_ARRAY(NDRUniConformantArray):
     item = PLSA_FOREST_TRUST_RECORD
 
@@ -744,14 +744,14 @@ class PLSA_FOREST_TRUST_INFORMATION(NDRPOINTER):
         ('Data', LSA_FOREST_TRUST_INFORMATION),
     )
 
-# 2.2.7.26 LSA_FOREST_TRUST_COLLISION_RECORD_TYPE
+  
 class LSA_FOREST_TRUST_COLLISION_RECORD_TYPE(NDRENUM):
     class enumItems(Enum):
         CollisionTdo   = 0
         CollisionXref  = 1
         CollisionOther = 2
 
-# 2.2.7.27 LSA_FOREST_TRUST_COLLISION_RECORD
+  
 class LSA_FOREST_TRUST_COLLISION_RECORD(NDRSTRUCT):
     structure = (
         ('Index', ULONG), 
@@ -760,14 +760,14 @@ class LSA_FOREST_TRUST_COLLISION_RECORD(NDRSTRUCT):
         ('Name', LSA_UNICODE_STRING), 
     )
 
-# 2.2.8.1 LSAPR_POLICY_PRIVILEGE_DEF
+  
 class LSAPR_POLICY_PRIVILEGE_DEF(NDRSTRUCT):
     structure = (
         ('Name', RPC_UNICODE_STRING), 
         ('LocalValue', LUID), 
     )
 
-# 2.2.8.2 LSAPR_PRIVILEGE_ENUM_BUFFER
+  
 class LSAPR_POLICY_PRIVILEGE_DEF_ARRAY(NDRUniConformantArray):
     item = LSAPR_POLICY_PRIVILEGE_DEF
 
@@ -783,10 +783,10 @@ class LSAPR_PRIVILEGE_ENUM_BUFFER(NDRSTRUCT):
     )
 
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 3.1.4.4.1 LsarOpenPolicy2 (Opnum 44)
+  
+  
+  
+  
 class LsarOpenPolicy2(NDRCALL):
     opnum = 44
     structure = (
@@ -801,7 +801,7 @@ class LsarOpenPolicy2Response(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.4.2 LsarOpenPolicy (Opnum 6)
+  
 class LsarOpenPolicy(NDRCALL):
     opnum = 6
     structure = (
@@ -816,7 +816,7 @@ class LsarOpenPolicyResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.4.3 LsarQueryInformationPolicy2 (Opnum 46)
+  
 class LsarQueryInformationPolicy2(NDRCALL):
     opnum = 46
     structure = (
@@ -830,7 +830,7 @@ class LsarQueryInformationPolicy2Response(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.4.4 LsarQueryInformationPolicy (Opnum 7)
+  
 class LsarQueryInformationPolicy(NDRCALL):
     opnum = 7
     structure = (
@@ -844,7 +844,7 @@ class LsarQueryInformationPolicyResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.4.5 LsarSetInformationPolicy2 (Opnum 47)
+  
 class LsarSetInformationPolicy2(NDRCALL):
     opnum = 47
     structure = (
@@ -858,7 +858,7 @@ class LsarSetInformationPolicy2Response(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.4.6 LsarSetInformationPolicy (Opnum 8)
+  
 class LsarSetInformationPolicy(NDRCALL):
     opnum = 8
     structure = (
@@ -872,7 +872,7 @@ class LsarSetInformationPolicyResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.4.7 LsarQueryDomainInformationPolicy (Opnum 53)
+  
 class LsarQueryDomainInformationPolicy(NDRCALL):
     opnum = 53
     structure = (
@@ -886,8 +886,8 @@ class LsarQueryDomainInformationPolicyResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.4.8 LsarSetDomainInformationPolicy (Opnum 54)
-# 3.1.4.5.1 LsarCreateAccount (Opnum 10)
+  
+  
 class LsarCreateAccount(NDRCALL):
     opnum = 10
     structure = (
@@ -902,7 +902,7 @@ class LsarCreateAccountResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5.2 LsarEnumerateAccounts (Opnum 11)
+  
 class LsarEnumerateAccounts(NDRCALL):
     opnum = 11
     structure = (
@@ -918,7 +918,7 @@ class LsarEnumerateAccountsResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5.3 LsarOpenAccount (Opnum 17)
+  
 class LsarOpenAccount(NDRCALL):
     opnum = 17
     structure = (
@@ -933,7 +933,7 @@ class LsarOpenAccountResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5.4 LsarEnumeratePrivilegesAccount (Opnum 18)
+  
 class LsarEnumeratePrivilegesAccount(NDRCALL):
     opnum = 18
     structure = (
@@ -946,7 +946,7 @@ class LsarEnumeratePrivilegesAccountResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5.5 LsarAddPrivilegesToAccount (Opnum 19)
+  
 class LsarAddPrivilegesToAccount(NDRCALL):
     opnum = 19
     structure = (
@@ -959,7 +959,7 @@ class LsarAddPrivilegesToAccountResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5.6 LsarRemovePrivilegesFromAccount (Opnum 20)
+  
 class LsarRemovePrivilegesFromAccount(NDRCALL):
     opnum = 20
     structure = (
@@ -973,7 +973,7 @@ class LsarRemovePrivilegesFromAccountResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5.7 LsarGetSystemAccessAccount (Opnum 23)
+  
 class LsarGetSystemAccessAccount(NDRCALL):
     opnum = 23
     structure = (
@@ -986,7 +986,7 @@ class LsarGetSystemAccessAccountResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5.8 LsarSetSystemAccessAccount (Opnum 24)
+  
 class LsarSetSystemAccessAccount(NDRCALL):
     opnum = 24
     structure = (
@@ -999,7 +999,7 @@ class LsarSetSystemAccessAccountResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5.9 LsarEnumerateAccountsWithUserRight (Opnum 35)
+  
 class LsarEnumerateAccountsWithUserRight(NDRCALL):
     opnum = 35
     structure = (
@@ -1013,7 +1013,7 @@ class LsarEnumerateAccountsWithUserRightResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5.10 LsarEnumerateAccountRights (Opnum 36)
+  
 class LsarEnumerateAccountRights(NDRCALL):
     opnum = 36
     structure = (
@@ -1027,7 +1027,7 @@ class LsarEnumerateAccountRightsResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5.11 LsarAddAccountRights (Opnum 37)
+  
 class LsarAddAccountRights(NDRCALL):
     opnum = 37
     structure = (
@@ -1041,7 +1041,7 @@ class LsarAddAccountRightsResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5.12 LsarRemoveAccountRights (Opnum 38)
+  
 class LsarRemoveAccountRights(NDRCALL):
     opnum = 38
     structure = (
@@ -1056,7 +1056,7 @@ class LsarRemoveAccountRightsResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.6.1 LsarCreateSecret (Opnum 16)
+  
 class LsarCreateSecret(NDRCALL):
     opnum = 16
     structure = (
@@ -1071,7 +1071,7 @@ class LsarCreateSecretResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.6.2 LsarOpenSecret (Opnum 28)
+  
 class LsarOpenSecret(NDRCALL):
     opnum = 28
     structure = (
@@ -1086,7 +1086,7 @@ class LsarOpenSecretResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.6.3 LsarSetSecret (Opnum 29)
+  
 class LsarSetSecret(NDRCALL):
     opnum = 29
     structure = (
@@ -1100,7 +1100,7 @@ class LsarSetSecretResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.6.4 LsarQuerySecret (Opnum 30)
+  
 class LsarQuerySecret(NDRCALL):
     opnum = 30
     structure = (
@@ -1120,7 +1120,7 @@ class LsarQuerySecretResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.6.5 LsarStorePrivateData (Opnum 42)
+  
 class LsarStorePrivateData(NDRCALL):
     opnum = 42
     structure = (
@@ -1134,7 +1134,7 @@ class LsarStorePrivateDataResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.6.6 LsarRetrievePrivateData (Opnum 43)
+  
 class LsarRetrievePrivateData(NDRCALL):
     opnum = 43
     structure = (
@@ -1149,14 +1149,14 @@ class LsarRetrievePrivateDataResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.7.1 LsarOpenTrustedDomain (Opnum 25)
-# 3.1.4.7.1 LsarQueryInfoTrustedDomain (Opnum 26)
-# 3.1.4.7.2 LsarQueryTrustedDomainInfo (Opnum 39)
-# 3.1.4.7.3 LsarSetTrustedDomainInfo (Opnum 40)
-# 3.1.4.7.4 LsarDeleteTrustedDomain (Opnum 41)
-# 3.1.4.7.5 LsarQueryTrustedDomainInfoByName (Opnum 48)
-# 3.1.4.7.6 LsarSetTrustedDomainInfoByName (Opnum 49)
-# 3.1.4.7.7 LsarEnumerateTrustedDomainsEx (Opnum 50)
+  
+  
+  
+  
+  
+  
+  
+  
 class LsarEnumerateTrustedDomainsEx(NDRCALL):
     opnum = 50
     structure = (
@@ -1172,7 +1172,7 @@ class LsarEnumerateTrustedDomainsExResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.7.8 LsarEnumerateTrustedDomains (Opnum 13)
+  
 class LsarEnumerateTrustedDomains(NDRCALL):
     opnum = 13
     structure = (
@@ -1188,12 +1188,12 @@ class LsarEnumerateTrustedDomainsResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.7.9 LsarOpenTrustedDomainByName (Opnum 55)
-# 3.1.4.7.10 LsarCreateTrustedDomainEx2 (Opnum 59)
-# 3.1.4.7.11 LsarCreateTrustedDomainEx (Opnum 51)
-# 3.1.4.7.12 LsarCreateTrustedDomain (Opnum 12)
-# 3.1.4.7.14 LsarSetInformationTrustedDomain (Opnum 27)
-# 3.1.4.7.15 LsarQueryForestTrustInformation (Opnum 73)
+  
+  
+  
+  
+  
+  
 class LsarQueryForestTrustInformation(NDRCALL):
     opnum = 73
     structure = (
@@ -1208,9 +1208,9 @@ class LsarQueryForestTrustInformationResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.7.16 LsarSetForestTrustInformation (Opnum 74)
+  
 
-# 3.1.4.8.1 LsarEnumeratePrivileges (Opnum 2)
+  
 class LsarEnumeratePrivileges(NDRCALL):
     opnum = 2
     structure = (
@@ -1226,7 +1226,7 @@ class LsarEnumeratePrivilegesResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.8.2 LsarLookupPrivilegeValue (Opnum 31)
+  
 class LsarLookupPrivilegeValue(NDRCALL):
     opnum = 31
     structure = (
@@ -1240,7 +1240,7 @@ class LsarLookupPrivilegeValueResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.8.3 LsarLookupPrivilegeName (Opnum 32)
+  
 class LsarLookupPrivilegeName(NDRCALL):
     opnum = 32
     structure = (
@@ -1254,7 +1254,7 @@ class LsarLookupPrivilegeNameResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.8.4 LsarLookupPrivilegeDisplayName (Opnum 33)
+  
 class LsarLookupPrivilegeDisplayName(NDRCALL):
     opnum = 33
     structure = (
@@ -1271,7 +1271,7 @@ class LsarLookupPrivilegeDisplayNameResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.9.1 LsarQuerySecurityObject (Opnum 3)
+  
 class LsarQuerySecurityObject(NDRCALL):
     opnum = 3
     structure = (
@@ -1285,7 +1285,7 @@ class LsarQuerySecurityObjectResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.9.2 LsarSetSecurityObject (Opnum 4)
+  
 class LsarSetSecurityObject(NDRCALL):
     opnum = 4
     structure = (
@@ -1299,7 +1299,7 @@ class LsarSetSecurityObjectResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.9.3 LsarDeleteObject (Opnum 34)
+  
 class LsarDeleteObject(NDRCALL):
     opnum = 34
     structure = (
@@ -1312,7 +1312,7 @@ class LsarDeleteObjectResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.9.4 LsarClose (Opnum 0)
+  
 class LsarClose(NDRCALL):
     opnum = 0
     structure = (
@@ -1325,9 +1325,9 @@ class LsarCloseResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  0 : (LsarClose, LsarCloseResponse),
  2 : (LsarEnumeratePrivileges, LsarEnumeratePrivilegesResponse),
@@ -1338,7 +1338,7 @@ OPNUMS = {
  8 : (LsarSetInformationPolicy, LsarSetInformationPolicyResponse),
 10 : (LsarCreateAccount, LsarCreateAccountResponse),
 11 : (LsarEnumerateAccounts, LsarEnumerateAccountsResponse),
-#12 : (LsarCreateTrustedDomain, LsarCreateTrustedDomainResponse),
+  
 13 : (LsarEnumerateTrustedDomains, LsarEnumerateTrustedDomainsResponse),
 16 : (LsarCreateSecret, LsarCreateSecretResponse),
 17 : (LsarOpenAccount, LsarOpenAccountResponse),
@@ -1347,9 +1347,9 @@ OPNUMS = {
 20 : (LsarRemovePrivilegesFromAccount, LsarRemovePrivilegesFromAccountResponse),
 23 : (LsarGetSystemAccessAccount, LsarGetSystemAccessAccountResponse),
 24 : (LsarSetSystemAccessAccount, LsarSetSystemAccessAccountResponse),
-#25 : (LsarOpenTrustedDomain, LsarOpenTrustedDomainResponse),
-#26 : (LsarQueryInfoTrustedDomain, LsarQueryInfoTrustedDomainResponse),
-#27 : (LsarSetInformationTrustedDomain, LsarSetInformationTrustedDomainResponse),
+  
+  
+  
 28 : (LsarOpenSecret, LsarOpenSecretResponse),
 29 : (LsarSetSecret, LsarSetSecretResponse),
 30 : (LsarQuerySecret, LsarQuerySecretResponse),
@@ -1361,29 +1361,29 @@ OPNUMS = {
 36 : (LsarEnumerateAccountRights, LsarEnumerateAccountRightsResponse),
 37 : (LsarAddAccountRights, LsarAddAccountRightsResponse),
 38 : (LsarRemoveAccountRights, LsarRemoveAccountRightsResponse),
-#39 : (LsarQueryTrustedDomainInfo, LsarQueryTrustedDomainInfoResponse),
-#40 : (LsarSetTrustedDomainInfo, LsarSetTrustedDomainInfoResponse),
-#41 : (LsarDeleteTrustedDomain, LsarDeleteTrustedDomainResponse),
+  
+  
+  
 42 : (LsarStorePrivateData, LsarStorePrivateDataResponse),
 43 : (LsarRetrievePrivateData, LsarRetrievePrivateDataResponse),
 44 : (LsarOpenPolicy2, LsarOpenPolicy2Response),
 46 : (LsarQueryInformationPolicy2, LsarQueryInformationPolicy2Response),
 47 : (LsarSetInformationPolicy2, LsarSetInformationPolicy2Response),
-#48 : (LsarQueryTrustedDomainInfoByName, LsarQueryTrustedDomainInfoByNameResponse),
-#49 : (LsarSetTrustedDomainInfoByName, LsarSetTrustedDomainInfoByNameResponse),
+  
+  
 50 : (LsarEnumerateTrustedDomainsEx, LsarEnumerateTrustedDomainsExResponse),
-#51 : (LsarCreateTrustedDomainEx, LsarCreateTrustedDomainExResponse),
+  
 53 : (LsarQueryDomainInformationPolicy, LsarQueryDomainInformationPolicyResponse),
-#54 : (LsarSetDomainInformationPolicy, LsarSetDomainInformationPolicyResponse),
-#55 : (LsarOpenTrustedDomainByName, LsarOpenTrustedDomainByNameResponse),
-#59 : (LsarCreateTrustedDomainEx2, LsarCreateTrustedDomainEx2Response),
-#73 : (LsarQueryForestTrustInformation, LsarQueryForestTrustInformationResponse),
-#74 : (LsarSetForestTrustInformation, LsarSetForestTrustInformationResponse),
+  
+  
+  
+  
+  
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def hLsarOpenPolicy2(dce, desiredAccess = MAXIMUM_ALLOWED):
     request = LsarOpenPolicy2()
     request['SystemName'] = NULL

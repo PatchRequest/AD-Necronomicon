@@ -20,9 +20,9 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'MGMT SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
+  
+  
+  
 
 class rpc_if_id_p_t_array(NDRUniConformantArray):
     item = PRPC_IF_ID
@@ -43,13 +43,13 @@ class rpc_if_id_vector_p_t(NDRPOINTER):
     )
 
 error_status = ULONG
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 
-################################################################################
-# RPC CALLS
-################################################################################
+  
+  
+  
 class inq_if_ids(NDRCALL):
     opnum = 0
     structure = (
@@ -108,9 +108,9 @@ class inq_princ_nameResponse(NDRCALL):
     )
 
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  0 : (inq_if_ids, inq_if_idsResponse),
  1 : (inq_stats, inq_statsResponse),
@@ -119,9 +119,9 @@ OPNUMS = {
  4 : (inq_princ_name, inq_princ_nameResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def hinq_if_ids(dce):
     request = inq_if_ids()
     return dce.request(request)

@@ -15,29 +15,29 @@ from six import b
 
 def Generate_Subkey(K):
 
-#   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#   +                    Algorithm Generate_Subkey                      +
-#   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#   +                                                                   +
-#   +   Input    : K (128-bit key)                                      +
-#   +   Output   : K1 (128-bit first subkey)                            +
-#   +              K2 (128-bit second subkey)                           +
-#   +-------------------------------------------------------------------+
-#   +                                                                   +
-#   +   Constants: const_Zero is 0x00000000000000000000000000000000     +
-#   +              const_Rb   is 0x00000000000000000000000000000087     +
-#   +   Variables: L          for output of AES-128 applied to 0^128    +
-#   +                                                                   +
-#   +   Step 1.  L := AES-128(K, const_Zero);                           +
-#   +   Step 2.  if MSB(L) is equal to 0                                +
-#   +            then    K1 := L << 1;                                  +
-#   +            else    K1 := (L << 1) XOR const_Rb;                   +
-#   +   Step 3.  if MSB(K1) is equal to 0                               +
-#   +            then    K2 := K1 << 1;                                 +
-#   +            else    K2 := (K1 << 1) XOR const_Rb;                  +
-#   +   Step 4.  return K1, K2;                                         +
-#   +                                                                   +
-#   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
     AES_128 = AES.new(K, AES.MODE_ECB)
 
@@ -67,7 +67,7 @@ def XOR_128(N1,N2):
 
     J = bytearray()
     for i in range(len(N1)):
-        #J.append(indexbytes(N1,i) ^ indexbytes(N2,i))
+          
         J.append(N1[i] ^ N2[i])
     return J
 
@@ -77,50 +77,50 @@ def PAD(N):
 
 def AES_CMAC(K, M, length):
 
-#   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#   +                   Algorithm AES-CMAC                              +
-#   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#   +                                                                   +
-#   +   Input    : K    ( 128-bit key )                                 +
-#   +            : M    ( message to be authenticated )                 +
-#   +            : len  ( length of the message in octets )             +
-#   +   Output   : T    ( message authentication code )                 +
-#   +                                                                   +
-#   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#   +   Constants: const_Zero is 0x00000000000000000000000000000000     +
-#   +              const_Bsize is 16                                    +
-#   +                                                                   +
-#   +   Variables: K1, K2 for 128-bit subkeys                           +
-#   +              M_i is the i-th block (i=1..ceil(len/const_Bsize))   +
-#   +              M_last is the last block xor-ed with K1 or K2        +
-#   +              n      for number of blocks to be processed          +
-#   +              r      for number of octets of last block            +
-#   +              flag   for denoting if last block is complete or not +
-#   +                                                                   +
-#   +   Step 1.  (K1,K2) := Generate_Subkey(K);                         +
-#   +   Step 2.  n := ceil(len/const_Bsize);                            +
-#   +   Step 3.  if n = 0                                               +
-#   +            then                                                   +
-#   +                 n := 1;                                           +
-#   +                 flag := false;                                    +
-#   +            else                                                   +
-#   +                 if len mod const_Bsize is 0                       +
-#   +                 then flag := true;                                +
-#   +                 else flag := false;                               +
-#   +                                                                   +
-#   +   Step 4.  if flag is true                                        +
-#   +            then M_last := M_n XOR K1;                             +
-#   +            else M_last := padding(M_n) XOR K2;                    +
-#   +   Step 5.  X := const_Zero;                                       +
-#   +   Step 6.  for i := 1 to n-1 do                                   +
-#   +                begin                                              +
-#   +                  Y := X XOR M_i;                                  +
-#   +                  X := AES-128(K,Y);                               +
-#   +                end                                                +
-#   +            Y := M_last XOR X;                                     +
-#   +            T := AES-128(K,Y);                                     +
-#   +   Step 7.  return T;                                              +
-#   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
     const_Bsize = 16
     const_Zero  = bytearray(16)
@@ -157,28 +157,28 @@ def AES_CMAC(K, M, length):
     return T
 
 def AES_CMAC_PRF_128(VK, M, VKlen, Mlen):
-#   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#   +                        AES-CMAC-PRF-128                           +
-#   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-#   +                                                                   +
-#   + Input  : VK (Variable-length key)                                 +
-#   +        : M (Message, i.e., the input data of the PRF)             +
-#   +        : VKlen (length of VK in octets)                           +
-#   +        : len (length of M in octets)                              +
-#   + Output : PRV (128-bit Pseudo-Random Variable)                     +
-#   +                                                                   +
-#   +-------------------------------------------------------------------+
-#   + Variable: K (128-bit key for AES-CMAC)                            +
-#   +                                                                   +
-#   + Step 1.   If VKlen is equal to 16                                 +
-#   + Step 1a.  then                                                    +
-#   +               K := VK;                                            +
-#   + Step 1b.  else                                                    +
-#   +               K := AES-CMAC(0^128, VK, VKlen);                    +
-#   + Step 2.   PRV := AES-CMAC(K, M, len);                             +
-#   +           return PRV;                                             +
-#   +                                                                   +
-#   +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
     if VKlen == 16:
         K = VK
     else:
@@ -189,20 +189,20 @@ def AES_CMAC_PRF_128(VK, M, VKlen, Mlen):
     return PRV
 
 def KDF_CounterMode(KI, Label, Context, L):
-# Implements NIST SP 800-108 Section 5.1, with PRF HMAC-SHA256
-# https://tools.ietf.org/html/draft-irtf-cfrg-kdf-uses-00#ref-SP800-108
-# Fixed values:
-#  1. h - The length of the output of the PRF in bits, and
-#  2. r - The length of the binary representation of the counter i.
-# Input: KI, Label, Context, and L.
-# Process:
-#  1. n := [L/h]
-#  2. If n > 2r-1, then indicate an error and stop.
-#  3. result(0):= empty .
-#  4. For i = 1 to n, do
-#    a. K(i) := PRF (KI, [i]2 || Label || 0x00 || Context || [L]2)
-#    b. result(i) := result(i-1) || K(i).
-#  5. Return: KO := the leftmost L bits of result(n).
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
     h = 256
     r = 32
 
@@ -224,7 +224,7 @@ def KDF_CounterMode(KI, Label, Context, L):
 
     return result[:(L//8)]
 
-# [MS-LSAD] Section 5.1.2 / 5.1.3
+  
 class LSA_SECRET_XP(Structure):
     structure = (
         ('Length','<L=0'),
@@ -235,7 +235,7 @@ class LSA_SECRET_XP(Structure):
 
 
 def transformKey(InputKey):
-    # Section 5.1.3
+      
     OutputKey = []
     OutputKey.append( chr(ord(InputKey[0:1]) >> 0x01) )
     OutputKey.append( chr(((ord(InputKey[0:1])&0x01)<<6) | (ord(InputKey[1:2])>>2)) )
@@ -252,7 +252,7 @@ def transformKey(InputKey):
     return b("".join(OutputKey))
 
 def decryptSecret(key, value):
-    # [MS-LSAD] Section 5.1.2
+      
     plainText = b''
     key0 = key
     for i in range(0, len(value), 8):
@@ -263,7 +263,7 @@ def decryptSecret(key, value):
         plainText += Crypt1.decrypt(cipherText)
         key0 = key0[7:]
         value = value[8:]
-        # AdvanceKey
+          
         if len(key0) < 7:
             key0 = key[len(key0):]
 
@@ -271,7 +271,7 @@ def decryptSecret(key, value):
     return (secret['Secret'])
 
 def encryptSecret(key, value):
-    # [MS-LSAD] Section 5.1.2
+      
     cipherText = b''
     key0 = key
     value0 = pack('<LL', len(value), 1) + value
@@ -287,14 +287,14 @@ def encryptSecret(key, value):
         cipherText += Crypt1.encrypt(plainText)
         key0 = key0[7:]
         value0 = value0[8:]
-        # AdvanceKey
+          
         if len(key0) < 7:
             key0 = key[len(key0):]
 
     return cipherText
 
 def SamDecryptNTLMHash(encryptedHash, key):
-    # [MS-SAMR] Section 2.2.11.1.1
+      
     Block1 = encryptedHash[:8]
     Block2 = encryptedHash[8:]
 
@@ -312,7 +312,7 @@ def SamDecryptNTLMHash(encryptedHash, key):
     return plain1 + plain2
 
 def SamEncryptNTLMHash(encryptedHash, key):
-    # [MS-SAMR] Section 2.2.11.1.1
+      
     Block1 = encryptedHash[:8]
     Block2 = encryptedHash[8:]
 

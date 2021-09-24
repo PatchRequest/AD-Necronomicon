@@ -40,20 +40,20 @@ class RPCProxyClientException(DCERPCException):
         else:
             return self.error_string
 
-################################################################################
-# CONSTANTS
-################################################################################
+  
+  
+  
 
 RPC_OVER_HTTP_v1 = 1
 RPC_OVER_HTTP_v2 = 2
 
-# Errors which might need handling
+  
 
-# RPCProxyClient internal errors
+  
 RPC_PROXY_REMOTE_NAME_NEEDED_ERR = 'Basic authentication in RPC proxy is used, ' \
                                    'so coudn\'t obtain a target NetBIOS name from NTLMSSP to connect.'
 
-# Errors below contain a part of server responses
+  
 RPC_PROXY_INVALID_RPC_PORT_ERR = 'Invalid RPC Port'
 RPC_PROXY_CONN_A1_0X6BA_ERR    = 'RPC Proxy CONN/A1 request failed, code: 0x6ba'
 RPC_PROXY_CONN_A1_404_ERR      = 'CONN/A1 request failed: HTTP/1.1 404 Not Found'
@@ -62,7 +62,7 @@ RPC_PROXY_CONN_A1_401_ERR      = 'CONN/A1 request failed: HTTP/1.1 401 Unauthori
 RPC_PROXY_HTTP_IN_DATA_401_ERR = 'RPC_IN_DATA channel: HTTP/1.1 401 Unauthorized'
 
 
-# 2.2.3.3 Forward Destinations
+  
 FDClient   = 0x00000000
 FDInProxy  = 0x00000001
 FDServer   = 0x00000002
@@ -77,7 +77,7 @@ RTS_FLAG_OUT_CHANNEL     = 0x0010
 RTS_FLAG_EOF             = 0x0020
 RTS_FLAG_ECHO            = 0x0040
 
-# 2.2.3.5 RTS Commands
+  
 RTS_CMD_RECEIVE_WINDOW_SIZE      = 0x00000000
 RTS_CMD_FLOW_CONTROL_ACK         = 0x00000001
 RTS_CMD_CONNECTION_TIMEOUT       = 0x00000002
@@ -94,17 +94,17 @@ RTS_CMD_ASSOCIATION_GROUP_ID     = 0x0000000C
 RTS_CMD_DESTINATION              = 0x0000000D
 RTS_CMD_PING_TRAFFIC_SENT_NOTIFY = 0x0000000E
 
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 
-# 2.2.3.1 RTS Cookie
+  
 class RTSCookie(Structure):
     structure = (
         ('Cookie','16s=b"\\x00"*16'),
     )
 
-# 2.2.3.2 Client Address
+  
 class EncodedClientAddress(Structure):
     structure = (
         ('AddressType','<L=(0 if len(ClientAddress) == 4 else 1)'),
@@ -113,7 +113,7 @@ class EncodedClientAddress(Structure):
         ('Padding','12s=b"\\x00"*12'),
     )
 
-# 2.2.3.4 Flow Control Acknowledgment
+  
 class Ack(Structure):
     structure = (
         ('BytesReceived','<L=0'),
@@ -121,68 +121,68 @@ class Ack(Structure):
         ('ChannelCookie',':',RTSCookie),
     )
 
-# 2.2.3.5.1 ReceiveWindowSize
+  
 class ReceiveWindowSize(Structure):
     structure = (
         ('CommandType','<L=0'),
         ('ReceiveWindowSize','<L=262144'),
     )
 
-# 2.2.3.5.2 FlowControlAck
+  
 class FlowControlAck(Structure):
     structure = (
         ('CommandType','<L=1'),
         ('Ack',':',Ack),
     )
 
-# 2.2.3.5.3 ConnectionTimeout
+  
 class ConnectionTimeout(Structure):
     structure = (
         ('CommandType','<L=2'),
         ('ConnectionTimeout','<L=120000'),
     )
 
-# 2.2.3.5.4 Cookie
+  
 class Cookie(Structure):
     structure = (
         ('CommandType','<L=3'),
         ('Cookie',':',RTSCookie),
     )
 
-# 2.2.3.5.5 ChannelLifetime
+  
 class ChannelLifetime(Structure):
     structure = (
         ('CommandType','<L=4'),
         ('ChannelLifetime','<L=1073741824'),
     )
 
-# 2.2.3.5.6 ClientKeepalive
-#
-# By the spec, ClientKeepalive value can be 0 or in the inclusive
-# range of 60,000 through 4,294,967,295.
-# If it is 0, it MUST be interpreted as 300,000.
-#
-# But do not set it to 0, it will cause 0x6c0 rpc error.
+  
+  
+  
+  
+  
+  
+  
 class ClientKeepalive(Structure):
     structure = (
         ('CommandType','<L=5'),
         ('ClientKeepalive','<L=300000'),
     )
 
-# 2.2.3.5.7 Version
+  
 class Version(Structure):
     structure = (
         ('CommandType','<L=6'),
         ('Version','<L=1'),
     )
 
-# 2.2.3.5.8 Empty
+  
 class Empty(Structure):
     structure = (
         ('CommandType','<L=7'),
     )
 
-# 2.2.3.5.9 Padding
+  
 class Padding(Structure):
     structure = (
         ('CommandType','<L=8'),
@@ -190,40 +190,40 @@ class Padding(Structure):
         ('Padding','*ConformanceCount'),
     )
 
-# 2.2.3.5.10 NegativeANCE
+  
 class NegativeANCE(Structure):
     structure = (
         ('CommandType','<L=9'),
     )
 
-# 2.2.3.5.11 ANCE
+  
 class ANCE(Structure):
     structure = (
         ('CommandType','<L=0xA'),
     )
 
-# 2.2.3.5.12 ClientAddress
+  
 class ClientAddress(Structure):
     structure = (
         ('CommandType','<L=0xB'),
         ('ClientAddress',':',EncodedClientAddress),
     )
 
-# 2.2.3.5.13 AssociationGroupId
+  
 class AssociationGroupId(Structure):
     structure = (
         ('CommandType','<L=0xC'),
         ('AssociationGroupId',':',RTSCookie),
     )
 
-# 2.2.3.5.14 Destination
+  
 class Destination(Structure):
     structure = (
         ('CommandType','<L=0xD'),
         ('Destination','<L'),
     )
 
-# 2.2.3.5.15 PingTrafficSentNotify
+  
 class PingTrafficSentNotify(Structure):
     structure = (
         ('CommandType','<L=0xE'),
@@ -248,15 +248,15 @@ COMMANDS = {
     0xE: PingTrafficSentNotify,
 }
 
-# 2.2.3.6.1 RTS PDU Header
-# The RTS PDU Header has the same layout as the common header of
-# the connection-oriented RPC PDU as specified in [C706] section 12.6.1,
-# with a few additional requirements around the contents of the header fields.
+  
+  
+  
+  
 class RTSHeader(MSRPCHeader):
     _SIZE = 20
     commonHdr = MSRPCHeader.commonHdr + (
-        ('Flags','<H=0'),             # 16
-        ('NumberOfCommands','<H=0'),  # 18
+        ('Flags','<H=0'),               
+        ('NumberOfCommands','<H=0'),    
     )
 
     def __init__(self, data=None, alignment=0):
@@ -266,10 +266,10 @@ class RTSHeader(MSRPCHeader):
         self['auth_length'] = 0
         self['call_id'] = 0
 
-# 2.2.4.2 CONN/A1 RTS PDU
-#
-# The CONN/A1 RTS PDU MUST be sent from the client to the outbound proxy on the OUT channel to
-# initiate the establishment of a virtual connection.
+  
+  
+  
+  
 class CONN_A1_RTS_PDU(Structure):
     structure = (
         ('Version',':',Version),
@@ -278,10 +278,10 @@ class CONN_A1_RTS_PDU(Structure):
         ('ReceiveWindowSize',':',ReceiveWindowSize),
     )
 
-# 2.2.4.5 CONN/B1 RTS PDU
-#
-# The CONN/B1 RTS PDU MUST be sent from the client to the inbound proxy on the IN channel to
-# initiate the establishment of a virtual connection.
+  
+  
+  
+  
 class CONN_B1_RTS_PDU(Structure):
     structure = (
         ('Version',':',Version),
@@ -292,19 +292,19 @@ class CONN_B1_RTS_PDU(Structure):
         ('AssociationGroupId',':',AssociationGroupId),
     )
 
-# 2.2.4.4 CONN/A3 RTS PDU
-#
-# The CONN/A3 RTS PDU MUST be sent from the outbound proxy to the client on the OUT channel to
-# continue the establishment of the virtual connection.
+  
+  
+  
+  
 class CONN_A3_RTS_PDU(Structure):
     structure = (
         ('ConnectionTimeout',':',ConnectionTimeout),
     )
 
-# 2.2.4.9 CONN/C2 RTS PDU
-#
-# The CONN/C2 RTS PDU MUST be sent from the outbound proxy to the client on the OUT channel to
-# notify it that a virtual connection has been established.
+  
+  
+  
+  
 class CONN_C2_RTS_PDU(Structure):
     structure = (
         ('Version',':',Version),
@@ -312,16 +312,16 @@ class CONN_C2_RTS_PDU(Structure):
         ('ConnectionTimeout',':',ConnectionTimeout),
     )
 
-# 2.2.4.51 FlowControlAckWithDestination RTS PDU
+  
 class FlowControlAckWithDestination_RTS_PDU(Structure):
     structure = (
         ('Destination',':',Destination),
         ('FlowControlAck',':',FlowControlAck),
     )
 
-################################################################################
-# HELPERS
-################################################################################
+  
+  
+  
 def hCONN_A1(virtualConnectionCookie=EMPTY_UUID, outChannelCookie=EMPTY_UUID, receiveWindowSize=262144):
     conn_a1 = CONN_A1_RTS_PDU()
     conn_a1['Version'] = Version()
@@ -368,7 +368,7 @@ def hFlowControlAckWithDestination(destination, bytesReceived, availableWindow, 
     rts_pdu['FlowControlAck']['Ack']['BytesReceived'] = bytesReceived
     rts_pdu['FlowControlAck']['Ack']['AvailableWindow'] = availableWindow
 
-    # Cookie of the channel for which the traffic received is being acknowledged
+      
     rts_pdu['FlowControlAck']['Ack']['ChannelCookie'] = RTSCookie()
     rts_pdu['FlowControlAck']['Ack']['ChannelCookie']['Cookie'] = channelCookie
 
@@ -385,9 +385,9 @@ def hPing():
 
     return packet.getData()
 
-################################################################################
-# CLASSES
-################################################################################
+  
+  
+  
 class RPCProxyClient(HTTPClientSecurityProvider):
     RECV_SIZE = 8192
     default_headers = {'User-Agent'   : 'MSRPC',
@@ -403,7 +403,7 @@ class RPCProxyClient(HTTPClientSecurityProvider):
         self.__remoteName  = remoteName
         self.__dstport     = dstport
 
-        # Chosen auth type
+          
         self.__auth_type = None
 
         self.init_state()
@@ -418,7 +418,7 @@ class RPCProxyClient(HTTPClientSecurityProvider):
 
         self.__serverConnectionTimeout = None
         self.__serverReceiveWindowSize = None
-        self.__availableWindowAdvertised = 262144 # 256k
+        self.__availableWindowAdvertised = 262144   
         self.__receiverAvailableWindow = self.__availableWindowAdvertised
         self.__bytesReceived = 0
 
@@ -461,76 +461,76 @@ class RPCProxyClient(HTTPClientSecurityProvider):
 
         self.__auth_type = HTTPClientSecurityProvider.get_auth_type(self)
 
-        # To connect to an RPC Server, we need to let the RPC Proxy know
-        # where to connect. The target RPC Server name and its port are passed
-        # in the query of the HTTP request. The target RPC Server must be the ncacn_http
-        # service.
-        #
-        # The utilized format: /rpc/rpcproxy.dll?RemoteName:RemotePort
-        #
-        # For RDG servers, you can specify localhost:3388, but in other cases you cannot
-        # use localhost as there will be no ACL for it.
-        #
-        # To know what RemoteName to use, we rely on Default ACL. It's specified
-        # in the HKLM\SOFTWARE\Microsoft\Rpc\RpcProxy key:
-        #
-        # ValidPorts    REG_SZ   COMPANYSERVER04:593;COMPANYSERVER04:49152-65535
-        #
-        # In this way, we can at least connect to the endpoint mapper on port 593.
-        # So, if the caller set remoteName to an empty string, we assume the target
-        # is the RPC Proxy server itself, and get its NetBIOS name from the NTLMSSP.
-        #
-        # Interestingly, if the administrator renames the server after RPC Proxy installation
-        # or joins the server to the domain after RPC Proxy installation, the ACL will remain
-        # the original. So, sometimes the ValidPorts values have the format WIN-JCKEDQVDOQU, and
-        # we are not able to use them.
-        #
-        # For Exchange servers, the value of the default ACL doesn't matter as they
-        # allow connections by their own mechanisms:
-        # - Exchange 2003 / 2007 / 2010 servers add their own ACL, which includes
-        #   NetBIOS names of all Exchange servers (and some other servers).
-        #   This ACL is regularly and automatically updated on each server.
-        #   Allowed ports: 6001-6004
-        #
-        #   6001 is used for MS-OXCRPC
-        #   6002 is used for MS-OXABREF
-        #   6003 is not used
-        #   6004 is used for MS-OXNSPI
-        #
-        #   Tests on Exchange 2010 show that MS-OXNSPI and MS-OXABREF are available
-        #   on both 6002 and 6004.
-        #
-        # - Exchange 2013 / 2016 / 2019 servers process RemoteName on their own
-        #   (via RpcProxyShim.dll), and the NetBIOS name format is supported only for
-        #   backward compatibility.
-        #
-        #   ! Default ACL is never used, so there is no way to connect to the endpoint mapper!
-        #
-        #   Allowed ports: 6001-6004
-        #
-        #   6001 is used for MS-OXCRPC
-        #   6002 is used for MS-OXABREF
-        #   6003 is not used
-        #   6004 is used for MS-OXNSPI
-        #
-        # Tests show that all protocols are available on the 6001 / 6002 / 6004 ports via
-        # RPC over HTTP v2, and the separation is only used for backward compatibility.
-        #
-        # The pure ncacn_http endpoint is available only on the 6001 TCP/IP port.
-        #
-        # RpcProxyShim.dll allows you to skip authentication on the RPC level to get
-        # a faster connection, and it makes Exchange 2013 / 2016 / 2019 RPC over HTTP v2
-        # endpoints vulnerable to NTLM-Relaying attacks.
-        #
-        # If the target is Exchange behind Microsoft TMG, you most likely need to specify
-        # the remote name manually using the value from /autodiscover/autodiscover.xml.
-        # Note that /autodiscover/autodiscover.xml might not be available with
-        # a non-outlook User-Agent.
-        #
-        # There may be multiple RPC Proxy servers with different NetBIOS names on
-        # a single external IP. We store the first one's NetBIOS name and use it for all
-        # the following channels.
-        # It's acceptable to assume all RPC Proxies have the same ACLs (true for Exchange).
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
         if not self.__remoteName and self.__auth_type == AUTH_BASIC:
             raise RPCProxyClientException(RPC_PROXY_REMOTE_NAME_NEEDED_ERR)
 
@@ -555,16 +555,16 @@ class RPCProxyClient(HTTPClientSecurityProvider):
         while resp.find(b'\r\n\r\n') == -1:
             resp += self.__channels[method].sock.recv(self.RECV_SIZE)
 
-        # Continue responses can have multiple lines, for example:
-        #
-        # HTTP/1.1 100 Continue
-        # Via: 1.1 FIREWALL1
-        #
-        # Don't expect the response to contain "100 Continue\r\n\r\n"
+          
+          
+          
+          
+          
+          
         if resp[9:23] != b'100 Continue\r\n':
             try:
-                # The server (IIS) may return localized error messages in
-                # the first line. Tests shown they are in UTF-8.
+                  
+                  
                 resp = resp.split(b'\r\n')[0].decode("UTF-8", errors='replace')
 
                 raise RPCProxyClientException('RPC Proxy Client: %s authentication failed in %s channel' %
@@ -574,7 +574,7 @@ class RPCProxyClient(HTTPClientSecurityProvider):
                     (self.__auth_type, method))
 
     def create_tunnel(self):
-        # 3.2.1.5.3.1 Connection Establishment
+          
         packet = hCONN_A1(self.__virtualConnectionCookie, self.__outChannelCookie, self.__availableWindowAdvertised)
         self.get_socket_out().send(packet)
 
@@ -588,8 +588,8 @@ class RPCProxyClient(HTTPClientSecurityProvider):
 
         if resp[9:12] != b'200':
             try:
-                # The server (IIS) may return localized error messages in
-                # the first line. Tests shown they are in UTF-8.
+                  
+                  
                 resp = resp.split(b'\r\n')[0].decode("UTF-8", errors='replace')
 
                 raise RPCProxyClientException('RPC Proxy CONN/A1 request failed', proxy_error=resp)
@@ -600,16 +600,16 @@ class RPCProxyClient(HTTPClientSecurityProvider):
         if "transfer-encoding: chunked" in resp_ascii.lower():
             self.__serverChunked = True
 
-        # If the body is here, let's send it to rpc_out_recv1()
+          
         self.__readBuffer = resp[resp.find(b'\r\n\r\n') + 4:]
 
-        # Recieving and parsing CONN/A3
+          
         conn_a3_rpc = self.rpc_out_read_pkt()
         conn_a3_pdu = RTSHeader(conn_a3_rpc)['pduData']
         conn_a3 = CONN_A3_RTS_PDU(conn_a3_pdu)
         self.__serverConnectionTimeout = conn_a3['ConnectionTimeout']['ConnectionTimeout']
 
-        # Recieving and parsing CONN/C2
+          
         conn_c2_rpc = self.rpc_out_read_pkt()
         conn_c2_pdu = RTSHeader(conn_c2_rpc)['pduData']
         conn_c2 = CONN_C2_RTS_PDU(conn_c2_pdu)
@@ -632,11 +632,11 @@ class RPCProxyClient(HTTPClientSecurityProvider):
             raise RPCProxyClientException('RPC Proxy request failed', proxy_error=buffer)
 
     def rpc_out_recv1(self, amt=None):
-        # Read with at most one underlying system call.
-        # The function MUST return the maximum amt bytes.
-        #
-        # Strictly speaking, it may cause more than one read,
-        # but that is ok, since that is to satisfy the chunked protocol.
+          
+          
+          
+          
+          
         sock = self.get_socket_out()
 
         if self.__serverChunked is False:
@@ -644,9 +644,9 @@ class RPCProxyClient(HTTPClientSecurityProvider):
                 buffer = self.__readBuffer
                 self.__readBuffer = b''
             else:
-                # Let's read RECV_SIZE bytes and not amt bytes.
-                # We would need to check the answer for HTTP errors, as
-                # they can just appear in the middle of the stream.
+                  
+                  
+                  
                 buffer = sock.recv(self.RECV_SIZE)
 
             self.check_http_error(buffer)
@@ -654,17 +654,17 @@ class RPCProxyClient(HTTPClientSecurityProvider):
             if len(buffer) <= amt:
                 return buffer
 
-            # We received more than we need
+              
             self.__readBuffer = buffer[amt:]
             return buffer[:amt]
 
-        # Check if the previous chunk is still there
+          
         if self.__chunkLeft > 0:
-            # If the previous chunk is still there,
-            # just give the caller what we already have
+              
+              
             if amt >= self.__chunkLeft:
                 buffer = self.__readBuffer[:self.__chunkLeft]
-                # We may have recieved a part of a new chunk
+                  
                 self.__readBuffer = self.__readBuffer[self.__chunkLeft + 2:]
                 self.__chunkLeft = 0
 
@@ -676,14 +676,14 @@ class RPCProxyClient(HTTPClientSecurityProvider):
 
                 return buffer
 
-        # Let's start to process a new chunk
+          
         buffer = self.__readBuffer
         self.__readBuffer = b''
 
         self.check_http_error(buffer)
 
-        # Let's receive a chunk size field which ends with CRLF
-        # For Microsoft TMG 2010 it can cause more than one read
+          
+          
         while buffer.find(b'\r\n') == -1:
             buffer += sock.recv(self.RECV_SIZE)
             self.check_http_error(buffer)
@@ -691,67 +691,67 @@ class RPCProxyClient(HTTPClientSecurityProvider):
         chunksize = int(buffer[:buffer.find(b'\r\n')], 16)
         buffer = buffer[buffer.find(b'\r\n') + 2:]
 
-        # Let's read at least our chunk including final CRLF
+          
         while len(buffer) - 2 < chunksize:
             buffer += sock.recv(chunksize - len(buffer) + 2)
 
-        # We should not be using any information from
-        # the TCP level to determine HTTP boundaries.
-        # So, we may have received more than we need.
+          
+          
+          
         if len(buffer) - 2 > chunksize:
             self.__readBuffer = buffer[chunksize + 2:]
             buffer = buffer[:chunksize + 2]
 
-        # Checking the amt
+          
         if len(buffer) - 2 > amt:
             self.__chunkLeft = chunksize - amt
-            # We may have recieved a part of a new chunk before,
-            # so the concatenation is crucual
+              
+              
             self.__readBuffer = buffer[amt:] + self.__readBuffer
 
             return buffer[:amt]
         else:
-            # Removing CRLF
+              
             return buffer[:-2]
 
     def send(self, data, forceWriteAndx=0, forceRecv=0):
-        # We don't use chunked encoding for IN channel as
-        # Microsoft software is developed this way.
-        # If you do this, it may fail.
+          
+          
+          
         self.get_socket_in().send(data)
 
     def rpc_out_read_pkt(self, handle_rts=False):
         while True:
             response_data = b''
 
-            # Let's receive common RPC header and no more
-            #
-            # C706
-            # 12.4 Common Fields
-            # Header encodings differ between connectionless and connection-oriented PDUs.
-            # However, certain fields use common sets of values with a consistent
-            # interpretation across the two protocols.
-            #
-            # This MUST recv MSRPCHeader._SIZE bytes, and not MSRPCRespHeader._SIZE bytes!
-            #
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
             while len(response_data) < MSRPCHeader._SIZE:
                 response_data += self.rpc_out_recv1(MSRPCHeader._SIZE - len(response_data))
 
             response_header = MSRPCHeader(response_data)
 
-            # frag_len contains the full length of the packet for both
-            # MSRPC and RTS
+              
+              
             frag_len = response_header['frag_len']
 
-            # Receiving the full pkt and no more
+              
             while len(response_data) < frag_len:
                response_data += self.rpc_out_recv1(frag_len - len(response_data))
 
-            # We need to do the Flow Control procedures
-            #
-            # 3.2.1.1.4
-            # This protocol specifies that only RPC PDUs are subject to the flow control abstract data
-            # model. RTS PDUs and the HTTP request and response headers are not subject to flow control.
+              
+              
+              
+              
+              
             if response_header['type'] != MSRPC_RTS:
                 self.flow_control(frag_len)
 
@@ -766,50 +766,50 @@ class RPCProxyClient(HTTPClientSecurityProvider):
     def handle_out_of_sequence_rts(self, response_data):
         packet = RTSHeader(response_data)
 
-        #print("=========== RTS PKT ===========")
-        #print("RAW: %s" % binascii.hexlify(response_data))
-        #packet.dump()
-        #
-        #pduData = packet['pduData']
-        #numberOfCommands = packet['NumberOfCommands']
-        #
-        #server_cmds = []
-        #while numberOfCommands > 0:
-        #    numberOfCommands -= 1
-        #
-        #    cmd_type = unpack('<L', pduData[:4])[0]
-        #    cmd = COMMANDS[cmd_type](pduData)
-        #    server_cmds.append(cmd)
-        #    pduData = pduData[len(cmd):]
-        #
-        #for cmd in server_cmds:
-        #    cmd.dump()
-        #print("=========== / RTS PKT ===========")
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
 
-        # 2.2.4.49 Ping RTS PDU
+          
         if packet['Flags'] == RTS_FLAG_PING:
-            # 3.2.1.2.1 PingTimer
-            #
-            # If the SendingChannel is part of a Virtual Connection in the Outbound Proxy or Client roles, the
-            # SendingChannel maintains a PingTimer that on expiration indicates a PING PDU must be sent to the
-            # receiving channel. The PING PDU is sent to the receiving channel when no data has been sent within
-            # half of the value of the KeepAliveInterval.
+              
+              
+              
+              
+              
+              
 
-            # As we do not do long-term connections with no data transfer,
-            # it means something on the server-side is going wrong.
+              
+              
             self.rts_ping_received = True
             LOG.error("Ping RTS PDU packet received. Is the RPC Server alive?")
 
-            # Just in case it's a long operation, let's send PING PDU to IN Channel like in xfreerdp
-            # It's better to send more than one PING packet as it only 20 bytes long
+              
+              
             packet = hPing()
             self.send(packet)
             self.send(packet)
-        # 2.2.4.24 OUT_R1/A2 RTS PDU
+          
         elif packet['Flags'] == RTS_FLAG_RECYCLE_CHANNEL:
             raise RPCProxyClientException("The server requested recycling of a virtual OUT channel, " \
                 "but this function is not supported!")
-        # Ignore all other messages, most probably flow control acknowledgments
+          
         else:
             pass
 

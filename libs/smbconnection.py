@@ -50,14 +50,14 @@ class SMBConnection:
         self._ntlmFallback = True
 
         if existingConnection is not None:
-            # Existing Connection must be a smb or smb3 instance
+              
             assert ( isinstance(existingConnection,smb.SMB) or isinstance(existingConnection, smb3.SMB3))
             self._SMBConnection = existingConnection
             self._preferredDialect = self._SMBConnection.getDialect()
             self._doKerberos = self._SMBConnection.getKerberos()
             return
 
-        ##preferredDialect = smb.SMB_DIALECT
+          
 
         if manualNegotiate is False:
             self.negotiateSession(preferredDialect)
@@ -78,14 +78,14 @@ class SMBConnection:
         :raise SessionError: if error
         """
 
-        # If port 445 and the name sent is *SMBSERVER we're setting the name to the IP. This is to help some old
-        # applications still believing
-        # *SMSBSERVER will work against modern OSes. If port is NETBIOS_SESSION_PORT the user better know about i
-        # *SMBSERVER's limitations
+          
+          
+          
+          
         if self._sess_port == nmb.SMB_SESSION_PORT and self._remoteName == '*SMBSERVER':
             self._remoteName = self._remoteHost
         elif self._sess_port == nmb.NETBIOS_SESSION_PORT and self._remoteName == '*SMBSERVER':
-            # If remote name is *SMBSERVER let's try to query its name.. if can't be guessed, continue and hope for the best
+              
             nb = nmb.NetBIOS()
             try:
                 res = nb.getnetbiosname(self._remoteHost)
@@ -99,16 +99,16 @@ class SMBConnection:
 
         hostType = nmb.TYPE_SERVER
         if preferredDialect is None:
-            # If no preferredDialect sent, we try the highest available one.
+              
             packet = self.negotiateSessionWildcard(self._myName, self._remoteName, self._remoteHost, self._sess_port,
                                                    self._timeout, True, flags1=flags1, flags2=flags2, data=negoData)
             if packet[0:1] == b'\xfe':
-                # Answer is SMB2 packet
+                  
                 self._SMBConnection = smb3.SMB3(self._remoteName, self._remoteHost, self._myName, hostType,
                                                 self._sess_port, self._timeout, session=self._nmbSession,
                                                 negSessionResponse=SMB2Packet(packet))
             else:
-                # Answer is SMB packet, sticking to SMBv1
+                  
                 self._SMBConnection = smb.SMB(self._remoteName, self._remoteHost, self._myName, hostType,
                                               self._sess_port, self._timeout, session=self._nmbSession,
                                               negPacket=packet)
@@ -122,8 +122,8 @@ class SMBConnection:
             else:
                 raise Exception("Unknown dialect %s")
 
-        # propagate flags to the smb sub-object, except for Unicode (if server supports)
-        # does not affect smb3 objects
+          
+          
         if isinstance(self._SMBConnection, smb.SMB):
             if self._SMBConnection.get_flags()[1] & smb.SMB.FLAGS2_UNICODE:
                 flags2 |= smb.SMB.FLAGS2_UNICODE
@@ -133,8 +133,8 @@ class SMBConnection:
 
     def negotiateSessionWildcard(self, myName, remoteName, remoteHost, sess_port, timeout, extended_security=True, flags1=0,
                                  flags2=0, data=None):
-        # Here we follow [MS-SMB2] negotiation handshake trying to understand what dialects
-        # (including SMB1) is supported on the other end.
+          
+          
 
         if not myName:
             myName = socket.gethostname()
@@ -145,7 +145,7 @@ class SMBConnection:
         tries = 0
         smbp = smb.NewSMBPacket()
         smbp['Flags1'] = flags1
-        # FLAGS2_UNICODE is required by some stacks to continue, regardless of subsequent support
+          
         smbp['Flags2'] = flags2 | smb.SMB.FLAGS2_UNICODE
         resp = None
         while tries < 2:
@@ -163,14 +163,14 @@ class SMBConnection:
                 resp = self._nmbSession.recv_packet(timeout)
                 break
             except nmb.NetBIOSError:
-                # OSX Yosemite asks for more Flags. Let's give it a try and see what happens
+                  
                 smbp['Flags2'] |= smb.SMB.FLAGS2_NT_STATUS | smb.SMB.FLAGS2_LONG_NAMES | smb.SMB.FLAGS2_UNICODE
                 smbp['Data'] = []
 
             tries += 1
 
         if resp is None:
-            # No luck, quitting
+              
             raise Exception('No answer!')
 
         return resp.get_trailer()
@@ -296,11 +296,11 @@ class SMBConnection:
             try:
                 ccache = CCache.loadFile(os.getenv('KRB5CCNAME'))
             except:
-                # No cache present
+                  
                 pass
             else:
                 
-                # retrieve domain information from CCache file if needed
+                  
                 if domain == '':
                     domain = ccache.principal.realm['data'].decode('utf-8')
                     
@@ -308,7 +308,7 @@ class SMBConnection:
                 principal = 'cifs/%s@%s' % (self.getRemoteName().upper(), domain.upper())
                 creds = ccache.getCredential(principal)
                 if creds is None:
-                    # Let's try for the TGT and go from there
+                      
                     principal = 'krbtgt/%s@%s' % (domain.upper(),domain.upper())
                     creds =  ccache.getCredential(principal)
                     if creds is not None:
@@ -320,7 +320,7 @@ class SMBConnection:
                     TGS = creds.toTGS(principal)
                     
 
-                # retrieve user information from CCache file if needed
+                  
                 if user == '' and creds is not None:
                     user = creds['client'].prettyPrint().split(b'@')[0].decode('utf-8')
                     
@@ -339,10 +339,10 @@ class SMBConnection:
                 raise SessionError(e.get_error_code(), e.get_error_packet())
             except KerberosError as e:
                 if e.getErrorCode() == constants.ErrorCodes.KDC_ERR_ETYPE_NOSUPP.value:
-                    # We might face this if the target does not support AES
-                    # So, if that's the case we'll force using RC4 by converting
-                    # the password to lm/nt hashes and hope for the best. If that's already
-                    # done, byebye.
+                      
+                      
+                      
+                      
                     if lmhash == '' and nthash == '' and (aesKey == '' or aesKey is None) and TGT is None and TGS is None:
                         lmhash = compute_lmhash(password)
                         nthash = compute_nthash(password)
@@ -366,9 +366,9 @@ class SMBConnection:
 
     def connectTree(self,share):
         if self.getDialect() == smb.SMB_DIALECT:
-            # If we already have a UNC we do nothing.
+              
             if ntpath.ismount(share) is False:
-                # Else we build it
+                  
                 share = ntpath.basename(share)
                 share = '\\\\' + self.getRemoteHost() + '\\' + share
         try:
@@ -391,7 +391,7 @@ class SMBConnection:
         :return: a list containing dict entries for each share
         :raise SessionError: if error
         """
-        # Get the shares through RPC
+          
         from libs.dcerpc.v5 import transport, srvs
         rpctransport = transport.SMBTransport(self.getRemoteName(), self.getRemoteHost(), filename=r'\srvsvc',
                                               smb_connection=self)
@@ -596,7 +596,7 @@ class SMBConnection:
             if len(data) >= bytesToRead:
                 finished = True
             elif len(bytesRead) == 0:
-                # End of the file achieved.
+                  
                 finished = True
             elif singleCall is True:
                 finished = True
@@ -782,7 +782,7 @@ class SMBConnection:
         """
         try:
             if shareAccessMode is None:
-                # if share access mode is none, let's the underlying API deals with it
+                  
                 return self._SMBConnection.retr_file(shareName, pathName, callback)
             else:
                 return self._SMBConnection.retr_file(shareName, pathName, callback, shareAccessMode=shareAccessMode)
@@ -803,7 +803,7 @@ class SMBConnection:
         """
         try:
             if shareAccessMode is None:
-                # if share access mode is none, let's the underlying API deals with it
+                  
                 return self._SMBConnection.stor_file(shareName, pathName, callback)
             else:
                 return self._SMBConnection.stor_file(shareName, pathName, callback, shareAccessMode)
@@ -820,7 +820,7 @@ class SMBConnection:
         :raise SessionError: if error
         """
 
-        # Verify we're under SMB2+ session
+          
         if self.getDialect() not in [SMB2_DIALECT_002, SMB2_DIALECT_21, SMB2_DIALECT_30]:
             raise SessionError(error = nt_errors.STATUS_NOT_SUPPORTED)
 
@@ -828,7 +828,7 @@ class SMBConnection:
                             fileAttributes=None, creationOption=FILE_SYNCHRONOUS_IO_NONALERT,
                             shareMode=FILE_SHARE_READ | FILE_SHARE_WRITE)
 
-        # first send with maxOutputResponse=16 to get the required size
+          
         try:
             snapshotData = SRV_SNAPSHOT_ARRAY(self._SMBConnection.ioctl(tid, fid, FSCTL_SRV_ENUMERATE_SNAPSHOTS,
                                   flags=SMB2_0_IOCTL_IS_FSCTL, maxOutputResponse=16))
@@ -837,7 +837,7 @@ class SMBConnection:
             raise SessionError(e.get_error_code(), e.get_error_packet())
 
         if snapshotData['SnapShotArraySize'] >= 52:
-            # now send an appropriate sized buffer
+              
             try:
                snapshotData = SRV_SNAPSHOT_ARRAY(self._SMBConnection.ioctl(tid, fid, FSCTL_SRV_ENUMERATE_SNAPSHOTS,
                                   flags=SMB2_0_IOCTL_IS_FSCTL, maxOutputResponse=snapshotData['SnapShotArraySize']+12))
@@ -859,7 +859,7 @@ class SMBConnection:
         :raise SessionError: if error
         """
 
-        # Verify we're under SMB2+ session
+          
         if self.getDialect() not in [SMB2_DIALECT_002, SMB2_DIALECT_21, SMB2_DIALECT_30]:
             raise SessionError(error = nt_errors.STATUS_NOT_SUPPORTED)
 
@@ -895,7 +895,7 @@ class SMBConnection:
         :raise SessionError: if error
         """
 
-        # Verify we're under SMB2+ session
+          
         if self.getDialect() not in [SMB2_DIALECT_002, SMB2_DIALECT_21, SMB2_DIALECT_30]:
             raise SessionError(error = nt_errors.STATUS_NOT_SUPPORTED)
 

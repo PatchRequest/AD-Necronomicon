@@ -21,10 +21,10 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'COMEV SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
-# 1.9 Standards Assignments
+  
+  
+  
+  
 CLSID_EventSystem          = string_to_bin('4E14FBA2-2E22-11D1-9964-00C04FBBB345')
 CLSID_EventSystem2         = string_to_bin('99CC098F-A48A-4e9c-8E58-965C0AFC19D5')
 CLSID_EventClass           = string_to_bin('cdbec9c0-7a68-11d1-88f9-0080c7d771bf')
@@ -44,7 +44,7 @@ IID_IEventClass3           = uuidtup_to_bin(('7FB7EA43-2D76-4ea8-8CD9-3DECC27029
 
 error_status_t = ULONG
 
-# 2.2.2.2 Property Value Types
+  
 class VARENUM(NDRENUM):
     class enumItems(Enum):
         VT_EMPTY       = 0
@@ -84,10 +84,10 @@ class VARENUM(NDRENUM):
         VT_ARRAY       = 0x2000
         VT_BYREF       = 0x4000
 
-################################################################################
-# STRUCTURES
-################################################################################
-# 2.2.44 TYPEATTR
+  
+  
+  
+  
 class TYPEATTR(NDRSTRUCT):
     structure = (
     )
@@ -95,11 +95,11 @@ class TYPEATTR(NDRSTRUCT):
 class OBJECT_ARRAY(NDRUniConformantVaryingArray):
     item = PMInterfacePointer
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 3.1.4.1 IEventSystem
-# 3.1.4.1.1 Query (Opnum 7)
+  
+  
+  
+  
+  
 class IEventSystem_Query(DCOMCALL):
     opnum = 7
     structure = (
@@ -114,7 +114,7 @@ class IEventSystem_QueryResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.1.2 Store (Opnum 8)
+  
 class IEventSystem_Store(DCOMCALL):
     opnum = 8
     structure = (
@@ -127,7 +127,7 @@ class IEventSystem_StoreResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.1.3 Remove (Opnum 9)
+  
 class IEventSystem_Remove(DCOMCALL):
     opnum = 9
     structure = (
@@ -141,7 +141,7 @@ class IEventSystem_RemoveResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.1.4 get_EventObjectChangeEventClassID (Opnum 10)
+  
 class IEventSystem_get_EventObjectChangeEventClassID(DCOMCALL):
     opnum = 10
     structure = (
@@ -153,7 +153,7 @@ class IEventSystem_get_EventObjectChangeEventClassIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.1.5 QueryS (Opnum 11)
+  
 class IEventSystem_QueryS(DCOMCALL):
     opnum = 11
     structure = (
@@ -167,7 +167,7 @@ class IEventSystem_QuerySResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.1.6 RemoveS (Opnum 12)
+  
 class IEventSystem_RemoveS(DCOMCALL):
     opnum = 12
     structure = (
@@ -180,9 +180,9 @@ class IEventSystem_RemoveSResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# 3.1.4.2 IEventClass
-# 3.1.4.2.1 get_EventClassID (Opnum 7)
+  
+  
+  
 class IEventClass_get_EventClassID(DCOMCALL):
     opnum = 7
     structure = (
@@ -194,7 +194,7 @@ class IEventClass_get_EventClassIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.2.2 put_EventClassID (Opnum 8)
+  
 class IEventClass_put_EventClassID(DCOMCALL):
     opnum = 8
     structure = (
@@ -206,7 +206,7 @@ class IEventClass_put_EventClassIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.2.3 get_EventClassName (Opnum 9)
+  
 class IEventClass_get_EventClassName(DCOMCALL):
     opnum = 9
     structure = (
@@ -218,7 +218,7 @@ class IEventClass_get_EventClassNameResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.2.4 put_EventClassName (Opnum 10)
+  
 class IEventClass_put_EventClassName(DCOMCALL):
     opnum = 10
     structure = (
@@ -230,7 +230,7 @@ class IEventClass_put_EventClassNameResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.2.5 get_OwnerSID (Opnum 11)
+  
 class IEventClass_get_OwnerSID(DCOMCALL):
     opnum = 11
     structure = (
@@ -242,7 +242,7 @@ class IEventClass_get_OwnerSIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.2.6 put_OwnerSID (Opnum 12)
+  
 class IEventClass_put_OwnerSID(DCOMCALL):
     opnum = 12
     structure = (
@@ -254,7 +254,7 @@ class IEventClass_put_OwnerSIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.2.7 get_FiringInterfaceID (Opnum 13)
+  
 class IEventClass_get_FiringInterfaceID(DCOMCALL):
     opnum = 13
     structure = (
@@ -266,7 +266,7 @@ class IEventClass_get_FiringInterfaceIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.2.8 put_FiringInterfaceID (Opnum 14)
+  
 class IEventClass_put_FiringInterfaceID(DCOMCALL):
     opnum = 14
     structure = (
@@ -278,7 +278,7 @@ class IEventClass_put_FiringInterfaceIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.2.9 get_Description (Opnum 15)
+  
 class IEventClass_get_Description(DCOMCALL):
     opnum = 15
     structure = (
@@ -290,7 +290,7 @@ class IEventClass_get_DescriptionResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.2.10 put_Description (Opnum 16)
+  
 class IEventClass_put_Description(DCOMCALL):
     opnum = 16
     structure = (
@@ -302,7 +302,7 @@ class IEventClass_put_DescriptionResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.2.11 get_TypeLib (Opnum 19)
+  
 class IEventClass_get_TypeLib(DCOMCALL):
     opnum = 19
     structure = (
@@ -314,7 +314,7 @@ class IEventClass_get_TypeLibResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.2.12 put_TypeLib (Opnum 20)
+  
 class IEventClass_put_TypeLib(DCOMCALL):
     opnum = 20
     structure = (
@@ -326,9 +326,9 @@ class IEventClass_put_TypeLibResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# 3.1.4.3 IEventClass2
-# 3.1.4.3.1 get_PublisherID (Opnum 21)
+  
+  
+  
 class IEventClass2_get_PublisherID(DCOMCALL):
     opnum = 21
     structure = (
@@ -340,7 +340,7 @@ class IEventClass2_get_PublisherIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.3.2 put_PublisherID (Opnum 22)
+  
 class IEventClass2_put_PublisherID(DCOMCALL):
     opnum = 22
     structure = (
@@ -352,7 +352,7 @@ class IEventClass2_put_PublisherIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.3.3 get_MultiInterfacePublisherFilterCLSID (Opnum 23)
+  
 class IEventClass2_get_MultiInterfacePublisherFilterCLSID(DCOMCALL):
     opnum = 23
     structure = (
@@ -364,7 +364,7 @@ class IEventClass2_get_MultiInterfacePublisherFilterCLSIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.3.4 put_MultiInterfacePublisherFilterCLSID (Opnum 24)
+  
 class IEventClass2_put_MultiInterfacePublisherFilterCLSID(DCOMCALL):
     opnum = 24
     structure = (
@@ -376,7 +376,7 @@ class IEventClass2_put_MultiInterfacePublisherFilterCLSIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.3.5 get_AllowInprocActivation (Opnum 25)
+  
 class IEventClass2_get_AllowInprocActivation(DCOMCALL):
     opnum = 25
     structure = (
@@ -388,7 +388,7 @@ class IEventClass2_get_AllowInprocActivationResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.3.6 put_AllowInprocActivation (Opnum 26)
+  
 class IEventClass2_put_AllowInprocActivation(DCOMCALL):
     opnum = 26
     structure = (
@@ -400,7 +400,7 @@ class IEventClass2_put_AllowInprocActivationResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.3.7 get_FireInParallel (Opnum 27)
+  
 class IEventClass2_get_FireInParallel(DCOMCALL):
     opnum = 27
     structure = (
@@ -412,7 +412,7 @@ class IEventClass2_get_FireInParallelResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.3.8 put_FireInParallel (Opnum 28)
+  
 class IEventClass2_put_FireInParallel(DCOMCALL):
     opnum = 28
     structure = (
@@ -424,9 +424,9 @@ class IEventClass2_put_FireInParallelResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# 3.1.4.4 IEventSubscription
-# 3.1.4.4.1 get_SubscriptionID (Opnum 7)
+  
+  
+  
 class IEventSubscription_get_SubscriptionID(DCOMCALL):
     opnum = 7
     structure = (
@@ -438,7 +438,7 @@ class IEventSubscription_get_SubscriptionIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.2 put_SubscriptionID (Opnum 8)
+  
 class IEventSubscription_put_SubscriptionID(DCOMCALL):
     opnum = 8
     structure = (
@@ -450,7 +450,7 @@ class IEventSubscription_put_SubscriptionIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.3 get_SubscriptionName (Opnum 9)
+  
 class IEventSubscription_get_SubscriptionName(DCOMCALL):
     opnum = 9
     structure = (
@@ -462,7 +462,7 @@ class IEventSubscription_get_SubscriptionNameResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.4 put_SubscriptionName (Opnum 10)
+  
 class IEventSubscription_put_SubscriptionName(DCOMCALL):
     opnum = 10
     structure = (
@@ -474,7 +474,7 @@ class IEventSubscription_put_SubscriptionNameResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.5 get_PublisherID (Opnum 11)
+  
 class IEventSubscription_get_PublisherID(DCOMCALL):
     opnum = 11
     structure = (
@@ -486,7 +486,7 @@ class IEventSubscription_get_PublisherIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.6 put_PublisherID (Opnum 12)
+  
 class IEventSubscription_put_PublisherID(DCOMCALL):
     opnum = 12
     structure = (
@@ -498,7 +498,7 @@ class IEventSubscription_put_PublisherIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.7 get_EventClassID (Opnum 13)
+  
 class IEventSubscription_get_EventClassID(DCOMCALL):
     opnum = 13
     structure = (
@@ -510,7 +510,7 @@ class IEventSubscription_get_EventClassIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.8 put_EventClassID (Opnum 14)
+  
 class IEventSubscription_put_EventClassID(DCOMCALL):
     opnum = 14
     structure = (
@@ -522,7 +522,7 @@ class IEventSubscription_put_EventClassIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.9 get_MethodName (Opnum 15)
+  
 class IEventSubscription_get_MethodName(DCOMCALL):
     opnum = 15
     structure = (
@@ -534,7 +534,7 @@ class IEventSubscription_get_MethodNameResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.10 put_MethodName (Opnum 16)
+  
 class IEventSubscription_put_MethodName(DCOMCALL):
     opnum = 16
     structure = (
@@ -546,7 +546,7 @@ class IEventSubscription_put_MethodNameResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.11 get_SubscriberCLSID (Opnum 17)
+  
 class IEventSubscription_get_SubscriberCLSID(DCOMCALL):
     opnum = 17
     structure = (
@@ -558,7 +558,7 @@ class IEventSubscription_get_SubscriberCLSIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.12 put_SubscriberCLSID (Opnum 18)
+  
 class IEventSubscription_put_SubscriberCLSID(DCOMCALL):
     opnum = 18
     structure = (
@@ -570,7 +570,7 @@ class IEventSubscription_put_SubscriberCLSIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.13 get_SubscriberInterface (Opnum 19)
+  
 class IEventSubscription_get_SubscriberInterface(DCOMCALL):
     opnum = 19
     structure = (
@@ -582,7 +582,7 @@ class IEventSubscription_get_SubscriberInterfaceResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.14 put_SubscriberInterface (Opnum 20)
+  
 class IEventSubscription_put_SubscriberInterface(DCOMCALL):
     opnum = 20
     structure = (
@@ -594,7 +594,7 @@ class IEventSubscription_put_SubscriberInterfaceResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.15 get_PerUser (Opnum 21)
+  
 class IEventSubscription_get_PerUser(DCOMCALL):
     opnum = 21
     structure = (
@@ -606,7 +606,7 @@ class IEventSubscription_get_PerUserResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.16 put_PerUser (Opnum 22)
+  
 class IEventSubscription_put_PerUser(DCOMCALL):
     opnum = 22
     structure = (
@@ -618,7 +618,7 @@ class IEventSubscription_put_PerUserResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.17 get_OwnerSID (Opnum 23)
+  
 class IEventSubscription_get_OwnerSID(DCOMCALL):
     opnum = 23
     structure = (
@@ -630,7 +630,7 @@ class IEventSubscription_get_OwnerSIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.18 put_OwnerSID (Opnum 24)
+  
 class IEventSubscription_put_OwnerSID(DCOMCALL):
     opnum = 24
     structure = (
@@ -642,7 +642,7 @@ class IEventSubscription_put_OwnerSIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.19 get_Enabled (Opnum 25)
+  
 class IEventSubscription_get_Enabled(DCOMCALL):
     opnum = 25
     structure = (
@@ -654,7 +654,7 @@ class IEventSubscription_get_EnabledResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.20 put_Enabled (Opnum 26)
+  
 class IEventSubscription_put_Enabled(DCOMCALL):
     opnum = 26
     structure = (
@@ -666,7 +666,7 @@ class IEventSubscription_put_EnabledResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.21 get_Description (Opnum 27)
+  
 class IEventSubscription_get_Description(DCOMCALL):
     opnum = 27
     structure = (
@@ -678,7 +678,7 @@ class IEventSubscription_get_DescriptionResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.22 put_Description (Opnum 28)
+  
 class IEventSubscription_put_Description(DCOMCALL):
     opnum = 28
     structure = (
@@ -690,7 +690,7 @@ class IEventSubscription_put_DescriptionResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.23 get_MachineName (Opnum 29)
+  
 class IEventSubscription_get_MachineName(DCOMCALL):
     opnum = 29
     structure = (
@@ -702,7 +702,7 @@ class IEventSubscription_get_MachineNameResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.24 put_MachineName (Opnum 30)
+  
 class IEventSubscription_put_MachineName(DCOMCALL):
     opnum = 30
     structure = (
@@ -714,7 +714,7 @@ class IEventSubscription_put_MachineNameResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.25 GetPublisherProperty (Opnum 31)
+  
 class IEventSubscription_GetPublisherProperty(DCOMCALL):
     opnum = 31
     structure = (
@@ -727,7 +727,7 @@ class IEventSubscription_GetPublisherPropertyResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.26 PutPublisherProperty (Opnum 32)
+  
 class IEventSubscription_PutPublisherProperty(DCOMCALL):
     opnum = 32
     structure = (
@@ -740,7 +740,7 @@ class IEventSubscription_PutPublisherPropertyResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.27 RemovePublisherProperty (Opnum 33)
+  
 class IEventSubscription_RemovePublisherProperty(DCOMCALL):
     opnum = 33
     structure = (
@@ -752,7 +752,7 @@ class IEventSubscription_RemovePublisherPropertyResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.28 GetPublisherPropertyCollection (Opnum 34)
+  
 class IEventSubscription_GetPublisherPropertyCollection(DCOMCALL):
     opnum = 34
     structure = (
@@ -764,7 +764,7 @@ class IEventSubscription_GetPublisherPropertyCollectionResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.29 GetSubscriberProperty (Opnum 35)
+  
 class IEventSubscription_GetSubscriberProperty(DCOMCALL):
     opnum = 35
     structure = (
@@ -777,7 +777,7 @@ class IEventSubscription_GetSubscriberPropertyResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.30 PutSubscriberProperty (Opnum 36)
+  
 class IEventSubscription_PutSubscriberProperty(DCOMCALL):
     opnum = 36
     structure = (
@@ -790,7 +790,7 @@ class IEventSubscription_PutSubscriberPropertyResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.31 RemoveSubscriberProperty (Opnum 37)
+  
 class IEventSubscription_RemoveSubscriberProperty(DCOMCALL):
     opnum = 37
     structure = (
@@ -802,7 +802,7 @@ class IEventSubscription_RemoveSubscriberPropertyResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.32 GetSubscriberPropertyCollection (Opnum 38)
+  
 class IEventSubscription_GetSubscriberPropertyCollection(DCOMCALL):
     opnum = 38
     structure = (
@@ -814,7 +814,7 @@ class IEventSubscription_GetSubscriberPropertyCollectionResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.33 get_InterfaceID (Opnum 39)
+  
 class IEventSubscription_get_InterfaceID(DCOMCALL):
     opnum = 39
     structure = (
@@ -826,7 +826,7 @@ class IEventSubscription_get_InterfaceIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4.34 put_InterfaceID (Opnum 40)
+  
 class IEventSubscription_put_InterfaceID(DCOMCALL):
     opnum = 40
     structure = (
@@ -838,9 +838,9 @@ class IEventSubscription_put_InterfaceIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# 3.1.4.5 IEnumEventObject
-# 3.1.4.5.1 Clone (Opnum 3)
+  
+  
+  
 class IEnumEventObject_Clone(DCOMCALL):
     opnum = 3
     structure = (
@@ -852,7 +852,7 @@ class IEnumEventObject_CloneResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.5.2 Next (Opnum 4)
+  
 class IEnumEventObject_Next(DCOMCALL):
     opnum = 4
     structure = (
@@ -866,7 +866,7 @@ class IEnumEventObject_NextResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.5.3 Reset (Opnum 5)
+  
 class IEnumEventObject_Reset(DCOMCALL):
     opnum = 5
     structure = (
@@ -877,7 +877,7 @@ class IEnumEventObject_ResetResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.5.4 Skip (Opnum 6)
+  
 class IEnumEventObject_Skip(DCOMCALL):
     opnum = 6
     structure = (
@@ -889,9 +889,9 @@ class IEnumEventObject_SkipResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# 3.1.4.6 IEventObjectCollection
-# 3.1.4.6.1 get__NewEnum (Opnum 7)
+  
+  
+  
 class IEventObjectCollection_get__NewEnum(DCOMCALL):
     opnum = 7
     structure = (
@@ -903,7 +903,7 @@ class IEventObjectCollection_get__NewEnumResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.6.2 get_Item (Opnum 8)
+  
 class IEventObjectCollection_get_Item(DCOMCALL):
     opnum = 8
     structure = (
@@ -916,7 +916,7 @@ class IEventObjectCollection_get_ItemResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.6.3 get_NewEnum (Opnum 9)
+  
 class IEventObjectCollection_get_NewEnum(DCOMCALL):
     opnum = 9
     structure = (
@@ -928,7 +928,7 @@ class IEventObjectCollection_get_NewEnumResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.6.4 get_Count (Opnum 10)
+  
 class IEventObjectCollection_get_Count(DCOMCALL):
     opnum = 10
     structure = (
@@ -940,7 +940,7 @@ class IEventObjectCollection_get_CountResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.6.5 Add (Opnum 11)
+  
 class IEventObjectCollection_Add(DCOMCALL):
     opnum = 11
     structure = (
@@ -953,7 +953,7 @@ class IEventObjectCollection_AddResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.6.6 Remove (Opnum 12)
+  
 class IEventObjectCollection_Remove(DCOMCALL):
     opnum = 12
     structure = (
@@ -965,9 +965,9 @@ class IEventObjectCollection_RemoveResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# 3.1.4.7 IEventClass3
-# 3.1.4.7.1 get_EventClassPartitionID (Opnum 29)
+  
+  
+  
 class IEventClass3_get_EventClassPartitionID(DCOMCALL):
     opnum = 29
     structure = (
@@ -979,7 +979,7 @@ class IEventClass3_get_EventClassPartitionIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.7.2 put_EventClassPartitionID (Opnum 30)
+  
 class IEventClass3_put_EventClassPartitionID(DCOMCALL):
     opnum = 30
     structure = (
@@ -991,7 +991,7 @@ class IEventClass3_put_EventClassPartitionIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.7.3 get_EventClassApplicationID (Opnum 31)
+  
 class IEventClass3_get_EventClassApplicationID(DCOMCALL):
     opnum = 31
     structure = (
@@ -1003,7 +1003,7 @@ class IEventClass3_get_EventClassApplicationIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.7.4 put_EventClassApplicationID (Opnum 32)
+  
 class IEventClass3_put_EventClassApplicationID(DCOMCALL):
     opnum = 32
     structure = (
@@ -1015,9 +1015,9 @@ class IEventClass3_put_EventClassApplicationIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# 3.1.4.8 IEventSubscription2
-# 3.1.4.8.1 get_FilterCriteria (Opnum 41)
+  
+  
+  
 class IEventSubscription2_get_FilterCriteria(DCOMCALL):
     opnum = 41
     structure = (
@@ -1029,7 +1029,7 @@ class IEventSubscription2_get_FilterCriteriaResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.8.2 put_FilterCriteria (Opnum 42)
+  
 class IEventSubscription2_put_FilterCriteria(DCOMCALL):
     opnum = 42
     structure = (
@@ -1041,7 +1041,7 @@ class IEventSubscription2_put_FilterCriteriaResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.8.3 get_SubscriberMoniker (Opnum 43)
+  
 class IEventSubscription2_get_SubscriberMoniker(DCOMCALL):
     opnum = 43
     structure = (
@@ -1053,7 +1053,7 @@ class IEventSubscription2_get_SubscriberMonikerResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.8.4 put_SubscriberMoniker (Opnum 44)
+  
 class IEventSubscription2_put_SubscriberMoniker(DCOMCALL):
     opnum = 44
     structure = (
@@ -1065,9 +1065,9 @@ class IEventSubscription2_put_SubscriberMonikerResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# 3.1.4.9 IEventSubscription3
-# 3.1.4.9.1 get_EventClassPartitionID (Opnum 45)
+  
+  
+  
 class IEventSubscription3_get_EventClassPartitionID(DCOMCALL):
     opnum = 45
     structure = (
@@ -1079,7 +1079,7 @@ class IEventSubscription3_get_EventClassPartitionIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.9.2 put_EventClassPartitionID (Opnum 46)
+  
 class IEventSubscription3_put_EventClassPartitionID(DCOMCALL):
     opnum = 46
     structure = (
@@ -1091,7 +1091,7 @@ class IEventSubscription3_put_EventClassPartitionIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.9.3 get_EventClassApplicationID (Opnum 47)
+  
 class IEventSubscription3_get_EventClassApplicationID(DCOMCALL):
     opnum = 47
     structure = (
@@ -1103,7 +1103,7 @@ class IEventSubscription3_get_EventClassApplicationIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.9.4 put_EventClassApplicationID (Opnum 48)
+  
 class IEventSubscription3_put_EventClassApplicationID(DCOMCALL):
     opnum = 48
     structure = (
@@ -1115,7 +1115,7 @@ class IEventSubscription3_put_EventClassApplicationIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.9.5 get_SubscriberPartitionID (Opnum 49)
+  
 class IEventSubscription3_get_SubscriberPartitionID(DCOMCALL):
     opnum = 49
     structure = (
@@ -1127,7 +1127,7 @@ class IEventSubscription3_get_SubscriberPartitionIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.9.6 put_SubscriberPartitionID (Opnum 50)
+  
 class IEventSubscription3_put_SubscriberPartitionID(DCOMCALL):
     opnum = 50
     structure = (
@@ -1139,7 +1139,7 @@ class IEventSubscription3_put_SubscriberPartitionIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.9.7 get_SubscriberApplicationID (Opnum 51)
+  
 class IEventSubscription3_get_SubscriberApplicationID(DCOMCALL):
     opnum = 51
     structure = (
@@ -1151,7 +1151,7 @@ class IEventSubscription3_get_SubscriberApplicationIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.9.8 put_SubscriberApplicationID (Opnum 52)
+  
 class IEventSubscription3_put_SubscriberApplicationID(DCOMCALL):
     opnum = 52
     structure = (
@@ -1163,9 +1163,9 @@ class IEventSubscription3_put_SubscriberApplicationIDResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# 3.1.4.10 IEventSystem2
-# 3.1.4.10.1 GetVersion (Opnum 13)
+  
+  
+  
 class IEventSystem2_GetVersion(DCOMCALL):
     opnum = 13
     structure = (
@@ -1177,7 +1177,7 @@ class IEventSystem2_GetVersionResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.10.2 VerifyTransientSubscribers (Opnum 14)
+  
 class IEventSystem2_VerifyTransientSubscribers(DCOMCALL):
     opnum = 14
     structure = (
@@ -1188,9 +1188,9 @@ class IEventSystem2_VerifyTransientSubscribersResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# 3.1.4.11 IEventSystemInitialize
-# 3.1.4.11.1 SetCOMCatalogBehaviour (Opnum 3)
+  
+  
+  
 class IEventSystemInitialize_SetCOMCatalogBehaviour(DCOMCALL):
     opnum = 3
     structure = (
@@ -1203,15 +1203,15 @@ class IEventSystemInitialize_SetCOMCatalogBehaviourResponse(DCOMANSWER):
     )
 
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
 }
 
-################################################################################
-# HELPER FUNCTIONS AND INTERFACES
-################################################################################
+  
+  
+  
 class IEventClass(IDispatch):
     def __init__(self, interface):
         IDispatch.__init__(self,interface)

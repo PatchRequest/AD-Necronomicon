@@ -28,9 +28,9 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'EPM SessionError: unknown error code: %s' % (str(self.error_code))
 
-################################################################################
-# CONSTANTS
-################################################################################
+  
+  
+  
 
 KNOWN_UUIDS = {
 b"\xb0\x01\x52\x97\xca\x59\xd0\x11\xa8\xd5\x00\xa0\xc9\x0d\x80\x51\x01\x00": "rpcss.dll",
@@ -868,78 +868,78 @@ KNOWN_PROTOCOLS = {
 '5261574A-4572-206E-B268-6B199213B4E4':'[MS-OXCRPC]: Wire Format Protocol',
 }
 
-# Inquire Type
+  
 RPC_C_EP_ALL_ELTS     = 0x0
 RPC_C_EP_MATCH_BY_IF  = 0x1
 RPC_C_EP_MATH_BY_OBJ  = 0x2
 RPC_C_EP_MATH_BY_BOTH = 0x1
 
-# Vers Option
+  
 RPC_C_VERS_ALL        = 0x1
 RPC_C_VERS_COMPATIBLE = 0x2
 RPC_C_VERS_EXACT      = 0x3
 RPC_C_VERS_MARJOR_ONLY= 0x4
 RPC_C_VERS_UPTO       = 0x5
 
-# Search 
+  
 RPC_NO_MORE_ELEMENTS  = 0x16c9a0d6 
 
-# Floors constants
+  
 FLOOR_UUID_IDENTIFIER = 0x0d
-# Protocol Identifiers
-FLOOR_RPCV5_IDENTIFIER = 0x0b # DCERPC Connection Oriented v.5
-FLOOR_MSNP_IDENTIFIER  = 0x0c # MS Named Pipes (LRPC)
-# Pipe Identifier
-FLOOR_NBNP_IDENTIFIER  = 0x0f # NetBIOS Named Pipe
-# HostName Identifier
-FLOOR_MSNB_IDENTIFIER  = 0x11 # MS NetBIOS HostName
-# PortAddr Identifier
+  
+FLOOR_RPCV5_IDENTIFIER = 0x0b   
+FLOOR_MSNP_IDENTIFIER  = 0x0c   
+  
+FLOOR_NBNP_IDENTIFIER  = 0x0f   
+  
+FLOOR_MSNB_IDENTIFIER  = 0x11   
+  
 FLOOR_TCPPORT_IDENTIFIER = 0x07
-# HTTP Protocol
+  
 FLOOR_HTTP_IDENTIFIER  = 0x1f
 
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 
-# Tower Floors: As states in C706:
-# This appendix defines the rules for encoding an protocol_tower_t (abstract)
-# into the twr_t.tower_octet_string and twr_p_t->tower_octet_string fields 
-# (concrete). For historical reasons, this cannot be done using the standard NDR 
-# encoding rules for marshalling and unmarshalling. A special encoding is 
-# required.
-# Note that the twr_t and twr_p_t are mashalled as standard IDL data types, 
-# encoded in the standard transfer syntax (for example, NDR). As far as IDL and 
-# NDR are concerned, tower_octet_string is simply an opaque conformant byte 
-# array. This section only defines how to construct this opaque open array of 
-# octets, which contains the actual protocol tower information.
-# The tower_octet_string[ ] is a variable length array of octets that encodes 
-# a single, complete protocol tower. It is encoded as follows:
-# * Addresses increase, reading from left to right.
-# * Each tower_octet_string begins with a 2-byte floor count, encoded 
-#   little-endian, followed by the tower floors as follows:
-# +-------------+---------+---------+---------+---------+---------+ 
-# |  floorcount |  floor1 |  floor2 |  floor3 |   ...   |  floorn | 
-# +-------------+---------+---------+---------+---------+---------+
-# The number of tower floors is specific to the particular protocol tower, 
-# also known as a protseq.
-# * Eachtowerfloorcontainsthefollowing:
-#   |<-   tower floor left hand side   ->|<-  tower floor right hand side  ->|
-#   +------------+-----------------------+------------+----------------------+
-#   |  LHS byte  |  protocol identifier  |  RHS byte  |  related or address  |
-#   |   count    |        data           |   count    |        data          |
-#   +------------+-----------------------+------------+----------------------+
-# The LHS (Left Hand Side) of the floor contains protocol identifier information.
-# Protocol identifier values and construction rules are defined in Appendix I.
-# The RHS (Right Hand Side) of the floor contains related or addressing 
-# information. The type and encoding for the currently defined protocol 
-# identifiers are given in Appendix I.
-# The floor count, LHS byte count and RHS byte count are all 2-bytes, 
-# in little endian format.
-#
-# So.. we're gonna use Structure to solve this
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-# Standard Floor Assignments
+  
 class EPMFloor(Structure):
     structure = (
         ('LHSByteCount','<H=0'),
@@ -1057,13 +1057,13 @@ class EPMTower(Structure):
             fList.append(floor) 
         self['Floors'] = fList
 
-    #def __len__(self):
-    #   ll = 0
-    #   for i in self['Floors']:
-    #       ll += len(i) 
-    #   ll += 10
-    #   ll += (4-ll%4) & 3
-    #   return ll
+      
+      
+      
+      
+      
+      
+      
 
 class RPC_IF_ID(NDRSTRUCT):
     structure = (
@@ -1134,9 +1134,9 @@ class twr_p_t_array(NDRUniConformantVaryingArray):
 
 error_status = ULONG
 
-################################################################################
-# RPC CALLS
-################################################################################
+  
+  
+  
 
 class ept_lookup(NDRCALL):
     opnum = 2
@@ -1175,9 +1175,9 @@ class ept_mapResponse(NDRCALL):
     )
 
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 
 def hept_lookup(destHost, inquiry_type = RPC_C_EP_ALL_ELTS, objectUUID = NULL, ifId = NULL, vers_option = RPC_C_VERS_ALL, dce = None):
     if dce is None:
@@ -1296,27 +1296,27 @@ def hept_map(destHost, remoteIf, dataRepresentation = uuidtup_to_bin(('8a885d04-
     request['map_tower']['tower_length'] = len(tower)
     request['map_tower']['tower_octet_string'] = tower.getData()
 
-    # Under Windows 2003 the Referent IDs cannot be random
-    # they must have the following specific values
-    # otherwise we get a rpc_x_bad_stub_data exception
+      
+      
+      
     request.fields['obj'].fields['ReferentID'] = 1
     request.fields['map_tower'].fields['ReferentID'] = 2
 
     resp = dce.request(request)
 
     tower = EPMTower(b''.join(resp['ITowers'][0]['Data']['tower_octet_string']))
-    # Now let's parse the result and return an stringBinding
+      
     result = None
     if protocol == 'ncacn_np':
-        # Pipe Name should be the 4th floor
+          
         pipeName = EPMPipeName(tower['Floors'][3].getData())
         result = 'ncacn_np:%s[%s]' % (destHost, pipeName['PipeName'].decode('utf-8')[:-1])
     elif protocol == 'ncacn_ip_tcp':
-        # Port Number should be the 4th floor
+          
         portAddr = EPMPortAddr(tower['Floors'][3].getData())
         result = 'ncacn_ip_tcp:%s[%s]' % (destHost, portAddr['IpPort'])
     elif protocol == 'ncacn_http':
-        # Port Number should be the 4th floor
+          
         portAddr = EPMPortAddr(tower['Floors'][3].getData())
         result = 'ncacn_http:%s[%s]' % (destHost, portAddr['IpPort'])
     if disconnect is True:

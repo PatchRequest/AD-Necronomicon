@@ -20,11 +20,11 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'SCMR SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
+  
+  
+  
 
-# Access codes
+  
 SERVICE_ALL_ACCESS            = 0X000F01FF
 SERVICE_CHANGE_CONFIG         = 0X00000002
 SERVICE_ENUMERATE_DEPENDENTS  = 0X00000008
@@ -37,7 +37,7 @@ SERVICE_STOP                  = 0X00000020
 SERVICE_USER_DEFINED_CTRL     = 0X00000100
 SERVICE_SET_STATUS            = 0X00008000
 
-# Specific Access for SCM
+  
 SC_MANAGER_LOCK               = 0x00000008
 SC_MANAGER_CREATE_SERVICE     = 0x00000002
 SC_MANAGER_ENUMERATE_SERVICE  = 0x00000004
@@ -45,7 +45,7 @@ SC_MANAGER_CONNECT            = 0x00000001
 SC_MANAGER_QUERY_LOCK_STATUS  = 0x00000010
 SC_MANAGER_MODIFY_BOOT_CONFIG = 0x00000020
 
-# Service Types
+  
 SERVICE_KERNEL_DRIVER         = 0x00000001
 SERVICE_FILE_SYSTEM_DRIVER    = 0x00000002
 SERVICE_WIN32_OWN_PROCESS     = 0x00000010
@@ -53,7 +53,7 @@ SERVICE_WIN32_SHARE_PROCESS   = 0x00000020
 SERVICE_INTERACTIVE_PROCESS   = 0x00000100
 SERVICE_NO_CHANGE             = 0xffffffff
 
-# Start Types
+  
 SERVICE_BOOT_START            = 0x00000000
 SERVICE_SYSTEM_START          = 0x00000001
 SERVICE_AUTO_START            = 0x00000002
@@ -61,14 +61,14 @@ SERVICE_DEMAND_START          = 0x00000003
 SERVICE_DISABLED              = 0x00000004
 SERVICE_NO_CHANGE             = 0xffffffff
 
-# Error Control 
+  
 SERVICE_ERROR_IGNORE          = 0x00000000
 SERVICE_ERROR_NORMAL          = 0x00000001
 SERVICE_ERROR_SEVERE          = 0x00000002
 SERVICE_ERROR_CRITICAL        = 0x00000003
 SERVICE_NO_CHANGE             = 0xffffffff
 
-# Service Control Codes
+  
 SERVICE_CONTROL_CONTINUE      = 0x00000003
 SERVICE_CONTROL_INTERROGATE   = 0x00000004
 SERVICE_CONTROL_PARAMCHANGE   = 0x00000006
@@ -79,12 +79,12 @@ SERVICE_CONTROL_NETBINDREMOVE = 0x00000008
 SERVICE_CONTROL_NETBINDENABLE = 0x00000009
 SERVICE_CONTROL_NETBINDDISABLE= 0x0000000A
 
-# Service State
+  
 SERVICE_ACTIVE                = 0x00000001
 SERVICE_INACTIVE              = 0x00000002
 SERVICE_STATE_ALL             = 0x00000003
 
-# Current State
+  
 SERVICE_CONTINUE_PENDING      = 0x00000005
 SERVICE_PAUSE_PENDING         = 0x00000006
 SERVICE_PAUSED                = 0x00000007
@@ -93,7 +93,7 @@ SERVICE_START_PENDING         = 0x00000002
 SERVICE_STOP_PENDING          = 0x00000003
 SERVICE_STOPPED               = 0x00000001
 
-# Controls Accepted
+  
 SERVICE_ACCEPT_PARAMCHANGE           = 0x00000008
 SERVICE_ACCEPT_PAUSE_CONTINUE        = 0x00000002
 SERVICE_ACCEPT_SHUTDOWN              = 0x00000004
@@ -105,13 +105,13 @@ SERVICE_ACCEPT_PRESHUTDOWN           = 0x00000100
 SERVICE_ACCEPT_TIMECHANGE            = 0x00000200
 ERVICE_ACCEPT_TRIGGEREVENT           = 0x00000400
 
-# Security Information
+  
 DACL_SECURITY_INFORMATION     = 0x4
 GROUP_SECURITY_INFORMATION    = 0x2
 OWNER_SECURITY_INFORMATION    = 0x1
 SACL_SECURITY_INFORMATION     = 0x8
 
-# Service Config2 Info Levels
+  
 SERVICE_CONFIG_DESCRIPTION              = 0x00000001
 SERVICE_CONFIG_FAILURE_ACTIONS          = 0x00000002
 SERVICE_CONFIG_DELAYED_AUTO_START_INFO  = 0x00000003
@@ -122,21 +122,21 @@ SERVICE_CONFIG_PRESHUTDOWN_INFO         = 0x00000007
 SERVICE_CONFIG_PREFERRED_NODE           = 0x00000009
 SERVICE_CONFIG_RUNLEVEL_INFO            = 0x0000000A
 
-# SC_ACTIONS Types
+  
 SC_ACTION_NONE        = 0
 SC_ACTION_RESTART     = 1
 SC_ACTION_REBOOT      = 2
 SC_ACTION_RUN_COMMAND = 3
 
-# SERVICE_SID_INFO types
+  
 SERVICE_SID_TYPE_NONE         = 0x00000000
 SERVICE_SID_TYPE_RESTRICTED   = 0x00000003
 SERVICE_SID_TYPE_UNRESTRICTED = 0x00000001
 
-# SC_STATUS_TYPE types
+  
 SC_STATUS_PROCESS_INFO = 0
 
-# Notify Mask
+  
 SERVICE_NOTIFY_CREATED          = 0x00000080
 SERVICE_NOTIFY_CONTINUE_PENDING = 0x00000010
 SERVICE_NOTIFY_DELETE_PENDING   = 0x00000200
@@ -148,12 +148,12 @@ SERVICE_NOTIFY_START_PENDING    = 0x00000002
 SERVICE_NOTIFY_STOP_PENDING     = 0x00000004
 SERVICE_NOTIFY_STOPPED          = 0x00000001
 
-# SERVICE_CONTROL_STATUS_REASON_IN_PARAMSW Reasons
+  
 SERVICE_STOP_CUSTOM    =  0x20000000
 SERVICE_STOP_PLANNED   =  0x40000000
 SERVICE_STOP_UNPLANNED =  0x10000000
 
-# SERVICE_TRIGGER triggers
+  
 SERVICE_TRIGGER_TYPE_DEVICE_INTERFACE_ARRIVAL  = 0x00000001
 SERVICE_TRIGGER_TYPE_IP_ADDRESS_AVAILABILITY   = 0x00000002
 SERVICE_TRIGGER_TYPE_DOMAIN_JOIN               = 0x00000003
@@ -161,11 +161,11 @@ SERVICE_TRIGGER_TYPE_FIREWALL_PORT_EVENT       = 0x00000004
 SERVICE_TRIGGER_TYPE_GROUP_POLICY              = 0x00000005
 SERVICE_TRIGGER_TYPE_CUSTOM                    = 0x00000020
 
-# SERVICE_TRIGGER actions
+  
 SERVICE_TRIGGER_ACTION_SERVICE_START = 0x00000001
 SERVICE_TRIGGER_ACTION_SERVICE_STOP  = 0x00000002
 
-# SERVICE_TRIGGER subTypes
+  
 DOMAIN_JOIN_GUID                                = '1ce20aba-9851-4421-9430-1ddeb766e809' 
 DOMAIN_LEAVE_GUID                               = 'ddaf516e-58c2-4866-9574-c3b615d42ea1'
 FIREWALL_PORT_OPEN_GUID                         = 'b7569e07-8421-4ee0-ad10-86915afdad09'
@@ -175,13 +175,13 @@ NETWORK_MANAGER_FIRST_IP_ADDRESS_ARRIVAL_GUID   = '4f27f2de-14e2-430b-a549-7cd48
 NETWORK_MANAGER_LAST_IP_ADDRESS_REMOVAL_GUID    = 'cc4ba62a-162e-4648-847a-b6bdf993e335'
 USER_POLICY_PRESENT_GUID                        = '54FB46C8-F089-464C-B1FD-59D1B62C3B50'
 
-# SERVICE_TRIGGER_SPECIFIC_DATA_ITEM dataTypes
+  
 SERVICE_TRIGGER_DATA_TYPE_BINARY = 0x00000001
 SERVICE_TRIGGER_DATA_TYPE_STRING = 0x00000002
 
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 
 class BYTE_ARRAY(NDRUniConformantArray):
     item = 'c'
@@ -586,9 +586,9 @@ class SC_RPC_CONFIG_INFOW(NDRSTRUCT):
         ('Union', SC_RPC_CONFIG_INFOW_UNION),
     )
 
-################################################################################
-# RPC CALLS
-################################################################################
+  
+  
+  
 
 class RCloseServiceHandle(NDRCALL):
     opnum = 0
@@ -1010,7 +1010,7 @@ class RCreateServiceWOW64WResponse(NDRCALL):
         ('ErrorCode', DWORD),
     )
 
-# Still not working, for some reason something changes in the way the pointer inside SC_RPC_NOTIFY_PARAMS is marshalled here
+  
 class RNotifyServiceStatusChange(NDRCALL):
     opnum = 47
     structure = (
@@ -1027,7 +1027,7 @@ class RNotifyServiceStatusChangeResponse(NDRCALL):
         ('ErrorCode', DWORD),
     )
 
-# Not working, until I don't fix the previous one
+  
 class RGetNotifyResults(NDRCALL):
     opnum = 48
     structure = (
@@ -1040,7 +1040,7 @@ class RGetNotifyResultsResponse(NDRCALL):
         ('ErrorCode', DWORD),
     )
 
-# Not working, until I don't fix the previous ones
+  
 class RCloseNotifyHandle(NDRCALL):
     opnum = 49
     structure = (
@@ -1054,7 +1054,7 @@ class RCloseNotifyHandleResponse(NDRCALL):
         ('ErrorCode', DWORD),
     )
 
-# Not working, returning bad_stub_data
+  
 class RControlServiceExW(NDRCALL):
     opnum = 51
     structure = (
@@ -1083,9 +1083,9 @@ class RQueryServiceConfigExResponse(NDRCALL):
         ('ErrorCode', DWORD),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  0 : (RCloseServiceHandle, RCloseServiceHandleResponse),
  1 : (RControlService, RControlServiceResponse),
@@ -1121,9 +1121,9 @@ OPNUMS = {
 56 : (RQueryServiceConfigEx, RQueryServiceConfigExResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def checkNullString(string):
     if string == NULL:
         return string
@@ -1210,7 +1210,7 @@ def hRChangeServiceConfigW(dce, hService, dwServiceType=SERVICE_NO_CHANGE, dwSta
     changeServiceConfig['lpLoadOrderGroup'] = checkNullString(lpLoadOrderGroup)
     changeServiceConfig['lpdwTagId'] = lpdwTagId
     changeServiceConfig['lpDependencies'] = lpDependencies
-    # Strings MUST be NULL terminated for lpDependencies
+      
     changeServiceConfig['dwDependSize'] = dwDependSize
     changeServiceConfig['lpServiceStartName'] = checkNullString(lpServiceStartName)
     changeServiceConfig['lpPassword'] = lpPassword
@@ -1230,7 +1230,7 @@ def hRCreateServiceW(dce, hSCManager, lpServiceName, lpDisplayName, dwDesiredAcc
     createService['lpBinaryPathName'] = checkNullString(lpBinaryPathName)
     createService['lpLoadOrderGroup'] = checkNullString(lpLoadOrderGroup)
     createService['lpdwTagId'] = lpdwTagId
-    # Strings MUST be NULL terminated for lpDependencies
+      
     createService['lpDependencies'] = lpDependencies
     createService['dwDependSize'] = dwDependSize
     createService['lpServiceStartName'] = checkNullString(lpServiceStartName)
@@ -1247,13 +1247,13 @@ def hREnumDependentServicesW(dce, hService, dwServiceState, cbBufSize ):
 
 def hREnumServicesStatusW(dce, hSCManager, dwServiceType=SERVICE_WIN32_OWN_PROCESS|SERVICE_KERNEL_DRIVER|SERVICE_FILE_SYSTEM_DRIVER|SERVICE_WIN32_SHARE_PROCESS|SERVICE_INTERACTIVE_PROCESS, dwServiceState=SERVICE_STATE_ALL):
     class ENUM_SERVICE_STATUSW2(NDRSTRUCT):
-        # This is a little trick, since the original structure is slightly different
-        # but instead of parsing the LPBYTE buffer at hand, we just do it with the aid
-        # of the NDR library, although the pointers are swapped from the original specification.
-        # Why is this? Well.. since we're getting an LPBYTE back, it's just a copy of the remote's memory
-        # where the pointers are actually POINTING to the data.
-        # Sadly, the pointers are not aligned based on the services records, so we gotta do this
-        # It should be easier in C of course.
+          
+          
+          
+          
+          
+          
+          
         class STR(NDRPOINTER):
             referent = (
                 ('Data', WIDESTR),
@@ -1281,7 +1281,7 @@ def hREnumServicesStatusW(dce, hSCManager, dwServiceType=SERVICE_WIN32_OWN_PROCE
         else:
             raise
     
-    # Now we're supposed to have all services returned. Now we gotta parse them
+      
 
     enumArray = NDRUniConformantArray()
     enumArray.item = ENUM_SERVICE_STATUSW2
@@ -1291,8 +1291,8 @@ def hREnumServicesStatusW(dce, hSCManager, dwServiceType=SERVICE_WIN32_OWN_PROCE
     data = b''.join(resp['lpBuffer'])
     enumArray.fromString(data)
     data = data[4:]
-    # Since the pointers here are pointing to the actual data, we have to reparse
-    # the referents
+      
+      
     for record in enumArray['Data']:
         offset =  record.fields['lpDisplayName'].fields['ReferentID']-4
         name = WIDESTR(data[offset:])

@@ -9,14 +9,14 @@ from Cryptodome.Cipher import ARC4
 from libs.structure import Structure
 from libs.krb5 import constants, crypto
 
-# Our random number generator
+  
 try:
     rand = random.SystemRandom()
 except NotImplementedError:
     rand = random
     pass
 
-# Constants
+  
 GSS_C_DCE_STYLE     = 0x1000
 GSS_C_DELEG_FLAG    = 1
 GSS_C_MUTUAL_FLAG   = 2
@@ -25,12 +25,12 @@ GSS_C_SEQUENCE_FLAG = 8
 GSS_C_CONF_FLAG     = 0x10
 GSS_C_INTEG_FLAG    = 0x20
 
-# Mic Semantics
+  
 GSS_HMAC = 0x11
-# Wrap Semantics
+  
 GSS_RC4  = 0x10
 
-# 2.  Key Derivation for Per-Message Tokens
+  
 KG_USAGE_ACCEPTOR_SEAL  = 22
 KG_USAGE_ACCEPTOR_SIGN  = 23
 KG_USAGE_INITIATOR_SEAL = 24
@@ -38,7 +38,7 @@ KG_USAGE_INITIATOR_SIGN = 25
 
 KRB5_AP_REQ = struct.pack('<H', 0x1)
 
-# 1.1.1. Initial Token - Checksum field
+  
 class CheckSumField(Structure):
     structure = (
         ('Lgth','<L=16'),
@@ -56,9 +56,9 @@ def GSSAPI(cipher):
     else:
         raise Exception('Unsupported etype 0x%x' % cipher.enctype)
 
-# 7.2.   GSS-API MIC Semantics
+  
 class GSSAPI_RC4:
-    # 1.2.1. Per-message Tokens - MIC
+      
     class MIC(Structure):
         structure = (
             ('TOK_ID','<H=0x0101'),
@@ -68,7 +68,7 @@ class GSSAPI_RC4:
             ('SGN_CKSUM','8s=b""'),
         )
 
-    # 1.2.2. Per-message Tokens - Wrap
+      
     class WRAP(Structure):
         structure = (
             ('TOK_ID','<H=0x0102'),
@@ -84,7 +84,7 @@ class GSSAPI_RC4:
         GSS_GETMIC_HEADER = b'\x60\x23\x06\x09\x2a\x86\x48\x86\xf7\x12\x01\x02\x02'
         token = self.MIC()
 
-        # Let's pad the data
+          
         pad = (4 - (len(data) % 4)) & 0x3
         padStr = b(chr(pad)) * pad
         data += padStr
@@ -107,14 +107,14 @@ class GSSAPI_RC4:
         return finalData
    
     def GSS_Wrap(self, sessionKey, data, sequenceNumber, direction = 'init', encrypt=True, authData=None):
-        # Damn inacurate RFC, useful info from here
-        # https://social.msdn.microsoft.com/Forums/en-US/fb98e8f4-e697-4652-bcb7-604e027e14cc/gsswrap-token-size-kerberos-and-rc4hmac?forum=os_windowsprotocols
-        # and here
-        # http://www.rfc-editor.org/errata_search.php?rfc=4757
+          
+          
+          
+          
         GSS_WRAP_HEADER = b'\x60\x2b\x06\x09\x2a\x86\x48\x86\xf7\x12\x01\x02\x02'
         token = self.WRAP()
 
-        # Let's pad the data
+          
         pad = (8 - (len(data) % 8)) & 0x7
         padStr = b(chr(pad)) * pad
         data += padStr
@@ -127,7 +127,7 @@ class GSSAPI_RC4:
         else:
             token['SND_SEQ'] = struct.pack('>L', sequenceNumber) + b'\xff'*4
 
-        # Random confounder :)
+          
         token['Confounder'] = b(''.join([rand.choice(string.ascii_letters) for _ in range(8)]))
 
         Ksign = HMAC.new(sessionKey.contents, b'signaturekey\0', MD5).digest()
@@ -191,7 +191,7 @@ class GSSAPI_AES():
             ('SGN_CKSUM','12s=b""'),
         )
 
-    # 1.2.2. Per-message Tokens - Wrap
+      
     class WRAP(Structure):
         structure = (
             ('TOK_ID','>H=0x0504'),
@@ -205,7 +205,7 @@ class GSSAPI_AES():
     def GSS_GetMIC(self, sessionKey, data, sequenceNumber, direction = 'init'):
         token = self.MIC()
 
-        # Let's pad the data
+          
         pad = (4 - (len(data) % 4)) & 0x3
         padStr = chr(pad) * pad
         data += padStr
@@ -234,13 +234,13 @@ class GSSAPI_AES():
 
         cipher = self.cipherType()
 
-        # Let's pad the data
+          
         pad = (cipher.blocksize - (len(data) % cipher.blocksize)) & 15
         padStr = b'\xFF' * pad
         data += padStr
 
-        # The RRC field ([RFC4121] section 4.2.5) is 12 if no encryption is requested or 28 if encryption 
-        # is requested. The RRC field is chosen such that all the data can be encrypted in place.
+          
+          
         rrc = 28
 
         token['Flags'] = 6
@@ -253,7 +253,7 @@ class GSSAPI_AES():
 
         cipherText = self.rotate(cipherText, token['RRC'] + token['EC'])
 
-        #nn = self.unrotate(cipherText, token['RRC'] + token['EC'])
+          
         ret1 = cipherText[len(self.WRAP()) + token['RRC'] + token['EC']:]
         ret2 = token.getData() + cipherText[:len(self.WRAP()) + token['RRC'] + token['EC']]
 

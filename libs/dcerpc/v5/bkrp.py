@@ -22,18 +22,18 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'BKRP SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
+  
+  
+  
 
 BACKUPKEY_BACKUP_GUID = string_to_bin("7F752B10-178E-11D1-AB8F-00805F14DB40")
 BACKUPKEY_RESTORE_GUID_WIN2K = string_to_bin("7FE94D50-178E-11D1-AB8F-00805F14DB40")
 BACKUPKEY_RETRIEVE_BACKUP_KEY_GUID = string_to_bin("018FF48A-EABA-40C6-8F6D-72370240E967")
 BACKUPKEY_RESTORE_GUID =  string_to_bin("47270C64-2FC7-499B-AC5B-0E37CDCE899A")
 
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 class BYTE_ARRAY(NDRUniConformantArray):
     item = 'c'
 
@@ -42,7 +42,7 @@ class PBYTE_ARRAY(NDRPOINTER):
         ('Data', BYTE_ARRAY),
     )
 
-# 2.2.4.1 Rc4EncryptedPayload Structure
+  
 class Rc4EncryptedPayload(Structure):
     structure = (
         ('R3', '32s=""'),
@@ -51,7 +51,7 @@ class Rc4EncryptedPayload(Structure):
         ('Secret', ':'),
     )
 
-# 2.2.4 Secret Wrapped with Symmetric Key
+  
 class WRAPPED_SECRET(Structure):
     structure = (
         ('SIGNATURE', '<L=1'),
@@ -63,10 +63,10 @@ class WRAPPED_SECRET(Structure):
         ('Rc4EncryptedPayload', ':'),
     )
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 3.1.4.1 BackuprKey(Opnum 0)
+  
+  
+  
+  
 class BackuprKey(NDRCALL):
     opnum = 0
     structure = (
@@ -83,16 +83,16 @@ class BackuprKeyResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  0 : (BackuprKey, BackuprKeyResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def hBackuprKey(dce, pguidActionAgent, pDataIn, dwParam=0):
     request = BackuprKey()
     request['pguidActionAgent'] = pguidActionAgent

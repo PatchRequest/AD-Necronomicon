@@ -28,7 +28,7 @@ __all__ = [
     'CONTROL_PAGEDRESULTS', 'KNOWN_CONTROLS', 'NOTIFICATION_DISCONNECT', 'KNOWN_NOTIFICATIONS',
 ]
 
-# https://tools.ietf.org/search/rfc4515#section-3
+  
 DESCRIPTION = r'(?:[a-z][a-z0-9\-]*)'
 NUMERIC_OID = r'(?:(?:\d|[1-9]\d+)(?:\.(?:\d|[1-9]\d+))*)'
 OID = r'(?:%s|%s)' % (DESCRIPTION, NUMERIC_OID)
@@ -76,7 +76,7 @@ class LDAPConnection:
         else:
             raise LDAPSessionError(errorString="Unknown URL prefix: '%s'" % url)
 
-        # Try to connect
+          
         if self._dstIp is not None:
             targetHost = self._dstIp
         else:
@@ -92,9 +92,9 @@ class LDAPConnection:
         if self._SSL is False:
             self._socket.connect(sa)
         else:
-            # Switching to TLS now
+              
             ctx = SSL.Context(SSL.TLSv1_METHOD)
-            # ctx.set_cipher_list('RC4')
+              
             self._socket = SSL.Connection(ctx, self._socket)
             self._socket.connect(sa)
             self._socket.do_handshake()
@@ -123,13 +123,13 @@ class LDAPConnection:
                 lmhash = '0' + lmhash
             if len(nthash) % 2:
                 nthash = '0' + nthash
-            try:  # just in case they were converted already
+            try:    
                 lmhash = unhexlify(lmhash)
                 nthash = unhexlify(nthash)
             except TypeError:
                 pass
 
-        # Importing down here so pyasn1 is not required if kerberos is not used.
+          
         from libs.krb5.ccache import CCache
         from libs.krb5.asn1 import AP_REQ, Authenticator, TGS_REP, seq_set
         from libs.krb5.kerberosv5 import getKerberosTGT, getKerberosTGS
@@ -144,10 +144,10 @@ class LDAPConnection:
             try:
                 ccache = CCache.loadFile(os.getenv('KRB5CCNAME'))
             except:
-                # No cache present
+                  
                 pass
             else:
-                # retrieve domain information from CCache file if needed
+                  
                 if domain == '':
                     domain = ccache.principal.realm['data'].decode('utf-8')
                     LOG.debug('Domain retrieved from CCache: %s' % domain)
@@ -156,7 +156,7 @@ class LDAPConnection:
                 principal = 'ldap/%s@%s' % (self._dstHost.upper(), domain.upper())
                 creds = ccache.getCredential(principal)
                 if creds is None:
-                    # Let's try for the TGT and go from there
+                      
                     principal = 'krbtgt/%s@%s' % (domain.upper(), domain.upper())
                     creds = ccache.getCredential(principal)
                     if creds is not None:
@@ -168,7 +168,7 @@ class LDAPConnection:
                     TGS = creds.toTGS(principal)
                     LOG.debug('Using TGS from cache')
 
-                # retrieve user information from CCache file if needed
+                  
                 if user == '' and creds is not None:
                     user = creds['client'].prettyPrint().split(b'@')[0].decode('utf-8')
                     LOG.debug('Username retrieved from CCache: %s' % user)
@@ -176,7 +176,7 @@ class LDAPConnection:
                     user = ccache.principal.components[0]['data'].decode('utf-8')
                     LOG.debug('Username retrieved from CCache: %s' % user)
 
-        # First of all, we need to get a TGT for the user
+          
         userName = Principal(user, type=constants.PrincipalNameType.NT_PRINCIPAL.value)
         if TGT is None:
             if TGS is None:
@@ -196,19 +196,19 @@ class LDAPConnection:
             cipher = TGS['cipher']
             sessionKey = TGS['sessionKey']
 
-            # Let's build a NegTokenInit with a Kerberos REQ_AP
+              
 
         blob = SPNEGO_NegTokenInit()
 
-        # Kerberos
+          
         blob['MechTypes'] = [TypesMech['MS KRB5 - Microsoft Kerberos 5']]
 
-        # Let's extract the ticket from the TGS
+          
         tgs = decoder.decode(tgs, asn1Spec=TGS_REP())[0]
         ticket = Ticket()
         ticket.from_asn1(tgs['ticket'])
 
-        # Now let's build the AP_REQ
+          
         apReq = AP_REQ()
         apReq['pvno'] = 5
         apReq['msg-type'] = int(constants.ApplicationTagNumbers.AP_REQ.value)
@@ -228,10 +228,10 @@ class LDAPConnection:
 
         encodedAuthenticator = encoder.encode(authenticator)
 
-        # Key Usage 11
-        # AP-REQ Authenticator (includes application authenticator
-        # subkey), encrypted with the application session key
-        # (Section 5.5.1)
+          
+          
+          
+          
         encryptedEncodedAuthenticator = cipher.encrypt(sessionKey, 11, encodedAuthenticator, None)
 
         apReq['authenticator'] = noValue
@@ -240,7 +240,7 @@ class LDAPConnection:
 
         blob['MechToken'] = encoder.encode(apReq)
 
-        # Done with the Kerberos saga, now let's get into LDAP
+          
 
         bindRequest = BindRequest()
         bindRequest['version'] = 3
@@ -288,13 +288,13 @@ class LDAPConnection:
             bindRequest['authentication']['sicilyPackageDiscovery'] = ''
             response = self.sendReceive(bindRequest)[0]['protocolOp']
         elif authenticationChoice == 'sicilyNegotiate':
-            # Deal with NTLM Authentication
+              
             if lmhash != '' or nthash != '':
                 if len(lmhash) % 2:
                     lmhash = '0' + lmhash
                 if len(nthash) % 2:
                     nthash = '0' + nthash
-                try:  # just in case they were converted already
+                try:    
                     lmhash = unhexlify(lmhash)
                     nthash = unhexlify(nthash)
                 except TypeError:
@@ -302,15 +302,15 @@ class LDAPConnection:
 
             bindRequest['name'] = user
 
-            # NTLM Negotiate
+              
             negotiate = getNTLMSSPType1('', domain)
             bindRequest['authentication']['sicilyNegotiate'] = negotiate.getData()
             response = self.sendReceive(bindRequest)[0]['protocolOp']
 
-            # NTLM Challenge
+              
             type2 = response['bindResponse']['matchedDN']
 
-            # NTLM Auth
+              
             type3, exportedSessionKey = getNTLMSSPType3(negotiate, bytes(type2), user, password, domain, lmhash, nthash)
             bindRequest['authentication']['sicilyResponse'] = type3.getData()
             response = self.sendReceive(bindRequest)[0]['protocolOp']
@@ -348,7 +348,7 @@ class LDAPConnection:
 
         done = False
         answers = []
-        # We keep asking records until we get a SearchResultDone packet and all controls are handled
+          
         while not done:
             response = self.sendReceive(searchRequest, searchControls)
             for message in response:
@@ -387,7 +387,7 @@ class LDAPConnection:
                                 requestControl.setCookie(responseControl.getCookie())
                                 break
                         else:
-                            # handle different controls here
+                              
                             pass
         return done
 
@@ -421,13 +421,13 @@ class LDAPConnection:
             try:
                 message, remaining = decoder.decode(data, asn1Spec=LDAPMessage())
             except SubstrateUnderrunError:
-                # We need more data
+                  
                 remaining = data + self._socket.recv(REQUEST_SIZE)
             else:
-                if message['messageID'] == 0:  # unsolicited notification
+                if message['messageID'] == 0:    
                     name = message['protocolOp']['extendedResp']['responseName'] or message['responseName']
                     notification = KNOWN_NOTIFICATIONS.get(name, "Unsolicited Notification '%s'" % name)
-                    if name == NOTIFICATION_DISCONNECT:  # Server has disconnected
+                    if name == NOTIFICATION_DISCONNECT:    
                         self.close()
                     raise LDAPSessionError(
                         error=int(message['protocolOp']['extendedResp']['resultCode']),
@@ -451,7 +451,7 @@ class LDAPConnection:
             pass
         filterList = list(reversed(filterStr))
         searchFilter = self._consumeCompositeFilter(filterList)
-        if filterList:  # we have not consumed the whole filter string
+        if filterList:    
             raise LDAPFilterSyntaxError("unexpected token: '%s'" % filterList[-1])
         return searchFilter
 
@@ -460,7 +460,7 @@ class LDAPConnection:
             c = filterList.pop()
         except IndexError:
             raise LDAPFilterSyntaxError('EOL while parsing search filter')
-        if c != '(':  # filter must start with a '('
+        if c != '(':    
             filterList.append(c)
             raise LDAPFilterSyntaxError("unexpected token: '%s'" % c)
 
@@ -468,7 +468,7 @@ class LDAPConnection:
             operator = filterList.pop()
         except IndexError:
             raise LDAPFilterSyntaxError('EOL while parsing search filter')
-        if operator not in ['!', '&', '|']:  # must be simple filter in this case
+        if operator not in ['!', '&', '|']:    
             filterList.extend([operator, c])
             return self._consumeSimpleFilter(filterList)
 
@@ -483,7 +483,7 @@ class LDAPConnection:
             c = filterList.pop()
         except IndexError:
             raise LDAPFilterSyntaxError('EOL while parsing search filter')
-        if c != ')':  # filter must end with a ')'
+        if c != ')':    
             filterList.append(c)
             raise LDAPFilterSyntaxError("unexpected token: '%s'" % c)
 
@@ -494,7 +494,7 @@ class LDAPConnection:
             c = filterList.pop()
         except IndexError:
             raise LDAPFilterSyntaxError('EOL while parsing search filter')
-        if c != '(':  # filter must start with a '('
+        if c != '(':    
             filterList.append(c)
             raise LDAPFilterSyntaxError("unexpected token: '%s'" % c)
 
@@ -504,9 +504,9 @@ class LDAPConnection:
                 c = filterList.pop()
             except IndexError:
                 raise LDAPFilterSyntaxError('EOL while parsing search filter')
-            if c == ')':  # we pop till we find a ')'
+            if c == ')':    
                 break
-            elif c == '(':  # should be no unencoded parenthesis
+            elif c == '(':    
                 filterList.append(c)
                 raise LDAPFilterSyntaxError("unexpected token: '('")
             else:
@@ -514,7 +514,7 @@ class LDAPConnection:
 
         filterStr = ''.join(filter)
         try:
-            # https://tools.ietf.org/search/rfc4515#section-3
+              
             attribute, operator, value = RE_OPERATOR.split(filterStr, 1)
         except ValueError:
             raise LDAPFilterInvalidException("invalid filter: '(%s)'" % filterStr)
@@ -542,7 +542,7 @@ class LDAPConnection:
     @staticmethod
     def _compileSimpleFilter(attribute, operator, value):
         searchFilter = Filter()
-        if operator == ':=':  # extensibleMatch
+        if operator == ':=':    
             match = RE_EX_ATTRIBUTE_1.match(attribute) or RE_EX_ATTRIBUTE_2.match(attribute)
             if not match:
                 raise LDAPFilterInvalidException("invalid filter attribute: '%s'" % attribute)
@@ -557,9 +557,9 @@ class LDAPConnection:
         else:
             if not RE_ATTRIBUTE.match(attribute):
                 raise LDAPFilterInvalidException("invalid filter attribute: '%s'" % attribute)
-            if value == '*' and operator == '=':  # present
+            if value == '*' and operator == '=':    
                 searchFilter['present'] = attribute
-            elif '*' in value and operator == '=':  # substring
+            elif '*' in value and operator == '=':    
                 assertions = value.split('*')
                 choice = searchFilter['substrings']['substrings'].getComponentType()
                 substrings = []
@@ -571,7 +571,7 @@ class LDAPConnection:
                     substrings.append(choice.clone().setComponentByName('final', assertions[-1]))
                 searchFilter['substrings']['type'] = attribute
                 searchFilter['substrings']['substrings'].setComponents(*substrings)
-            elif '*' not in value:  # simple
+            elif '*' not in value:    
                 if operator == '=':
                     searchFilter['equalityMatch'].setComponents(attribute, value)
                 elif operator == '~=':

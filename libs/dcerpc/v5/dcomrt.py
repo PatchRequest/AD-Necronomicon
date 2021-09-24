@@ -51,10 +51,10 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'DCOM SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
-# 2.2.1 OID
+  
+  
+  
+  
 OID = ULONGLONG
 
 class OID_ARRAY(NDRUniConformantArray):
@@ -65,63 +65,63 @@ class POID_ARRAY(NDRPOINTER):
         ('Data', OID_ARRAY),
     )
 
-# 2.2.2 SETID
+  
 SETID = ULONGLONG
 
-# 2.2.4 error_status_t
+  
 error_status_t = ULONG
 
-# 2.2.6 CID
+  
 CID = GUID
 
-# 2.2.7 CLSID
+  
 CLSID = GUID
 
-# 2.2.8 IID
+  
 IID = GUID
 PIID = PGUID
 
-# 2.2.9 IPID
+  
 IPID = GUID
 
-# 2.2.10 OXID
+  
 OXID = ULONGLONG
 
-# 2.2.18 OBJREF
+  
 FLAGS_OBJREF_STANDARD = 0x00000001
 FLAGS_OBJREF_HANDLER  = 0x00000002
 FLAGS_OBJREF_CUSTOM   = 0x00000004
 FLAGS_OBJREF_EXTENDED = 0x00000008
 
-# 2.2.18.1 STDOBJREF
+  
 SORF_NOPING = 0x00001000
 
-# 2.2.20 Context
+  
 CTXMSHLFLAGS_BYVAL = 0x00000002
 
-# 2.2.20.1 PROPMARSHALHEADER
+  
 CPFLAG_PROPAGATE = 0x00000001
 CPFLAG_EXPOSE    = 0x00000002
 CPFLAG_ENVOY     = 0x00000004
 
-# 2.2.22.2.1 InstantiationInfoData
+  
 ACTVFLAGS_DISABLE_AAA            = 0x00000002
 ACTVFLAGS_ACTIVATE_32_BIT_SERVER = 0x00000004
 ACTVFLAGS_ACTIVATE_64_BIT_SERVER = 0x00000008
 ACTVFLAGS_NO_FAILURE_LOG         = 0x00000020
 
-# 2.2.22.2.2 SpecialPropertiesData
+  
 SPD_FLAG_USE_CONSOLE_SESSION  = 0x00000001
 
-# 2.2.28.1 IDL Range Constants
+  
 MAX_REQUESTED_INTERFACES = 0x8000
 MAX_REQUESTED_PROTSEQS   = 0x8000
 MIN_ACTPROP_LIMIT        = 1
 MAX_ACTPROP_LIMIT        = 10
 
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 class handle_t(NDRSTRUCT):
     structure =  (
         ('context_handle_attributes',ULONG),
@@ -135,7 +135,7 @@ class handle_t(NDRSTRUCT):
     def isNull(self):
         return self['context_handle_uuid'] == b'\x00'*16
 
-# 2.2.11 COMVERSION
+  
 class COMVERSION(NDRSTRUCT):
     default_major_version = 5
     default_minor_version = 7
@@ -147,7 +147,7 @@ class COMVERSION(NDRSTRUCT):
 
     @classmethod
     def set_default_version(cls, major_version=None, minor_version=None):
-        # Set default dcom version for all new COMVERSION objects.
+          
         if major_version is not None:
             cls.default_major_version = major_version
         if minor_version is not None:
@@ -164,9 +164,9 @@ class PCOMVERSION(NDRPOINTER):
         ('Data', COMVERSION),
     )
 
-# 2.2.13.1 ORPC_EXTENT
-# This MUST contain an array of bytes that form the extent data. 
-# The array size MUST be a multiple of 8 for alignment reasons.
+  
+  
+  
 class BYTE_ARRAY(NDRUniConformantArray):
     item = 'c'
 
@@ -177,8 +177,8 @@ class ORPC_EXTENT(NDRSTRUCT):
         ('data',BYTE_ARRAY),
     )
 
-# 2.2.13.2 ORPC_EXTENT_ARRAY
-# ThisMUSTbeanarrayofORPC_EXTENTs.ThearraysizeMUSTbeamultipleof2for alignment reasons.
+  
+  
 class PORPC_EXTENT(NDRPOINTER):
     referent = (
         ('Data', ORPC_EXTENT),
@@ -204,7 +204,7 @@ class PORPC_EXTENT_ARRAY(NDRPOINTER):
         ('Data', ORPC_EXTENT_ARRAY),
     )
 
-# 2.2.13.3 ORPCTHIS
+  
 class ORPCTHIS(NDRSTRUCT):
     structure = (
         ('version',COMVERSION),
@@ -214,27 +214,27 @@ class ORPCTHIS(NDRSTRUCT):
         ('extensions',PORPC_EXTENT_ARRAY),
     )
 
-# 2.2.13.4 ORPCTHAT
+  
 class ORPCTHAT(NDRSTRUCT):
     structure = (
         ('flags',ULONG),
         ('extensions',PORPC_EXTENT_ARRAY),
     )
 
-# 2.2.14 MInterfacePointer
+  
 class MInterfacePointer(NDRSTRUCT):
     structure = (
         ('ulCntData',ULONG),
         ('abData',BYTE_ARRAY),
     )
 
-# 2.2.15 PMInterfacePointerInternal
+  
 class PMInterfacePointerInternal(NDRPOINTER):
     referent = (
         ('Data', MInterfacePointer),
     )
 
-# 2.2.16 PMInterfacePointer
+  
 class PMInterfacePointer(NDRPOINTER):
     referent = (
         ('Data', MInterfacePointer),
@@ -245,7 +245,7 @@ class PPMInterfacePointer(NDRPOINTER):
         ('Data', PMInterfacePointer),
     )
 
-# 2.2.18 OBJREF
+  
 class OBJREF(NDRSTRUCT):
     commonHdr = (
         ('signature',ULONG),
@@ -257,7 +257,7 @@ class OBJREF(NDRSTRUCT):
         if data is None:
             self['signature'] = 0x574F454D
 
-# 2.2.18.1 STDOBJREF
+  
 class STDOBJREF(NDRSTRUCT):
     structure = (
         ('flags',ULONG),
@@ -267,7 +267,7 @@ class STDOBJREF(NDRSTRUCT):
         ('ipid',IPID),
     )
 
-# 2.2.18.4 OBJREF_STANDARD
+  
 class OBJREF_STANDARD(OBJREF):
     structure = (
         ('std',STDOBJREF),
@@ -278,7 +278,7 @@ class OBJREF_STANDARD(OBJREF):
         if data is None:
             self['flags'] = FLAGS_OBJREF_STANDARD
 
-# 2.2.18.5 OBJREF_HANDLER
+  
 class OBJREF_HANDLER(OBJREF):
     structure = (
         ('std',STDOBJREF),
@@ -290,7 +290,7 @@ class OBJREF_HANDLER(OBJREF):
         if data is None:
             self['flags'] = FLAGS_OBJREF_HANDLER
 
-# 2.2.18.6 OBJREF_CUSTOM
+  
 class OBJREF_CUSTOM(OBJREF):
     structure = (
         ('clsid',CLSID),
@@ -303,7 +303,7 @@ class OBJREF_CUSTOM(OBJREF):
         if data is None:
             self['flags'] = FLAGS_OBJREF_CUSTOM
 
-# 2.2.18.8 DATAELEMENT
+  
 class DATAELEMENT(NDRSTRUCT):
     structure = (
         ('dataID',GUID),
@@ -321,7 +321,7 @@ class DUALSTRINGARRAYPACKED(NDRSTRUCT):
     def getDataLen(self, data, offset=0):
         return self['wNumEntries']*2
 
-# 2.2.18.7 OBJREF_EXTENDED
+  
 class OBJREF_EXTENDED(OBJREF):
     structure = (
         ('std',STDOBJREF),
@@ -339,7 +339,7 @@ class OBJREF_EXTENDED(OBJREF):
             self['Signature1'] = 0x4E535956
             self['nElms'] = 0x4E535956
 
-# 2.2.19 DUALSTRINGARRAY
+  
 class USHORT_ARRAY(NDRUniConformantArray):
     item = '<H'
 
@@ -360,14 +360,14 @@ class PDUALSTRINGARRAY(NDRPOINTER):
         ('Data',DUALSTRINGARRAY),
     )
 
-# 2.2.19.3 STRINGBINDING
+  
 class STRINGBINDING(NDRSTRUCT):
     structure = (
         ('wTowerId',USHORT),
         ('aNetworkAddr',WIDESTR),
     )
 
-# 2.2.19.4 SECURITYBINDING
+  
 class SECURITYBINDING(NDRSTRUCT):
     structure = (
         ('wAuthnSvc',USHORT),
@@ -375,7 +375,7 @@ class SECURITYBINDING(NDRSTRUCT):
         ('aPrincName',WIDESTR),
     )
 
-# 2.2.20.1 PROPMARSHALHEADER
+  
 class PROPMARSHALHEADER(NDRSTRUCT):
     structure = (
         ('clsid',CLSID),
@@ -388,7 +388,7 @@ class PROPMARSHALHEADER(NDRSTRUCT):
 class PROPMARSHALHEADER_ARRAY(NDRUniConformantArray):
     item = PROPMARSHALHEADER
 
-# 2.2.20 Context
+  
 class Context(NDRSTRUCT):
     structure = (
         ('MajorVersion',USHORT),
@@ -404,7 +404,7 @@ class Context(NDRSTRUCT):
         ('PropMarshalHeader',PROPMARSHALHEADER_ARRAY),
     )
 
-# 2.2.21.3 ErrorInfoString
+  
 class ErrorInfoString(NDRSTRUCT):
     structure = (
         ('dwMax',ULONG),
@@ -413,7 +413,7 @@ class ErrorInfoString(NDRSTRUCT):
         ('Name',WSTR),
     )
 
-# 2.2.21.2 Custom-Marshaled Error Information Format
+  
 class ORPC_ERROR_INFORMATION(NDRSTRUCT):
     structure = (
         ('dwVersion',ULONG),
@@ -427,7 +427,7 @@ class ORPC_ERROR_INFORMATION(NDRSTRUCT):
         ('HelpFile',ErrorInfoString),
     )
 
-# 2.2.21.5 EntryHeader
+  
 class EntryHeader(NDRSTRUCT):
     structure = (
         ('Signature',ULONG),
@@ -440,7 +440,7 @@ class EntryHeader(NDRSTRUCT):
 class EntryHeader_ARRAY(NDRUniConformantArray):
     item = EntryHeader
 
-# 2.2.21.4 Context ORPC Extension
+  
 class ORPC_CONTEXT(NDRSTRUCT):
     structure = (
         ('SignatureVersion',ULONG),
@@ -459,7 +459,7 @@ class ORPC_CONTEXT(NDRSTRUCT):
         if data is None:
             self['SignatureVersion'] = 0x414E554B
 
-# 2.2.22.1 CustomHeader
+  
 class CLSID_ARRAY(NDRUniConformantArray):
     item = CLSID
 
@@ -487,7 +487,7 @@ class CustomHeader(TypeSerialization1):
         ('pclsid',PCLSID_ARRAY),
         ('pSizes',PDWORD_ARRAY),
         ('pdwReserved',LPLONG),
-        #('pdwReserved',LONG),
+          
     )
     def getData(self, soFar = 0):
         self['headerSize'] = len(TypeSerialization1.getData(self, soFar)) + len(
@@ -495,7 +495,7 @@ class CustomHeader(TypeSerialization1):
         self['cIfs'] = len(self['pclsid'])
         return TypeSerialization1.getData(self, soFar)
 
-# 2.2.22 Activation Properties BLOB
+  
 class ACTIVATION_BLOB(NDRTLSTRUCT):
     structure = (
         ('dwSize',ULONG),
@@ -509,7 +509,7 @@ class ACTIVATION_BLOB(NDRTLSTRUCT):
         self['CustomHeader']['totalSize'] = self['dwSize']
         return NDRTLSTRUCT.getData(self)
 
-# 2.2.22.2.1 InstantiationInfoData
+  
 class IID_ARRAY(NDRUniConformantArray):
     item = IID
 
@@ -531,7 +531,7 @@ class InstantiationInfoData(TypeSerialization1):
         ('clientCOMVersion',COMVERSION),
     )
 
-# 2.2.22.2.2 SpecialPropertiesData
+  
 class SpecialPropertiesData(TypeSerialization1):
     structure = (
         ('dwSessionId',ULONG),
@@ -546,16 +546,16 @@ class SpecialPropertiesData(TypeSerialization1):
         ('Reserved0',DWORD),
         ('Reserved0',DWORD),
         ('Reserved', '32s=""'),
-        #('Reserved1',DWORD),
-        #('Reserved2',ULONGLONG),
-        #('Reserved3_1',DWORD),
-        #('Reserved3_2',DWORD),
-        #('Reserved3_3',DWORD),
-        #('Reserved3_4',DWORD),
-        #('Reserved3_5',DWORD),
+          
+          
+          
+          
+          
+          
+          
     )
 
-# 2.2.22.2.3 InstanceInfoData
+  
 class InstanceInfoData(TypeSerialization1):
     structure = (
         ('fileName',LPWSTR),
@@ -564,7 +564,7 @@ class InstanceInfoData(TypeSerialization1):
         ('ifdStg',PMInterfacePointer),
     )
 
-# 2.2.22.2.4.1 customREMOTE_REQUEST_SCM_INFO
+  
 class customREMOTE_REQUEST_SCM_INFO(NDRSTRUCT):
     structure = (
         ('ClientImpLevel',DWORD),
@@ -577,14 +577,14 @@ class PcustomREMOTE_REQUEST_SCM_INFO(NDRPOINTER):
         ('Data', customREMOTE_REQUEST_SCM_INFO),
     )
 
-# 2.2.22.2.4 ScmRequestInfoData
+  
 class ScmRequestInfoData(TypeSerialization1):
     structure = (
         ('pdwReserved',LPLONG),
         ('remoteRequest',PcustomREMOTE_REQUEST_SCM_INFO),
     )
 
-# 2.2.22.2.5 ActivationContextInfoData
+  
 class ActivationContextInfoData(TypeSerialization1):
     structure = (
         ('clientOK',LONG),
@@ -595,7 +595,7 @@ class ActivationContextInfoData(TypeSerialization1):
         ('pIFDPrototypeCtx',PMInterfacePointer),
     )
 
-# 2.2.22.2.6 LocationInfoData
+  
 class LocationInfoData(TypeSerialization1):
     structure = (
         ('machineName',LPWSTR),
@@ -604,7 +604,7 @@ class LocationInfoData(TypeSerialization1):
         ('contextId',DWORD),
     )
 
-# 2.2.22.2.7.1 COSERVERINFO
+  
 class COSERVERINFO(NDRSTRUCT):
     structure = (
         ('dwReserved1',DWORD),
@@ -618,7 +618,7 @@ class PCOSERVERINFO(NDRPOINTER):
         ('Data', COSERVERINFO),
     )
 
-# 2.2.22.2.7 SecurityInfoData
+  
 class SecurityInfoData(TypeSerialization1):
     structure = (
         ('dwAuthnFlags',DWORD),
@@ -626,7 +626,7 @@ class SecurityInfoData(TypeSerialization1):
         ('pdwReserved',LPLONG),
     )
 
-# 2.2.22.2.8.1 customREMOTE_REPLY_SCM_INFO
+  
 class customREMOTE_REPLY_SCM_INFO(NDRSTRUCT):
     structure = (
         ('Oxid',OXID),
@@ -641,14 +641,14 @@ class PcustomREMOTE_REPLY_SCM_INFO(NDRPOINTER):
         ('Data', customREMOTE_REPLY_SCM_INFO),
     )
 
-# 2.2.22.2.8 ScmReplyInfoData
+  
 class ScmReplyInfoData(TypeSerialization1):
     structure = (
         ('pdwReserved',DWORD),
         ('remoteReply',PcustomREMOTE_REPLY_SCM_INFO),
     )
 
-# 2.2.22.2.9 PropsOutInfo
+  
 class HRESULT_ARRAY(NDRUniConformantArray):
     item = HRESULT
 
@@ -676,7 +676,7 @@ class PropsOutInfo(TypeSerialization1):
         ('ppIntfData',PPMInterfacePointer_ARRAY),
     )
 
-# 2.2.23 REMINTERFACEREF
+  
 class REMINTERFACEREF(NDRSTRUCT):
     structure = (
         ('ipid',IPID),
@@ -687,25 +687,25 @@ class REMINTERFACEREF(NDRSTRUCT):
 class REMINTERFACEREF_ARRAY(NDRUniConformantArray):
     item = REMINTERFACEREF
 
-# 2.2.24 REMQIRESULT
+  
 class REMQIRESULT(NDRSTRUCT):
     structure = (
         ('hResult',HRESULT),
         ('std',STDOBJREF),
     )
 
-# 2.2.25 PREMQIRESULT
+  
 class PREMQIRESULT(NDRPOINTER):
     referent = (
         ('Data', REMQIRESULT),
     )
 
-# 2.2.26 REFIPID
+  
 REFIPID = GUID
 
-################################################################################
-# RPC CALLS
-################################################################################
+  
+  
+  
 class DCOMCALL(NDRCALL):
     commonHdr = (
        ('ORPCthis', ORPCTHIS),
@@ -716,7 +716,7 @@ class DCOMANSWER(NDRCALL):
        ('ORPCthat', ORPCTHAT),
     )
 
-# 3.1.2.5.1.1 IObjectExporter::ResolveOxid (Opnum 0)
+  
 class ResolveOxid(NDRCALL):
     opnum = 0
     structure = (
@@ -733,7 +733,7 @@ class ResolveOxidResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.2.5.1.2 IObjectExporter::SimplePing (Opnum 1)
+  
 class SimplePing(NDRCALL):
     opnum = 1
     structure = (
@@ -745,7 +745,7 @@ class SimplePingResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.2.5.1.3 IObjectExporter::ComplexPing (Opnum 2)
+  
 class ComplexPing(NDRCALL):
     opnum = 2
     structure = (
@@ -764,7 +764,7 @@ class ComplexPingResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.2.5.1.4 IObjectExporter::ServerAlive (Opnum 3)
+  
 class ServerAlive(NDRCALL):
     opnum = 3
     structure = (
@@ -775,7 +775,7 @@ class ServerAliveResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.2.5.1.5 IObjectExporter::ResolveOxid2 (Opnum 4)
+  
 class ResolveOxid2(NDRCALL):
     opnum = 4
     structure = (
@@ -793,7 +793,7 @@ class ResolveOxid2Response(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.2.5.1.6 IObjectExporter::ServerAlive2 (Opnum 5)
+  
 class ServerAlive2(NDRCALL):
     opnum = 5
     structure = (
@@ -807,7 +807,7 @@ class ServerAlive2Response(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.2.5.2.3.1 IActivation:: RemoteActivation (Opnum 0)
+  
 class RemoteActivation(NDRCALL):
     opnum = 0
     structure = (
@@ -837,7 +837,7 @@ class RemoteActivationResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.2.5.2.3.2 IRemoteSCMActivator:: RemoteGetClassObject (Opnum 3)
+  
 class RemoteGetClassObject(NDRCALL):
     opnum = 3
     structure = (
@@ -852,7 +852,7 @@ class RemoteGetClassObjectResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.2.5.2.3.3 IRemoteSCMActivator::RemoteCreateInstance (Opnum 4)
+  
 class RemoteCreateInstance(NDRCALL):
     opnum = 4
     structure = (
@@ -868,7 +868,7 @@ class RemoteCreateInstanceResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.1.5.6.1.1 IRemUnknown::RemQueryInterface (Opnum 3)
+  
 class RemQueryInterface(DCOMCALL):
     opnum = 3
     structure = (
@@ -884,7 +884,7 @@ class RemQueryInterfaceResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.1.5.6.1.2 IRemUnknown::RemAddRef (Opnum 4 )
+  
 class RemAddRef(DCOMCALL):
     opnum = 4
     structure = (
@@ -898,7 +898,7 @@ class RemAddRefResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.1.5.6.1.3 IRemUnknown::RemRelease (Opnum 5)
+  
 class RemRelease(DCOMCALL):
     opnum = 5
     structure = (
@@ -911,15 +911,15 @@ class RemReleaseResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 class DCOMConnection:
     """
     This class represents a DCOM Connection. It is in charge of establishing the 
@@ -973,10 +973,10 @@ class DCOMConnection:
 
     @classmethod
     def pingServer(cls):
-        # Here we need to go through all the objects opened and ping them.
-        # ToDo: locking for avoiding race conditions
-        #print DCOMConnection.PORTMAPS
-        #print DCOMConnection.OID_SET
+          
+          
+          
+          
         try:
             for target in DCOMConnection.OID_SET:
                 addedOids = set()
@@ -1003,8 +1003,8 @@ class DCOMConnection:
                 else:
                     objExporter.SimplePing(DCOMConnection.OID_SET[target]['setid'])
         except Exception as e:
-            # There might be exceptions when sending packets 
-            # We should try to continue tho.
+              
+              
             LOG.error(str(e))
             pass
 
@@ -1030,7 +1030,7 @@ class DCOMConnection:
         rpctransport = transport.DCERPCTransportFactory(stringBinding)
 
         if hasattr(rpctransport, 'set_credentials') and len(self.__userName) >=0:
-            # This method exists only for selected protocol sequences.
+              
             rpctransport.set_credentials(self.__userName, self.__password, self.__domain, self.__lmhash, self.__nthash,
                                          self.__aesKey, self.__TGT, self.__TGS)
             rpctransport.set_kerberos(self.__doKerberos, self.__kdcHost)
@@ -1055,14 +1055,14 @@ class DCOMConnection:
             del(DCOMConnection.PORTMAPS[self.__target])
             del(DCOMConnection.OID_SET[self.__target])
             if len(DCOMConnection.PORTMAPS) == 0:
-                # This means there are no more clients using this object, kill it
+                  
                 DCOMConnection.PINGTIMER.cancel()
                 DCOMConnection.PINGTIMER.join()
                 DCOMConnection.PINGTIMER = None
         if self.__target in INTERFACE.CONNECTIONS:
             del(INTERFACE.CONNECTIONS[self.__target][current_thread().name])
         self.__portmap.disconnect()
-        #print INTERFACE.CONNECTIONS
+          
 
 class CLASS_INSTANCE:
     def __init__(self, ORPCthis, stringBinding):
@@ -1090,7 +1090,7 @@ class CLASS_INSTANCE:
 
 
 class INTERFACE:
-    # class variable holding the transport connections, organized by target IP
+      
     CONNECTIONS = {}
 
     def __init__(self, cinstance=None, objRef=None, ipidRemUnknown=None, iPid=None, oxid=None, oid=None, target=None,
@@ -1113,7 +1113,7 @@ class INTERFACE:
             self.__cinstance = cinstance
             self.__objRef = objRef
             self.__ipidRemUnknown = ipidRemUnknown
-            # We gotta check if we have a container inside our connection list, if not, create
+              
             if (self.__target in INTERFACE.CONNECTIONS) is not True:
                 INTERFACE.CONNECTIONS[self.__target] = {}
                 INTERFACE.CONNECTIONS[self.__target][current_thread().name] = {}
@@ -1185,19 +1185,19 @@ class INTERFACE:
         self.__cinstance = cinstance
 
     def is_fdqn(self):
-        # I will assume the following
-        # If I can't socket.inet_aton() then it's not an IPv4 address
-        # Same for ipv6, but since socket.inet_pton is not available in Windows, I'll look for ':'. There can't be
-        # an FQDN with ':'
-        # Is it isn't both, then it is a FDQN
+          
+          
+          
+          
+          
         try:
             socket.inet_aton(self.__target)
         except:
-            # Not an IPv4
+              
             try:
                 self.__target.index(':')
             except:
-                # Not an IPv6, it's a FDQN
+                  
                 return True
         return False
 
@@ -1209,7 +1209,7 @@ class INTERFACE:
                 dce = INTERFACE.CONNECTIONS[self.__target][current_thread().name][self.__oxid]['dce']
                 currentBinding = INTERFACE.CONNECTIONS[self.__target][current_thread().name][self.__oxid]['currentBinding']
                 if currentBinding == iid:
-                    # We don't need to alter_ctx
+                      
                     pass
                 else:
                     newDce = dce.alter_ctx(iid)
@@ -1217,20 +1217,20 @@ class INTERFACE:
                     INTERFACE.CONNECTIONS[self.__target][current_thread().name][self.__oxid]['currentBinding'] = iid
             else:
                 stringBindings = self.get_cinstance().get_string_bindings()
-                # No OXID present, we should create a new connection and store it
+                  
                 stringBinding = None
                 isTargetFDQN = self.is_fdqn()
                 LOG.debug('Target system is %s and isFDQN is %s' % (self.get_target(), isTargetFDQN))
                 for strBinding in stringBindings:
-                    # Here, depending on the get_target() value several things can happen
-                    # 1) it's an IPv4 address
-                    # 2) it's an IPv6 address
-                    # 3) it's a NetBios Name
-                    # we should handle all this cases accordingly
-                    # Does this match exactly what get_target() returns?
+                      
+                      
+                      
+                      
+                      
+                      
                     LOG.debug('StringBinding: %s' % strBinding['aNetworkAddr'])
                     if strBinding['wTowerId'] == 7:
-                        # If there's port information, let's strip it for now.
+                          
                         if strBinding['aNetworkAddr'].find('[') >= 0:
                             binding, _, bindingPort = strBinding['aNetworkAddr'].partition('[')
                             bindingPort = '[' + bindingPort
@@ -1241,24 +1241,24 @@ class INTERFACE:
                         if binding.upper().find(self.get_target().upper()) >= 0:
                             stringBinding = 'ncacn_ip_tcp:' + strBinding['aNetworkAddr'][:-1]
                             break
-                        # If get_target() is a FQDN, does it match the hostname?
+                          
                         elif isTargetFDQN and binding.upper().find(self.get_target().upper().partition('.')[0]) >= 0:
-                            # Here we replace the aNetworkAddr with self.get_target()
-                            # This is to help resolving the target system name.
-                            # self.get_target() has been resolved already otherwise we wouldn't be here whereas
-                            # aNetworkAddr is usually the NetBIOS name and unless you have your DNS resolver
-                            # with the right suffixes it will probably not resolve right.
+                              
+                              
+                              
+                              
+                              
                             stringBinding = 'ncacn_ip_tcp:%s%s' % (self.get_target(), bindingPort)
                             break
 
                 LOG.debug('StringBinding chosen: %s' % stringBinding)
                 if stringBinding is None:
-                    # Something wen't wrong, let's just report it
+                      
                     raise Exception('Can\'t find a valid stringBinding to connect')
 
                 dcomInterface = transport.DCERPCTransportFactory(stringBinding)
                 if hasattr(dcomInterface, 'set_credentials'):
-                    # This method exists only for selected protocol sequences.
+                      
                     dcomInterface.set_credentials(*DCOMConnection.PORTMAPS[self.__target].get_credentials())
                     dcomInterface.set_kerberos(DCOMConnection.PORTMAPS[self.__target].get_rpc_transport().get_kerberos(),
                                                DCOMConnection.PORTMAPS[self.__target].get_rpc_transport().get_kdcHost())
@@ -1279,8 +1279,8 @@ class INTERFACE:
                     dce.bind(iid)
 
                 if self.__oxid is None:
-                    #import traceback
-                    #traceback.print_stack()
+                      
+                      
                     raise Exception("OXID NONE, something wrong!!!")
 
                 INTERFACE.CONNECTIONS[self.__target][current_thread().name] = {}
@@ -1288,7 +1288,7 @@ class INTERFACE:
                 INTERFACE.CONNECTIONS[self.__target][current_thread().name][self.__oxid]['dce'] = dce
                 INTERFACE.CONNECTIONS[self.__target][current_thread().name][self.__oxid]['currentBinding'] = iid
         else:
-            # No connection created
+              
             raise Exception('No connection created')
 
     def request(self, req, iid = None, uuid = None):
@@ -1312,17 +1312,17 @@ class INTERFACE:
         return INTERFACE.CONNECTIONS[self.__target][current_thread().name][self.__oxid]['dce'].disconnect()
 
 
-# 3.1.1.5.6.1 IRemUnknown Methods
+  
 class IRemUnknown(INTERFACE):
     def __init__(self, interface):
         self._iid = IID_IRemUnknown
-        #INTERFACE.__init__(self, interface.get_cinstance(), interface.get_objRef(), interface.get_ipidRemUnknown(),
-        #                   interface.get_iPid(), target=interface.get_target())
+          
+          
         INTERFACE.__init__(self, interfaceInstance=interface)
         self.set_oxid(interface.get_oxid())
 
     def RemQueryInterface(self, cRefs, iids):
-        # For now, it only supports a single IID
+          
         request = RemQueryInterface()
         request['ORPCthis'] = self.get_cinstance().get_ORPCthis()
         request['ORPCthis']['flags'] = 0
@@ -1334,7 +1334,7 @@ class IRemUnknown(INTERFACE):
             _iid['Data'] = iid
             request['iids'].append(_iid)
         resp = self.request(request, IID_IRemUnknown, self.get_ipidRemUnknown())
-        #resp.dump()
+          
 
         return IRemUnknown2(
             INTERFACE(self.get_cinstance(), None, self.get_ipidRemUnknown(), resp['ppQIResults']['std']['ipid'],
@@ -1366,18 +1366,18 @@ class IRemUnknown(INTERFACE):
         DCOMConnection.delOid(self.get_target(), self.get_oid())
         return resp
 
-# 3.1.1.5.7 IRemUnknown2 Interface
+  
 class IRemUnknown2(IRemUnknown):
     def __init__(self, interface):
         IRemUnknown.__init__(self, interface)
         self._iid = IID_IRemUnknown2
 
-# 3.1.2.5.1 IObjectExporter Methods
+  
 class IObjectExporter:
     def __init__(self, dce):
         self.__portmap = dce
 
-    # 3.1.2.5.1.1 IObjectExporter::ResolveOxid (Opnum 0)
+      
     def ResolveOxid(self, pOxid, arRequestedProtseqs):
         self.__portmap.connect()
         self.__portmap.bind(IID_IObjectExporter)
@@ -1402,7 +1402,7 @@ class IObjectExporter:
 
         return stringBindings
 
-    # 3.1.2.5.1.2 IObjectExporter::SimplePing (Opnum 1)
+      
     def SimplePing(self, setId):
         self.__portmap.connect()
         self.__portmap.bind(IID_IObjectExporter)
@@ -1411,10 +1411,10 @@ class IObjectExporter:
         resp = self.__portmap.request(request)
         return resp
 
-    # 3.1.2.5.1.3 IObjectExporter::ComplexPing (Opnum 2)
+      
     def ComplexPing(self, setId = 0, sequenceNum = 0, addToSet = [], delFromSet = []):
         self.__portmap.connect()
-        #self.__portmap.set_auth_level(RPC_C_AUTHN_LEVEL_PKT_INTEGRITY)
+          
         self.__portmap.bind(IID_IObjectExporter)
         request = ComplexPing()
         request['pSetId'] = setId
@@ -1439,7 +1439,7 @@ class IObjectExporter:
         resp = self.__portmap.request(request)
         return resp
 
-    # 3.1.2.5.1.4 IObjectExporter::ServerAlive (Opnum 3)
+      
     def ServerAlive(self):
         self.__portmap.connect()
         self.__portmap.bind(IID_IObjectExporter)
@@ -1447,7 +1447,7 @@ class IObjectExporter:
         resp = self.__portmap.request(request)
         return resp
 
-    # 3.1.2.5.1.5 IObjectExporter::ResolveOxid2 (Opnum 4)
+      
     def ResolveOxid2(self,pOxid, arRequestedProtseqs):
         self.__portmap.connect()
         self.__portmap.bind(IID_IObjectExporter)
@@ -1472,7 +1472,7 @@ class IObjectExporter:
 
         return stringBindings
 
-    # 3.1.2.5.1.6 IObjectExporter::ServerAlive2 (Opnum 5)
+      
     def ServerAlive2(self):
         self.__portmap.connect()
         self.__portmap.bind(IID_IObjectExporter)
@@ -1494,14 +1494,14 @@ class IObjectExporter:
 
         return stringBindings
 
-# 3.1.2.5.2.1 IActivation Methods
+  
 class IActivation:
     def __init__(self, dce):
         self.__portmap = dce
 
-    # 3.1.2.5.2.3.1 IActivation:: RemoteActivation (Opnum 0)
+      
     def RemoteActivation(self, clsId, iid):
-        # Only supports one interface at a time
+          
         self.__portmap.bind(IID_IActivation)
         ORPCthis = ORPCTHIS()
         ORPCthis['cid'] = generate()
@@ -1525,7 +1525,7 @@ class IActivation:
 
         resp = self.__portmap.request(request)
 
-        # Now let's parse the answer and build an Interface instance
+          
 
         ipidRemUnknown = resp['pipidRemUnknown']
 
@@ -1558,13 +1558,13 @@ class IActivation:
                                       target=self.__portmap.get_rpc_transport().getRemoteHost()))
 
 
-# 3.1.2.5.2.2 IRemoteSCMActivator Methods
+  
 class IRemoteSCMActivator:
     def __init__(self, dce):
         self.__portmap = dce
 
     def RemoteGetClassObject(self, clsId, iid):
-        #  iid should be IID_IClassFactory
+          
         self.__portmap.bind(IID_IRemoteSCMActivator)
         ORPCthis = ORPCTHIS()
         ORPCthis['cid'] = generate()
@@ -1590,7 +1590,7 @@ class IRemoteSCMActivator:
         activationBLOB['CustomHeader']['pclsid'].append(clsid)
 
         properties = b''
-        # InstantiationInfo
+          
         instantiationInfo = InstantiationInfoData()
         instantiationInfo['classId'] = clsId
         instantiationInfo['cIID'] = 1
@@ -1609,7 +1609,7 @@ class IRemoteSCMActivator:
 
         properties += marshaled + b'\xFA'*pad
 
-        # ActivationContextInfoData
+          
         activationInfo = ActivationContextInfoData()
         activationInfo['pIFDClientCtx'] = NULL
         activationInfo['pIFDPrototypeCtx'] = NULL
@@ -1622,7 +1622,7 @@ class IRemoteSCMActivator:
 
         properties += marshaled + b'\xFA'*pad
 
-        # ServerLocation
+          
         locationInfo = LocationInfoData()
         locationInfo['machineName'] = NULL
 
@@ -1632,10 +1632,10 @@ class IRemoteSCMActivator:
 
         properties += locationInfo.getData()+locationInfo.getDataReferents()
 
-        # ScmRequestInfo
+          
         scmInfo = ScmRequestInfoData()
         scmInfo['pdwReserved'] = NULL
-        #scmInfo['remoteRequest']['ClientImpLevel'] = 2
+          
         scmInfo['remoteRequest']['cRequestedProtseqs'] = 1
         scmInfo['remoteRequest']['pRequestedProtseqs'].append(7)
 
@@ -1660,7 +1660,7 @@ class IRemoteSCMActivator:
         request['pActProperties']['ulCntData'] = len(objrefcustom.getData())
         request['pActProperties']['abData'] = list(objrefcustom.getData())
         resp = self.__portmap.request(request)
-        # Now let's parse the answer and build an Interface instance
+          
 
         objRefType = OBJREF(b''.join(resp['ppActProperties']['abData']))['flags']
         objRef = None
@@ -1685,7 +1685,7 @@ class IRemoteSCMActivator:
 
         scmr = ScmReplyInfoData()
         size = scmr.fromString(scmReply)
-        # Processing the scmReply
+          
         scmr.fromStringReferents(scmReply[size:])
         ipidRemUnknown = scmr['remoteReply']['ipidRemUnknown']
         Oxids = b''.join(pack('<H', x) for x in scmr['remoteReply']['pdsaOxidBindings']['aStringArray'])
@@ -1712,7 +1712,7 @@ class IRemoteSCMActivator:
                 secBinding = SECURITYBINDING(securityBindings)
                 securityBindings = securityBindings[len(secBinding):]
 
-        # Processing the Properties Output
+          
         propsOut = PropsOutInfo()
         size = propsOut.fromString(propOutput)
         propsOut.fromStringReferents(propOutput[size:])
@@ -1724,7 +1724,7 @@ class IRemoteSCMActivator:
                                       target=self.__portmap.get_rpc_transport().getRemoteHost()))
 
     def RemoteCreateInstance(self, clsId, iid):
-        # Only supports one interface at a time
+          
         self.__portmap.bind(IID_IRemoteSCMActivator)
 
         ORPCthis = ORPCTHIS()
@@ -1753,7 +1753,7 @@ class IRemoteSCMActivator:
         activationBLOB['CustomHeader']['pclsid'].append(clsid)
 
         properties = b''
-        # InstantiationInfo
+          
         instantiationInfo = InstantiationInfoData()
         instantiationInfo['classId'] = clsId
         instantiationInfo['cIID'] = 1
@@ -1772,7 +1772,7 @@ class IRemoteSCMActivator:
 
         properties += marshaled + b'\xFA'*pad
 
-        # ActivationContextInfoData
+          
         activationInfo = ActivationContextInfoData()
         activationInfo['pIFDClientCtx'] = NULL
         activationInfo['pIFDPrototypeCtx'] = NULL
@@ -1785,7 +1785,7 @@ class IRemoteSCMActivator:
 
         properties += marshaled + b'\xFA'*pad
 
-        # ServerLocation
+          
         locationInfo = LocationInfoData()
         locationInfo['machineName'] = NULL
 
@@ -1795,10 +1795,10 @@ class IRemoteSCMActivator:
 
         properties += locationInfo.getData()+locationInfo.getDataReferents()
 
-        # ScmRequestInfo
+          
         scmInfo = ScmRequestInfoData()
         scmInfo['pdwReserved'] = NULL
-        #scmInfo['remoteRequest']['ClientImpLevel'] = 2
+          
         scmInfo['remoteRequest']['cRequestedProtseqs'] = 1
         scmInfo['remoteRequest']['pRequestedProtseqs'].append(7)
 
@@ -1824,7 +1824,7 @@ class IRemoteSCMActivator:
         request['pActProperties']['abData'] = list(objrefcustom.getData())
         resp = self.__portmap.request(request)
 
-        # Now let's parse the answer and build an Interface instance
+          
 
         objRefType = OBJREF(b''.join(resp['ppActProperties']['abData']))['flags']
         objRef = None
@@ -1849,7 +1849,7 @@ class IRemoteSCMActivator:
 
         scmr = ScmReplyInfoData()
         size = scmr.fromString(scmReply)
-        # Processing the scmReply
+          
         scmr.fromStringReferents(scmReply[size:])
         ipidRemUnknown = scmr['remoteReply']['ipidRemUnknown']
         Oxids = b''.join(pack('<H', x) for x in scmr['remoteReply']['pdsaOxidBindings']['aStringArray'])
@@ -1876,7 +1876,7 @@ class IRemoteSCMActivator:
                 secBinding = SECURITYBINDING(securityBindings)
                 securityBindings = securityBindings[len(secBinding):]
 
-        # Processing the Properties Output
+          
         propsOut = PropsOutInfo()
         size = propsOut.fromString(propOutput)
         propsOut.fromStringReferents(propOutput[size:])

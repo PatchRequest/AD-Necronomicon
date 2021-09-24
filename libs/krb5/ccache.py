@@ -249,7 +249,7 @@ class Credential:
         tgt_rep['msg-type'] = int(constants.ApplicationTagNumbers.AS_REP.value)
         tgt_rep['crealm'] = self['server'].realm['data']
 
-        # Fake EncryptedData
+          
         tgt_rep['enc-part'] = noValue
         tgt_rep['enc-part']['etype'] = 1
         tgt_rep['enc-part']['cipher'] = ''
@@ -272,7 +272,7 @@ class Credential:
         tgs_rep['msg-type'] = int(constants.ApplicationTagNumbers.TGS_REP.value)
         tgs_rep['crealm'] = self['server'].realm['data']
 
-        # Fake EncryptedData
+          
         tgs_rep['enc-part'] = noValue
         tgs_rep['enc-part']['etype'] = 1
         tgs_rep['enc-part']['cipher'] = ''
@@ -318,12 +318,12 @@ class CCache:
                 headerLen -= len(header)
                 data = data[len(header):]
 
-            # Now the primary_principal
+              
             self.principal = Principal(data)
 
             data = data[len(self.principal):]
 
-            # Now let's parse the credentials
+              
             self.credentials = []
             while len(data) > 0:
                 cred = Credential(data)
@@ -350,10 +350,10 @@ class CCache:
         if anySPN is True:
             LOG.debug('AnySPN is True, looking for another suitable SPN')
             for c in self.credentials:
-                # Let's search for any TGT/TGS that matches the server w/o the SPN's service type/port, returns
-                # the first one
+                  
+                  
                 if c['server'].prettyPrint().find(b'/') >=0:
-                    # Let's take the port out for comparison
+                      
                     cachedSPN = (c['server'].prettyPrint().upper().split(b'/')[1].split(b'@')[0].split(b':')[0] + b'@' + c['server'].prettyPrint().upper().split(b'/')[1].split(b'@')[1])
                     searchSPN = '%s@%s' % (server.upper().split('/')[1].split('@')[0].split(':')[0],
                                                server.upper().split('/')[1].split('@')[1])
@@ -365,7 +365,7 @@ class CCache:
 
     def toTimeStamp(self, dt, epoch=datetime(1970,1,1)):
         td = dt - epoch
-        # return td.total_seconds()
+          
         return int((td.microseconds + (td.seconds + td.days * 24 * 3600) * 10**6) // 1e6)
 
     def reverseFlags(self, flags):
@@ -392,15 +392,15 @@ class CCache:
         self.principal = Principal()
         self.principal.fromPrincipal(tmpPrincipal)
 
-        # Now let's add the credential
+          
         cipherText = decodedTGT['enc-part']['cipher']
 
         cipher = crypto._enctype_table[decodedTGT['enc-part']['etype']]
 
-        # Key Usage 3
-        # AS-REP encrypted part (includes TGS session key or
-        # application session key), encrypted with the client key
-        # (Section 5.4.2)
+          
+          
+          
+          
         plainText = cipher.decrypt(oldSessionKey, 3, cipherText)
 
         encASRepPart = decoder.decode(plainText, asn1Spec = EncASRepPart())[0]
@@ -452,14 +452,14 @@ class CCache:
         self.principal = Principal()
         self.principal.fromPrincipal(tmpPrincipal)
 
-        # Now let's add the credential
+          
         cipherText = decodedTGS['enc-part']['cipher']
 
         cipher = crypto._enctype_table[decodedTGS['enc-part']['etype']]
 
-        # Key Usage 8
-        # TGS-REP encrypted part (includes application session
-        # key), encrypted with the TGS session key (Section 5.4.2)
+          
+          
+          
         plainText = cipher.decrypt(oldSessionKey, 8, cipherText)
 
         encTGSRepPart = decoder.decode(plainText, asn1Spec = EncTGSRepPart())[0]
@@ -483,7 +483,7 @@ class CCache:
         credential['time']['authtime'] = self.toTimeStamp(types.KerberosTime.from_asn1(encTGSRepPart['authtime']))
         credential['time']['starttime'] = self.toTimeStamp(types.KerberosTime.from_asn1(encTGSRepPart['starttime']))
         credential['time']['endtime'] = self.toTimeStamp(types.KerberosTime.from_asn1(encTGSRepPart['endtime']))
-        # After KB4586793 for CVE-2020-17049 this timestamp may be omitted
+          
         if encTGSRepPart['renew-till'].hasValue():
             credential['time']['renew_till'] = self.toTimeStamp(types.KerberosTime.from_asn1(encTGSRepPart['renew-till']))
 

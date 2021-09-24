@@ -19,17 +19,17 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'RPRN SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
-# 2.2.1.1.7 STRING_HANDLE
+  
+  
+  
+  
 STRING_HANDLE = LPWSTR
 class PSTRING_HANDLE(NDRPOINTER):
     referent = (
         ('Data', STRING_HANDLE),
     )
 
-# 2.2.3.1 Access Values
+  
 JOB_ACCESS_ADMINISTER         = 0x00000010
 JOB_ACCESS_READ               = 0x00000020
 JOB_EXECUTE                   = 0x00020010
@@ -65,7 +65,7 @@ GENERIC_WRITE                 = 0x40000000
 GENERIC_EXECUTE               = 0x20000000
 GENERIC_ALL                   = 0x10000000
 
-# 2.2.3.6.1 Printer Change Flags for Use with a Printer Handle
+  
 PRINTER_CHANGE_SET_PRINTER        = 0x00000002
 PRINTER_CHANGE_DELETE_PRINTER     = 0x00000004
 PRINTER_CHANGE_PRINTER            = 0x000000FF
@@ -79,7 +79,7 @@ PRINTER_CHANGE_TIMEOUT            = 0x80000000
 PRINTER_CHANGE_ALL                = 0x7777FFFF
 PRINTER_CHANGE_ALL_2              = 0x7F77FFFF
 
-# 2.2.3.6.2 Printer Change Flags for Use with a Server Handle
+  
 PRINTER_CHANGE_ADD_PRINTER_DRIVER        = 0x10000000
 PRINTER_CHANGE_DELETE_PRINTER_DRIVER     = 0x40000000
 PRINTER_CHANGE_PRINTER_DRIVER            = 0x70000000
@@ -98,7 +98,7 @@ PRINTER_CHANGE_ADD_PRINTER               = 0x00000001
 PRINTER_CHANGE_FAILED_CONNECTION_PRINTER = 0x00000008
 PRINTER_CHANGE_SERVER                    = 0x08000000
 
-# 2.2.3.7 Printer Enumeration Flags
+  
 PRINTER_ENUM_LOCAL       = 0x00000002
 PRINTER_ENUM_CONNECTIONS = 0x00000004
 PRINTER_ENUM_NAME        = 0x00000008
@@ -114,13 +114,13 @@ PRINTER_ENUM_ICON8       = 0x00800000
 PRINTER_ENUM_HIDE        = 0x01000000
 
 
-# 2.2.3.8 Printer Notification Values
+  
 PRINTER_NOTIFY_CATEGORY_2D  = 0x00000000
 PRINTER_NOTIFY_CATEGORY_ALL = 0x00010000
 PRINTER_NOTIFY_CATEGORY_3D  = 0x00020000
 
 
-# 3.1.4.4.8 RpcAddPrinterDriverEx Values
+  
 APD_STRICT_UPGRADE              = 0x00000001
 APD_STRICT_DOWNGRADE            = 0x00000002
 APD_COPY_ALL_FILES              = 0x00000004
@@ -131,10 +131,10 @@ APD_COPY_TO_ALL_SPOOLERS        = 0x00002000
 APD_INSTALL_WARNED_DRIVER       = 0x00008000
 APD_RETURN_BLOCKING_STATUS_CODE = 0x00010000
 
-################################################################################
-# STRUCTURES
-################################################################################
-# 2.2.1.1.4 PRINTER_HANDLE
+  
+  
+  
+  
 class PRINTER_HANDLE(NDRSTRUCT):
     structure =  (
         ('Data','20s=b""'),
@@ -145,7 +145,7 @@ class PRINTER_HANDLE(NDRSTRUCT):
         else:
             return 4
 
-# 2.2.1.2.1 DEVMODE_CONTAINER
+  
 class BYTE_ARRAY(NDRUniConformantArray):
     item = 'c'
 
@@ -160,7 +160,7 @@ class DEVMODE_CONTAINER(NDRSTRUCT):
         ('pDevMode',PBYTE_ARRAY),
     )
 
-# 2.2.1.11.1 SPLCLIENT_INFO_1
+  
 class SPLCLIENT_INFO_1(NDRSTRUCT):
     structure =  (
         ('dwSize',DWORD),
@@ -177,7 +177,7 @@ class PSPLCLIENT_INFO_1(NDRPOINTER):
         ('Data', SPLCLIENT_INFO_1),
     )
 
-# 2.2.1.11.2 SPLCLIENT_INFO_2
+  
 class SPLCLIENT_INFO_2(NDRSTRUCT):
     structure =  (
         ('notUsed',ULONGLONG),
@@ -187,7 +187,7 @@ class PSPLCLIENT_INFO_2(NDRPOINTER):
     referent = (
         ('Data', SPLCLIENT_INFO_2),
     )
-# 2.2.1.11.3 SPLCLIENT_INFO_3
+  
 class SPLCLIENT_INFO_3(NDRSTRUCT):
     structure =  (
         ('cbSize',UINT),
@@ -207,7 +207,7 @@ class PSPLCLIENT_INFO_3(NDRPOINTER):
         ('Data', SPLCLIENT_INFO_3),
     )
 
-# 2.2.1.5.1 DRIVER_INFO_1
+  
 class DRIVER_INFO_1(NDRSTRUCT):
     structure = (
         ('pName', STRING_HANDLE ),
@@ -217,7 +217,7 @@ class PDRIVER_INFO_1(NDRPOINTER):
         ('Data', DRIVER_INFO_1),
     )
 
-# 2.2.1.5.2 DRIVER_INFO_2
+  
 class DRIVER_INFO_2(NDRSTRUCT):
     structure = (
         ('cVersion',DWORD),
@@ -232,7 +232,7 @@ class PDRIVER_INFO_2(NDRPOINTER):
         ('Data', DRIVER_INFO_2),
     )
 
-# 2.2.1.2.3 DRIVER_CONTAINER
+  
 class DRIVER_INFO_UNION(NDRUNION):
     commonHdr = (
         ('tag', ULONG),
@@ -248,7 +248,7 @@ class DRIVER_CONTAINER(NDRSTRUCT):
         ('DriverInfo', DRIVER_INFO_UNION),
     )
 
-# 2.2.1.2.14 SPLCLIENT_CONTAINER
+  
 class CLIENT_INFO_UNION(NDRUNION):
     commonHdr = (
         ('tag', ULONG),
@@ -265,7 +265,7 @@ class SPLCLIENT_CONTAINER(NDRSTRUCT):
         ('ClientInfo',CLIENT_INFO_UNION),
     )
 
-# 2.2.1.13.2 RPC_V2_NOTIFY_OPTIONS_TYPE
+  
 class USHORT_ARRAY(NDRUniConformantArray):
     item = '<H'
 
@@ -289,7 +289,7 @@ class PRPC_V2_NOTIFY_OPTIONS_TYPE_ARRAY(NDRPOINTER):
         ('Data', RPC_V2_NOTIFY_OPTIONS_TYPE),
     )
 
-# 2.2.1.13.1 RPC_V2_NOTIFY_OPTIONS
+  
 class RPC_V2_NOTIFY_OPTIONS(NDRSTRUCT):
     structure =  (
         ('Version',DWORD),
@@ -304,10 +304,10 @@ class PRPC_V2_NOTIFY_OPTIONS(NDRPOINTER):
     )
 
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 3.1.4.2.1 RpcEnumPrinters (Opnum 0)
+  
+  
+  
+  
 class RpcEnumPrinters(NDRCALL):
     opnum = 0
     structure = (
@@ -325,7 +325,7 @@ class RpcEnumPrintersResponse(NDRCALL):
        ('pcReturned', DWORD),
        ('ErrorCode', ULONG),
     )
-# 3.1.4.2.2 RpcOpenPrinter (Opnum 1)
+  
 class RpcOpenPrinter(NDRCALL):
     opnum = 1
     structure = (
@@ -341,7 +341,7 @@ class RpcOpenPrinterResponse(NDRCALL):
        ('ErrorCode', ULONG),
     )
 
-# 3.1.4.2.9 RpcClosePrinter (Opnum 29)
+  
 class RpcClosePrinter(NDRCALL):
     opnum = 29
     structure = (
@@ -354,7 +354,7 @@ class RpcClosePrinterResponse(NDRCALL):
        ('ErrorCode', ULONG),
     )
 
-# 3.1.4.10.4 RpcRemoteFindFirstPrinterChangeNotificationEx (Opnum 65)
+  
 class RpcRemoteFindFirstPrinterChangeNotificationEx(NDRCALL):
     opnum = 65
     structure = (
@@ -371,7 +371,7 @@ class RpcRemoteFindFirstPrinterChangeNotificationExResponse(NDRCALL):
        ('ErrorCode', ULONG),
     )
 
-# 3.1.4.2.14 RpcOpenPrinterEx (Opnum 69)
+  
 class RpcOpenPrinterEx(NDRCALL):
     opnum = 69
     structure = (
@@ -388,7 +388,7 @@ class RpcOpenPrinterExResponse(NDRCALL):
        ('ErrorCode', ULONG),
     )
 
-# 3.1.4.4.2 RpcEnumPrinterDrivers (Opnum 10)
+  
 class RpcEnumPrinterDrivers(NDRCALL):
     opnum = 10
     structure = (
@@ -407,7 +407,7 @@ class RpcEnumPrinterDriversResponse(NDRCALL):
        ('ErrorCode', ULONG),
     )
 
-# 3.1.4.4.8 RpcAddPrinterDriverEx (Opnum 89)
+  
 class RpcAddPrinterDriverEx(NDRCALL):
     opnum = 89
     structure = (
@@ -421,9 +421,9 @@ class RpcAddPrinterDriverExResponse(NDRCALL):
        ('ErrorCode', ULONG),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
     0  : (RpcEnumPrinters, RpcEnumPrintersResponse),
     1  : (RpcOpenPrinter, RpcOpenPrinterResponse),
@@ -434,9 +434,9 @@ OPNUMS = {
     89 : (RpcAddPrinterDriverEx, RpcAddPrinterDriverExResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def checkNullString(string):
     if string == NULL:
         return string
@@ -609,7 +609,7 @@ def hRpcAddPrinterDriverEx(dce, pName, pDriverContainer, dwFileCopyFlags):
     request['pDriverContainer'] = pDriverContainer
     request['dwFileCopyFlags'] = dwFileCopyFlags
 
-    #return request
+      
     return dce.request(request)
 
 
@@ -629,7 +629,7 @@ def hRpcEnumPrinterDrivers(dce, pName, pEnvironment, Level):
 
     :return: raises DCERPCSessionError on error.
     """
-    # get value for cbBuf
+      
     request = RpcEnumPrinterDrivers()
     request['pName']        = checkNullString(pName)
     request['pEnvironment'] = pEnvironment
@@ -643,7 +643,7 @@ def hRpcEnumPrinterDrivers(dce, pName, pEnvironment, Level):
             raise
         bytesNeeded = e.get_packet()['pcbNeeded']
 
-    # now do RpcEnumPrinterDrivers again
+      
     request = RpcEnumPrinterDrivers()
     request['pName']        = checkNullString(pName)
     request['pEnvironment'] = pEnvironment
@@ -651,5 +651,5 @@ def hRpcEnumPrinterDrivers(dce, pName, pEnvironment, Level):
     request['pDrivers']     = b'a' * bytesNeeded
     request['cbBuf']        = bytesNeeded
 
-    #return request
+      
     return dce.request(request)

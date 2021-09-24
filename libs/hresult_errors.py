@@ -2928,7 +2928,7 @@ ERROR_MESSAGES = {
         0xC02625E0: ("ERROR_GRAPHICS_ONLY_CONSOLE_SESSION_SUPPORTED", "This function can be used only if a program is running in the local console session. It cannot be used if the program is running on a remote desktop session or on a terminal server session."),
 }
 
-# Error Codes
+  
 
 STG_S_CONVERTED                                              = 0x00030200
 STG_S_BLOCK                                                  = 0x00030201

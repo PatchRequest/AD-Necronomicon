@@ -39,11 +39,11 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'NRPC SessionError: unknown error code: 0x%x' % (self.error_code)
 
-################################################################################
-# CONSTANTS
-################################################################################
-# 2.2.1.2.5 NL_DNS_NAME_INFO
-# Type
+  
+  
+  
+  
+  
 NlDnsLdapAtSite       = 22
 NlDnsGcAtSite         = 25
 NlDnsDsaCname         = 28
@@ -52,7 +52,7 @@ NlDnsDcAtSite         = 32
 NlDnsRfc1510KdcAtSite = 34
 NlDnsGenericGcAtSite  = 36
 
-# DnsDomainInfoType
+  
 NlDnsDomainName      = 1
 NlDnsDomainNameAlias = 2
 NlDnsForestName      = 3
@@ -60,8 +60,8 @@ NlDnsForestNameAlias = 4
 NlDnsNdncDomainName  = 5
 NlDnsRecordName      = 6
 
-# 2.2.1.3.15 NL_OSVERSIONINFO_V1
-# wSuiteMask
+  
+  
 VER_SUITE_BACKOFFICE               = 0x00000004
 VER_SUITE_BLADE                    = 0x00000400
 VER_SUITE_COMPUTE_SERVER           = 0x00004000
@@ -75,12 +75,12 @@ VER_SUITE_SMALLBUSINESS_RESTRICTED = 0x00000020
 VER_SUITE_STORAGE_SERVER           = 0x00002000
 VER_SUITE_TERMINAL                 = 0x00000010
 
-# wProductType
+  
 VER_NT_DOMAIN_CONTROLLER = 0x00000002
 VER_NT_SERVER            = 0x00000003
 VER_NT_WORKSTATION       = 0x00000001
 
-# 2.2.1.4.18 NETLOGON Specific Access Masks
+  
 NETLOGON_UAS_LOGON_ACCESS  = 0x0001
 NETLOGON_UAS_LOGOFF_ACCESS = 0x0002
 NETLOGON_CONTROL_ACCESS    = 0x0004
@@ -89,8 +89,8 @@ NETLOGON_SERVICE_ACCESS    = 0x0010
 NETLOGON_FTINFO_ACCESS     = 0x0020
 NETLOGON_WKSTA_RPC_ACCESS  = 0x0040
 
-# 3.5.4.9.1 NetrLogonControl2Ex (Opnum 18)
-# FunctionCode
+  
+  
 NETLOGON_CONTROL_QUERY             = 0x00000001
 NETLOGON_CONTROL_REPLICATE         = 0x00000002
 NETLOGON_CONTROL_SYNCHRONIZE       = 0x00000003
@@ -108,14 +108,14 @@ NETLOGON_CONTROL_TRUNCATE_LOG      = 0x0000FFFD
 NETLOGON_CONTROL_SET_DBFLAG        = 0x0000FFFE
 NETLOGON_CONTROL_BREAKPOINT        = 0x0000FFFF
 
-################################################################################
-# STRUCTURES
-################################################################################
-# 3.5.4.1 RPC Binding Handles for Netlogon Methods
+  
+  
+  
+  
 LOGONSRV_HANDLE = WSTR
 PLOGONSRV_HANDLE = LPWSTR
 
-# 2.2.1.1.1 CYPHER_BLOCK
+  
 class CYPHER_BLOCK(NDRSTRUCT):
     structure = (
         ('Data', '8s=b""'),
@@ -125,10 +125,10 @@ class CYPHER_BLOCK(NDRSTRUCT):
 
 NET_API_STATUS = DWORD
 
-# 2.2.1.1.2 STRING
+  
 from libs.dcerpc.v5.lsad import STRING
 
-# 2.2.1.1.3 LM_OWF_PASSWORD
+  
 class CYPHER_BLOCK_ARRAY(NDRUniFixedArray):
     def getDataLen(self, data, offset=0):
         return len(CYPHER_BLOCK())*2
@@ -138,11 +138,11 @@ class LM_OWF_PASSWORD(NDRSTRUCT):
         ('Data', CYPHER_BLOCK_ARRAY),
     )
 
-# 2.2.1.1.4 NT_OWF_PASSWORD
+  
 NT_OWF_PASSWORD = LM_OWF_PASSWORD
 ENCRYPTED_NT_OWF_PASSWORD = NT_OWF_PASSWORD
 
-# 2.2.1.3.4 NETLOGON_CREDENTIAL
+  
 class UCHAR_FIXED_ARRAY(NDRUniFixedArray):
     align = 1
     def getDataLen(self, data, offset=0):
@@ -155,7 +155,7 @@ class NETLOGON_CREDENTIAL(NDRSTRUCT):
     def getAlignment(self):
         return 1
 
-# 2.2.1.1.5 NETLOGON_AUTHENTICATOR
+  
 class NETLOGON_AUTHENTICATOR(NDRSTRUCT):
     structure = (
         ('Credential', NETLOGON_CREDENTIAL),
@@ -167,7 +167,7 @@ class PNETLOGON_AUTHENTICATOR(NDRPOINTER):
         ('Data', NETLOGON_AUTHENTICATOR),
     )
 
-# 2.2.1.2.1 DOMAIN_CONTROLLER_INFOW
+  
 class DOMAIN_CONTROLLER_INFOW(NDRSTRUCT):
     structure = (
         ('DomainControllerName', LPWSTR),
@@ -186,7 +186,7 @@ class PDOMAIN_CONTROLLER_INFOW(NDRPOINTER):
         ('Data', DOMAIN_CONTROLLER_INFOW),
     )
 
-# 2.2.1.2.2 NL_SITE_NAME_ARRAY
+  
 class RPC_UNICODE_STRING_ARRAY(NDRUniConformantArray):
     item = RPC_UNICODE_STRING
 
@@ -206,7 +206,7 @@ class PNL_SITE_NAME_ARRAY(NDRPOINTER):
         ('Data', NL_SITE_NAME_ARRAY),
     )
 
-# 2.2.1.2.3 NL_SITE_NAME_EX_ARRAY
+  
 class RPC_UNICODE_STRING_ARRAY(NDRUniConformantArray):
     item = RPC_UNICODE_STRING
 
@@ -222,8 +222,8 @@ class PNL_SITE_NAME_EX_ARRAY(NDRPOINTER):
         ('Data', NL_SITE_NAME_EX_ARRAY),
     )
 
-# 2.2.1.2.4 NL_SOCKET_ADDRESS
-# 2.2.1.2.4.1 IPv4 Address Structure
+  
+  
 class IPv4Address(Structure):
     structure = (
         ('AddressFamily', '<H=0'),
@@ -249,7 +249,7 @@ class NL_SOCKET_ADDRESS(NDRSTRUCT):
 class NL_SOCKET_ADDRESS_ARRAY(NDRUniConformantArray):
     item = NL_SOCKET_ADDRESS
 
-# 2.2.1.2.5 NL_DNS_NAME_INFO
+  
 class NL_DNS_NAME_INFO(NDRSTRUCT):
     structure = (
         ('Type', ULONG),
@@ -261,7 +261,7 @@ class NL_DNS_NAME_INFO(NDRSTRUCT):
         ('Status', ULONG),
     )
 
-# 2.2.1.2.6 NL_DNS_NAME_INFO_ARRAY
+  
 class NL_DNS_NAME_INFO_ARRAY(NDRUniConformantArray):
     item = NL_DNS_NAME_INFO
 
@@ -276,10 +276,10 @@ class NL_DNS_NAME_INFO_ARRAY(NDRSTRUCT):
         ('DnsNamesInfo', PNL_DNS_NAME_INFO_ARRAY),
     )
 
-# 2.2.1.3 Secure Channel Establishment and Maintenance Structures
-# ToDo
+  
+  
 
-# 2.2.1.3.5 NETLOGON_LSA_POLICY_INFO
+  
 class NETLOGON_LSA_POLICY_INFO(NDRSTRUCT):
     structure = (
         ('LsaPolicySize', ULONG),
@@ -291,7 +291,7 @@ class PNETLOGON_LSA_POLICY_INFO(NDRPOINTER):
         ('Data', NETLOGON_LSA_POLICY_INFO),
     )
 
-# 2.2.1.3.6 NETLOGON_WORKSTATION_INFO
+  
 class NETLOGON_WORKSTATION_INFO(NDRSTRUCT):
     structure = (
         ('LsaPolicy', NETLOGON_LSA_POLICY_INFO),
@@ -316,7 +316,7 @@ class PNETLOGON_WORKSTATION_INFO(NDRPOINTER):
         ('Data', NETLOGON_WORKSTATION_INFO),
     )
 
-# 2.2.1.3.7 NL_TRUST_PASSWORD
+  
 class NL_TRUST_PASSWORD_FIXED_ARRAY(NDRUniFixedArray):
     def getDataLen(self, data, offset=0):
         return 512+4
@@ -339,7 +339,7 @@ class PNL_TRUST_PASSWORD(NDRPOINTER):
         ('Data', NL_TRUST_PASSWORD),
     )
 
-# 2.2.1.3.8 NL_PASSWORD_VERSION
+  
 class NL_PASSWORD_VERSION(NDRSTRUCT):
     structure = (
         ('ReservedField', ULONG),
@@ -347,7 +347,7 @@ class NL_PASSWORD_VERSION(NDRSTRUCT):
         ('PasswordVersionPresent', ULONG),
     )
 
-# 2.2.1.3.9 NETLOGON_WORKSTATION_INFORMATION
+  
 class NETLOGON_WORKSTATION_INFORMATION(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -358,7 +358,7 @@ class NETLOGON_WORKSTATION_INFORMATION(NDRUNION):
         2 : ('LsaPolicyInfo', PNETLOGON_LSA_POLICY_INFO),
     }
 
-# 2.2.1.3.10 NETLOGON_ONE_DOMAIN_INFO
+  
 class NETLOGON_ONE_DOMAIN_INFO(NDRSTRUCT):
     structure = (
         ('DomainName', RPC_UNICODE_STRING),
@@ -384,7 +384,7 @@ class PNETLOGON_ONE_DOMAIN_INFO_ARRAY(NDRPOINTER):
         ('Data', NETLOGON_ONE_DOMAIN_INFO_ARRAY),
     )
 
-# 2.2.1.3.11 NETLOGON_DOMAIN_INFO
+  
 class NETLOGON_DOMAIN_INFO(NDRSTRUCT):
     structure = (
         ('PrimaryDomain', NETLOGON_ONE_DOMAIN_INFO),
@@ -406,7 +406,7 @@ class PNETLOGON_DOMAIN_INFO(NDRPOINTER):
         ('Data', NETLOGON_DOMAIN_INFO),
     )
 
-# 2.2.1.3.12 NETLOGON_DOMAIN_INFORMATION
+  
 class NETLOGON_DOMAIN_INFORMATION(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -417,7 +417,7 @@ class NETLOGON_DOMAIN_INFORMATION(NDRUNION):
         2 : ('LsaPolicyInfo', PNETLOGON_LSA_POLICY_INFO),
     }
 
-# 2.2.1.3.13 NETLOGON_SECURE_CHANNEL_TYPE
+  
 class NETLOGON_SECURE_CHANNEL_TYPE(NDRENUM):
     class enumItems(Enum):
         NullSecureChannel             = 0
@@ -429,7 +429,7 @@ class NETLOGON_SECURE_CHANNEL_TYPE(NDRENUM):
         ServerSecureChannel           = 6
         CdcServerSecureChannel        = 7
 
-# 2.2.1.3.14 NETLOGON_CAPABILITIES
+  
 class NETLOGON_CAPABILITIES(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -439,7 +439,7 @@ class NETLOGON_CAPABILITIES(NDRUNION):
         1 : ('ServerCapabilities', ULONG),
     }
 
-# 2.2.1.3.15 NL_OSVERSIONINFO_V1
+  
 class UCHAR_FIXED_ARRAY(NDRUniFixedArray):
     def getDataLen(self, data, offset=0):
         return 128
@@ -464,7 +464,7 @@ class PNL_OSVERSIONINFO_V1(NDRPOINTER):
         ('Data', NL_OSVERSIONINFO_V1),
     )
 
-# 2.2.1.3.16 NL_IN_CHAIN_SET_CLIENT_ATTRIBUTES_V1
+  
 class PLPWSTR(NDRPOINTER):
     referent = (
         ('Data', LPWSTR),
@@ -477,7 +477,7 @@ class NL_IN_CHAIN_SET_CLIENT_ATTRIBUTES_V1(NDRSTRUCT):
         ('OsName', PLPWSTR),
     )
 
-# 2.2.1.3.17 NL_IN_CHAIN_SET_CLIENT_ATTRIBUTES
+  
 class NL_IN_CHAIN_SET_CLIENT_ATTRIBUTES(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -487,7 +487,7 @@ class NL_IN_CHAIN_SET_CLIENT_ATTRIBUTES(NDRUNION):
         1 : ('V1', NL_IN_CHAIN_SET_CLIENT_ATTRIBUTES_V1),
     }
 
-# 2.2.1.3.18 NL_OUT_CHAIN_SET_CLIENT_ATTRIBUTES_V1
+  
 class NL_OUT_CHAIN_SET_CLIENT_ATTRIBUTES_V1(NDRSTRUCT):
     structure = (
         ('HubName', PLPWSTR),
@@ -495,7 +495,7 @@ class NL_OUT_CHAIN_SET_CLIENT_ATTRIBUTES_V1(NDRSTRUCT):
         ('SupportedEncTypes', LPULONG),
     )
 
-# 2.2.1.3.19 NL_OUT_CHAIN_SET_CLIENT_ATTRIBUTES
+  
 class NL_OUT_CHAIN_SET_CLIENT_ATTRIBUTES(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -505,7 +505,7 @@ class NL_OUT_CHAIN_SET_CLIENT_ATTRIBUTES(NDRUNION):
         1 : ('V1', NL_OUT_CHAIN_SET_CLIENT_ATTRIBUTES_V1),
     }
 
-# 2.2.1.4.1 LM_CHALLENGE
+  
 class CHAR_FIXED_8_ARRAY(NDRUniFixedArray):
     def getDataLen(self, data, offset=0):
         return 8
@@ -515,7 +515,7 @@ class LM_CHALLENGE(NDRSTRUCT):
         ('Data', CHAR_FIXED_8_ARRAY),
     )
 
-# 2.2.1.4.15 NETLOGON_LOGON_IDENTITY_INFO
+  
 class NETLOGON_LOGON_IDENTITY_INFO(NDRSTRUCT):
     structure = (
         ('LogonDomainName', RPC_UNICODE_STRING),
@@ -530,7 +530,7 @@ class PNETLOGON_LOGON_IDENTITY_INFO(NDRPOINTER):
         ('Data', NETLOGON_LOGON_IDENTITY_INFO),
     )
 
-# 2.2.1.4.2 NETLOGON_GENERIC_INFO
+  
 class NETLOGON_GENERIC_INFO(NDRSTRUCT):
     structure = (
         ('Identity', NETLOGON_LOGON_IDENTITY_INFO),
@@ -544,7 +544,7 @@ class PNETLOGON_GENERIC_INFO(NDRPOINTER):
         ('Data', NETLOGON_GENERIC_INFO),
     )
 
-# 2.2.1.4.3 NETLOGON_INTERACTIVE_INFO
+  
 class NETLOGON_INTERACTIVE_INFO(NDRSTRUCT):
     structure = (
         ('Identity', NETLOGON_LOGON_IDENTITY_INFO),
@@ -557,7 +557,7 @@ class PNETLOGON_INTERACTIVE_INFO(NDRPOINTER):
         ('Data', NETLOGON_INTERACTIVE_INFO),
     )
 
-# 2.2.1.4.4 NETLOGON_SERVICE_INFO
+  
 class NETLOGON_SERVICE_INFO(NDRSTRUCT):
     structure = (
         ('Identity', NETLOGON_LOGON_IDENTITY_INFO),
@@ -570,7 +570,7 @@ class PNETLOGON_SERVICE_INFO(NDRPOINTER):
         ('Data', NETLOGON_SERVICE_INFO),
     )
 
-# 2.2.1.4.5 NETLOGON_NETWORK_INFO
+  
 class NETLOGON_NETWORK_INFO(NDRSTRUCT):
     structure = (
         ('Identity', NETLOGON_LOGON_IDENTITY_INFO),
@@ -584,7 +584,7 @@ class PNETLOGON_NETWORK_INFO(NDRPOINTER):
         ('Data', NETLOGON_NETWORK_INFO),
     )
 
-# 2.2.1.4.16 NETLOGON_LOGON_INFO_CLASS
+  
 class NETLOGON_LOGON_INFO_CLASS(NDRENUM):
     class enumItems(Enum):
         NetlogonInteractiveInformation           = 1
@@ -595,7 +595,7 @@ class NETLOGON_LOGON_INFO_CLASS(NDRENUM):
         NetlogonNetworkTransitiveInformation     = 6
         NetlogonServiceTransitiveInformation     = 7
 
-# 2.2.1.4.6 NETLOGON_LEVEL
+  
 class NETLOGON_LEVEL(NDRUNION):
     union = {
         NETLOGON_LOGON_INFO_CLASS.NetlogonInteractiveInformation           : ('LogonInteractive', PNETLOGON_INTERACTIVE_INFO),
@@ -607,14 +607,14 @@ class NETLOGON_LEVEL(NDRUNION):
         NETLOGON_LOGON_INFO_CLASS.NetlogonGenericInformation               : ('LogonGeneric', PNETLOGON_GENERIC_INFO),
     }
 
-# 2.2.1.4.7 NETLOGON_SID_AND_ATTRIBUTES
+  
 class NETLOGON_SID_AND_ATTRIBUTES(NDRSTRUCT):
     structure = (
         ('Sid', PRPC_SID),
         ('Attributes', ULONG),
     )
 
-# 2.2.1.4.8 NETLOGON_VALIDATION_GENERIC_INFO2
+  
 class NETLOGON_VALIDATION_GENERIC_INFO2(NDRSTRUCT):
     structure = (
         ('DataLength', ULONG),
@@ -626,10 +626,10 @@ class PNETLOGON_VALIDATION_GENERIC_INFO2(NDRPOINTER):
         ('Data', NETLOGON_VALIDATION_GENERIC_INFO2),
     )
 
-# 2.2.1.4.9 USER_SESSION_KEY
+  
 USER_SESSION_KEY = LM_OWF_PASSWORD
 
-# 2.2.1.4.10 GROUP_MEMBERSHIP
+  
 class GROUP_MEMBERSHIP(NDRSTRUCT):
     structure = (
         ('RelativeId', ULONG),
@@ -644,7 +644,7 @@ class PGROUP_MEMBERSHIP_ARRAY(NDRPOINTER):
         ('Data', GROUP_MEMBERSHIP_ARRAY),
     )
 
-# 2.2.1.4.11 NETLOGON_VALIDATION_SAM_INFO
+  
 class LONG_ARRAY(NDRUniFixedArray):
     def getDataLen(self, data, offset=0):
         return 4*10
@@ -682,7 +682,7 @@ class PNETLOGON_VALIDATION_SAM_INFO(NDRPOINTER):
         ('Data', NETLOGON_VALIDATION_SAM_INFO),
     )
 
-# 2.2.1.4.12 NETLOGON_VALIDATION_SAM_INFO2
+  
 class NETLOGON_SID_AND_ATTRIBUTES_ARRAY(NDRUniConformantArray):
     item = NETLOGON_SID_AND_ATTRIBUTES
 
@@ -726,7 +726,7 @@ class PNETLOGON_VALIDATION_SAM_INFO2(NDRPOINTER):
         ('Data', NETLOGON_VALIDATION_SAM_INFO2),
     )
 
-# 2.2.1.4.13 NETLOGON_VALIDATION_SAM_INFO4
+  
 class NETLOGON_VALIDATION_SAM_INFO4(NDRSTRUCT):
     structure = (
         ('LogonTime', OLD_LARGE_INTEGER),
@@ -782,7 +782,7 @@ class PNETLOGON_VALIDATION_SAM_INFO4(NDRPOINTER):
         ('Data', NETLOGON_VALIDATION_SAM_INFO4),
     )
 
-# 2.2.1.4.17 NETLOGON_VALIDATION_INFO_CLASS
+  
 class NETLOGON_VALIDATION_INFO_CLASS(NDRENUM):
     class enumItems(Enum):
         NetlogonValidationUasInfo      = 1
@@ -792,7 +792,7 @@ class NETLOGON_VALIDATION_INFO_CLASS(NDRENUM):
         NetlogonValidationGenericInfo2 = 5
         NetlogonValidationSamInfo4     = 6
 
-# 2.2.1.4.14 NETLOGON_VALIDATION
+  
 class NETLOGON_VALIDATION(NDRUNION):
     union = {
         NETLOGON_VALIDATION_INFO_CLASS.NetlogonValidationSamInfo     : ('ValidationSam', PNETLOGON_VALIDATION_SAM_INFO),
@@ -801,7 +801,7 @@ class NETLOGON_VALIDATION(NDRUNION):
         NETLOGON_VALIDATION_INFO_CLASS.NetlogonValidationSamInfo4    : ('ValidationSam4', PNETLOGON_VALIDATION_SAM_INFO4),
     }
 
-# 2.2.1.5.2 NLPR_QUOTA_LIMITS
+  
 class NLPR_QUOTA_LIMITS(NDRSTRUCT):
     structure = (
         ('PagedPoolLimit', ULONG),
@@ -812,7 +812,7 @@ class NLPR_QUOTA_LIMITS(NDRSTRUCT):
         ('Reserved', OLD_LARGE_INTEGER),
     )
 
-# 2.2.1.5.3 NETLOGON_DELTA_ACCOUNTS
+  
 class ULONG_ARRAY(NDRUniConformantArray):
     item = ULONG
 
@@ -847,13 +847,13 @@ class PNETLOGON_DELTA_ACCOUNTS(NDRPOINTER):
         ('Data', NETLOGON_DELTA_ACCOUNTS),
     )
 
-# 2.2.1.5.5 NLPR_SID_INFORMATION
+  
 class NLPR_SID_INFORMATION(NDRSTRUCT):
     structure = (
         ('SidPointer', PRPC_SID),
     )
 
-# 2.2.1.5.6 NLPR_SID_ARRAY
+  
 class NLPR_SID_INFORMATION_ARRAY(NDRUniConformantArray):
     item = NLPR_SID_INFORMATION
 
@@ -868,7 +868,7 @@ class NLPR_SID_ARRAY(NDRSTRUCT):
         ('Sids', PNLPR_SID_INFORMATION_ARRAY),
     )
 
-# 2.2.1.5.7 NETLOGON_DELTA_ALIAS_MEMBER
+  
 class NETLOGON_DELTA_ALIAS_MEMBER(NDRSTRUCT):
     structure = (
         ('Members', NLPR_SID_ARRAY),
@@ -883,7 +883,7 @@ class PNETLOGON_DELTA_ALIAS_MEMBER(NDRPOINTER):
         ('Data', NETLOGON_DELTA_ALIAS_MEMBER),
     )
 
-# 2.2.1.5.8 NETLOGON_DELTA_DELETE_GROUP
+  
 class NETLOGON_DELTA_DELETE_GROUP(NDRSTRUCT):
     structure = (
         ('AccountName', LPWSTR),
@@ -902,7 +902,7 @@ class PNETLOGON_DELTA_DELETE_GROUP(NDRPOINTER):
         ('Data', NETLOGON_DELTA_DELETE_GROUP),
     )
 
-# 2.2.1.5.9 NETLOGON_DELTA_DELETE_USER
+  
 class NETLOGON_DELTA_DELETE_USER(NDRSTRUCT):
     structure = (
         ('AccountName', LPWSTR),
@@ -921,7 +921,7 @@ class PNETLOGON_DELTA_DELETE_USER(NDRPOINTER):
         ('Data', NETLOGON_DELTA_DELETE_USER),
     )
 
-# 2.2.1.5.10 NETLOGON_DELTA_DOMAIN
+  
 class NETLOGON_DELTA_DOMAIN(NDRSTRUCT):
     structure = (
         ('DomainName', RPC_UNICODE_STRING),
@@ -951,7 +951,7 @@ class PNETLOGON_DELTA_DOMAIN(NDRPOINTER):
         ('Data', NETLOGON_DELTA_DOMAIN),
     )
 
-# 2.2.1.5.13 NETLOGON_DELTA_GROUP
+  
 class NETLOGON_DELTA_GROUP(NDRSTRUCT):
     structure = (
         ('Name', RPC_UNICODE_STRING),
@@ -976,7 +976,7 @@ class PNETLOGON_DELTA_GROUP(NDRPOINTER):
         ('Data', NETLOGON_DELTA_GROUP),
     )
 
-# 2.2.1.5.24 NETLOGON_RENAME_GROUP
+  
 class NETLOGON_RENAME_GROUP(NDRSTRUCT):
     structure = (
         ('OldName', RPC_UNICODE_STRING),
@@ -996,11 +996,11 @@ class PNETLOGON_DELTA_RENAME_GROUP(NDRPOINTER):
         ('Data', NETLOGON_RENAME_GROUP),
     )
 
-# 2.2.1.5.14 NLPR_LOGON_HOURS
+  
 from libs.dcerpc.v5.samr import SAMPR_LOGON_HOURS
 NLPR_LOGON_HOURS = SAMPR_LOGON_HOURS
 
-# 2.2.1.5.15 NLPR_USER_PRIVATE_INFO
+  
 class NLPR_USER_PRIVATE_INFO(NDRSTRUCT):
     structure = (
         ('SensitiveData', UCHAR),
@@ -1008,7 +1008,7 @@ class NLPR_USER_PRIVATE_INFO(NDRSTRUCT):
         ('Data', PUCHAR_ARRAY),
     )
 
-# 2.2.1.5.16 NETLOGON_DELTA_USER
+  
 class NETLOGON_DELTA_USER(NDRSTRUCT):
     structure = (
         ('UserName', RPC_UNICODE_STRING),
@@ -1056,7 +1056,7 @@ class PNETLOGON_DELTA_USER(NDRPOINTER):
         ('Data', NETLOGON_DELTA_USER),
     )
 
-# 2.2.1.5.25 NETLOGON_RENAME_USER
+  
 class NETLOGON_RENAME_USER(NDRSTRUCT):
     structure = (
         ('OldName', RPC_UNICODE_STRING),
@@ -1076,7 +1076,7 @@ class PNETLOGON_DELTA_RENAME_USER(NDRPOINTER):
         ('Data', NETLOGON_RENAME_USER),
     )
 
-# 2.2.1.5.17 NETLOGON_DELTA_GROUP_MEMBER
+  
 class NETLOGON_DELTA_GROUP_MEMBER(NDRSTRUCT):
     structure = (
         ('Members', PULONG_ARRAY),
@@ -1093,7 +1093,7 @@ class PNETLOGON_DELTA_GROUP_MEMBER(NDRPOINTER):
         ('Data', NETLOGON_DELTA_GROUP_MEMBER),
     )
 
-# 2.2.1.5.4 NETLOGON_DELTA_ALIAS
+  
 class NETLOGON_DELTA_ALIAS(NDRSTRUCT):
     structure = (
         ('Name', RPC_UNICODE_STRING),
@@ -1116,7 +1116,7 @@ class PNETLOGON_DELTA_ALIAS(NDRPOINTER):
         ('Data', NETLOGON_DELTA_ALIAS),
     )
 
-# 2.2.1.5.23 NETLOGON_RENAME_ALIAS
+  
 class NETLOGON_RENAME_ALIAS(NDRSTRUCT):
     structure = (
         ('OldName', RPC_UNICODE_STRING),
@@ -1136,7 +1136,7 @@ class PNETLOGON_DELTA_RENAME_ALIAS(NDRPOINTER):
         ('Data', NETLOGON_RENAME_ALIAS),
     )
 
-# 2.2.1.5.19 NETLOGON_DELTA_POLICY
+  
 class NETLOGON_DELTA_POLICY(NDRSTRUCT):
     structure = (
         ('MaximumLogSize', ULONG),
@@ -1167,7 +1167,7 @@ class PNETLOGON_DELTA_POLICY(NDRPOINTER):
         ('Data', NETLOGON_DELTA_POLICY),
     )
 
-# 2.2.1.5.22 NETLOGON_DELTA_TRUSTED_DOMAINS
+  
 class NETLOGON_DELTA_TRUSTED_DOMAINS(NDRSTRUCT):
     structure = (
         ('DomainName', RPC_UNICODE_STRING),
@@ -1191,7 +1191,7 @@ class PNETLOGON_DELTA_TRUSTED_DOMAINS(NDRPOINTER):
         ('Data', NETLOGON_DELTA_TRUSTED_DOMAINS),
     )
 
-# 2.2.1.5.20 NLPR_CR_CIPHER_VALUE
+  
 class UCHAR_ARRAY2(NDRUniConformantVaryingArray):
     item = UCHAR
 
@@ -1207,7 +1207,7 @@ class NLPR_CR_CIPHER_VALUE(NDRSTRUCT):
         ('Buffer', PUCHAR_ARRAY2),
     )
 
-# 2.2.1.5.21 NETLOGON_DELTA_SECRET
+  
 class NETLOGON_DELTA_SECRET(NDRSTRUCT):
     structure = (
         ('CurrentValue', NLPR_CR_CIPHER_VALUE),
@@ -1232,7 +1232,7 @@ class PNETLOGON_DELTA_SECRET(NDRPOINTER):
         ('Data', NETLOGON_DELTA_SECRET),
     )
 
-# 2.2.1.5.26 NLPR_MODIFIED_COUNT
+  
 class NLPR_MODIFIED_COUNT(NDRSTRUCT):
     structure = (
         ('ModifiedCount', OLD_LARGE_INTEGER),
@@ -1243,7 +1243,7 @@ class PNLPR_MODIFIED_COUNT(NDRPOINTER):
         ('Data', NLPR_MODIFIED_COUNT),
     )
 
-# 2.2.1.5.28 NETLOGON_DELTA_TYPE
+  
 class NETLOGON_DELTA_TYPE(NDRENUM):
     class enumItems(Enum):
         AddOrChangeDomain     = 1
@@ -1269,7 +1269,7 @@ class NETLOGON_DELTA_TYPE(NDRENUM):
         DeleteUserByName      = 21
         SerialNumberSkip      = 22
 
-# 2.2.1.5.27 NETLOGON_DELTA_UNION
+  
 class NETLOGON_DELTA_UNION(NDRUNION):
     union = {
         NETLOGON_DELTA_TYPE.AddOrChangeDomain     : ('DeltaDomain', PNETLOGON_DELTA_DOMAIN),
@@ -1290,7 +1290,7 @@ class NETLOGON_DELTA_UNION(NDRUNION):
         NETLOGON_DELTA_TYPE.SerialNumberSkip      : ('DeltaSerialNumberSkip', PNLPR_MODIFIED_COUNT),
     }
 
-# 2.2.1.5.18 NETLOGON_DELTA_ID_UNION
+  
 class NETLOGON_DELTA_ID_UNION(NDRUNION):
     union = {
         NETLOGON_DELTA_TYPE.AddOrChangeDomain     : ('Rid', ULONG),
@@ -1316,7 +1316,7 @@ class NETLOGON_DELTA_ID_UNION(NDRUNION):
         NETLOGON_DELTA_TYPE.DeleteLsaSecret       : ('Name', LPWSTR),
     }
 
-# 2.2.1.5.11 NETLOGON_DELTA_ENUM
+  
 class NETLOGON_DELTA_ENUM(NDRSTRUCT):
     structure = (
         ('DeltaType', NETLOGON_DELTA_TYPE),
@@ -1324,7 +1324,7 @@ class NETLOGON_DELTA_ENUM(NDRSTRUCT):
         ('DeltaUnion', NETLOGON_DELTA_UNION),
     )
 
-# 2.2.1.5.12 NETLOGON_DELTA_ENUM_ARRAY
+  
 class NETLOGON_DELTA_ENUM_ARRAY_ARRAY(NDRUniConformantArray):
     item = NETLOGON_DELTA_ENUM
 
@@ -1339,7 +1339,7 @@ class PNETLOGON_DELTA_ENUM_ARRAY(NDRPOINTER):
         ('Deltas', PNETLOGON_DELTA_ENUM_ARRAY_ARRAY),
     )
 
-# 2.2.1.5.29 SYNC_STATE
+  
 class SYNC_STATE(NDRENUM):
     class enumItems(Enum):
         NormalState          = 0
@@ -1352,14 +1352,14 @@ class SYNC_STATE(NDRENUM):
         AliasMemberState     = 7
         SamDoneState         = 8
 
-# 2.2.1.6.1 DOMAIN_NAME_BUFFER
+  
 class DOMAIN_NAME_BUFFER(NDRSTRUCT):
     structure = (
         ('DomainNameByteCount', ULONG),
         ('DomainNames', PUCHAR_ARRAY),
     )
 
-# 2.2.1.6.2 DS_DOMAIN_TRUSTSW
+  
 class DS_DOMAIN_TRUSTSW(NDRSTRUCT):
     structure = (
         ('NetbiosDomainName', LPWSTR),
@@ -1372,7 +1372,7 @@ class DS_DOMAIN_TRUSTSW(NDRSTRUCT):
         ('DomainGuid', GUID),
     )
 
-# 2.2.1.6.3 NETLOGON_TRUSTED_DOMAIN_ARRAY
+  
 class DS_DOMAIN_TRUSTSW_ARRAY(NDRUniConformantArray):
     item = DS_DOMAIN_TRUSTSW
 
@@ -1387,7 +1387,7 @@ class NETLOGON_TRUSTED_DOMAIN_ARRAY(NDRSTRUCT):
         ('Domains', PDS_DOMAIN_TRUSTSW_ARRAY),
     )
 
-# 2.2.1.6.4 NL_GENERIC_RPC_DATA
+  
 class NL_GENERIC_RPC_DATA(NDRSTRUCT):
     structure = (
         ('UlongEntryCount', ULONG),
@@ -1401,7 +1401,7 @@ class PNL_GENERIC_RPC_DATA(NDRPOINTER):
         ('Data', NL_GENERIC_RPC_DATA),
     )
 
-# 2.2.1.7.1 NETLOGON_CONTROL_DATA_INFORMATION
+  
 class NETLOGON_CONTROL_DATA_INFORMATION(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -1416,7 +1416,7 @@ class NETLOGON_CONTROL_DATA_INFORMATION(NDRUNION):
         8: ('UserName', LPWSTR),
     }
 
-# 2.2.1.7.2 NETLOGON_INFO_1
+  
 class NETLOGON_INFO_1(NDRSTRUCT):
     structure = (
         ('netlog1_flags', DWORD),
@@ -1428,7 +1428,7 @@ class PNETLOGON_INFO_1(NDRPOINTER):
         ('Data', NETLOGON_INFO_1),
     )
 
-# 2.2.1.7.3 NETLOGON_INFO_2
+  
 class NETLOGON_INFO_2(NDRSTRUCT):
     structure = (
         ('netlog2_flags', DWORD),
@@ -1442,7 +1442,7 @@ class PNETLOGON_INFO_2(NDRPOINTER):
         ('Data', NETLOGON_INFO_2),
     )
 
-# 2.2.1.7.4 NETLOGON_INFO_3
+  
 class NETLOGON_INFO_3(NDRSTRUCT):
     structure = (
         ('netlog3_flags', DWORD),
@@ -1459,7 +1459,7 @@ class PNETLOGON_INFO_3(NDRPOINTER):
         ('Data', NETLOGON_INFO_3),
     )
 
-# 2.2.1.7.5 NETLOGON_INFO_4
+  
 class NETLOGON_INFO_4(NDRSTRUCT):
     structure = (
         ('netlog4_trusted_dc_name', LPWSTR),
@@ -1471,7 +1471,7 @@ class PNETLOGON_INFO_4(NDRPOINTER):
         ('Data', NETLOGON_INFO_4),
     )
 
-# 2.2.1.7.6 NETLOGON_CONTROL_QUERY_INFORMATION
+  
 class NETLOGON_CONTROL_QUERY_INFORMATION(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -1484,7 +1484,7 @@ class NETLOGON_CONTROL_QUERY_INFORMATION(NDRUNION):
         4 : ('NetlogonInfo4', PNETLOGON_INFO_4),
     }
 
-# 2.2.1.8.1 NETLOGON_VALIDATION_UAS_INFO
+  
 class NETLOGON_VALIDATION_UAS_INFO(NDRSTRUCT):
     structure = (
         ('usrlog1_eff_name', DWORD),
@@ -1510,14 +1510,14 @@ class PNETLOGON_VALIDATION_UAS_INFO(NDRPOINTER):
         ('Data', NETLOGON_VALIDATION_UAS_INFO),
     )
 
-# 2.2.1.8.2 NETLOGON_LOGOFF_UAS_INFO
+  
 class NETLOGON_LOGOFF_UAS_INFO(NDRSTRUCT):
     structure = (
         ('Duration', DWORD),
         ('LogonCount', USHORT),
     )
 
-# 2.2.1.8.3 UAS_INFO_0
+  
 class UAS_INFO_0(NDRSTRUCT):
     structure = (
         ('ComputerName', '16s=""'),
@@ -1527,7 +1527,7 @@ class UAS_INFO_0(NDRSTRUCT):
     def getAlignment(self):
         return 4
 
-# 2.2.1.8.4 NETLOGON_DUMMY1
+  
 class NETLOGON_DUMMY1(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -1537,16 +1537,16 @@ class NETLOGON_DUMMY1(NDRUNION):
         1 : ('Dummy', ULONG),
     }
 
-# 3.5.4.8.2 NetrLogonComputeServerDigest (Opnum 24)
+  
 class CHAR_FIXED_16_ARRAY(NDRUniFixedArray):
     def getDataLen(self, data, offset=0):
         return 16
 
 
-################################################################################
-# SSPI
-################################################################################
-# Constants
+  
+  
+  
+  
 NL_AUTH_MESSAGE_NETBIOS_DOMAIN        = 0x1
 NL_AUTH_MESSAGE_NETBIOS_HOST          = 0x2
 NL_AUTH_MESSAGE_DNS_DOMAIN            = 0x4
@@ -1562,7 +1562,7 @@ NL_SEAL_NOT_ENCRYPTED    = 0xffff
 NL_SEAL_RC4              = 0x7A
 NL_SEAL_AES128           = 0x1A
 
-# Structures
+  
 class NL_AUTH_MESSAGE(Structure):
     structure = (
         ('MessageType','<L=0'),
@@ -1606,7 +1606,7 @@ class NL_AUTH_SHA2_SIGNATURE(Structure):
         if data is None:
             self['Confounder'] = ''
 
-# Section 3.1.4.4.2
+  
 def ComputeNetlogonCredential(inputData, Sk):
     k1 = Sk[:7]
     k3 = crypto.transformKey(k1)
@@ -1617,15 +1617,15 @@ def ComputeNetlogonCredential(inputData, Sk):
     cipherText = Crypt1.encrypt(inputData)
     return Crypt2.encrypt(cipherText)
 
-# Section 3.1.4.4.1
+  
 def ComputeNetlogonCredentialAES(inputData, Sk):
     IV=b'\x00'*16
     Crypt1 = AES.new(Sk, AES.MODE_CFB, IV)
     return Crypt1.encrypt(inputData)
 
-# Section 3.1.4.3.1
+  
 def ComputeSessionKeyAES(sharedSecret, clientChallenge, serverChallenge, sharedSecretHash = None):
-    # added the ability to receive hashes already
+      
     if sharedSecretHash is None:
         M4SS = ntlm.NTOWFv1(sharedSecret)
     else:
@@ -1638,9 +1638,9 @@ def ComputeSessionKeyAES(sharedSecret, clientChallenge, serverChallenge, sharedS
 
     return sessionKey[:16]
 
-# 3.1.4.3.2 Strong-key Session-Key
+  
 def ComputeSessionKeyStrongKey(sharedSecret, clientChallenge, serverChallenge, sharedSecretHash = None):
-    # added the ability to receive hashes already
+      
 
     if sharedSecretHash is None:
         M4SS = ntlm.NTOWFv1(sharedSecret)
@@ -1666,20 +1666,20 @@ def deriveSequenceNumber(sequenceNum):
     return res
 
 def ComputeNetlogonSignatureAES(authSignature, message, confounder, sessionKey):
-    # [MS-NRPC] Section 3.3.4.2.1, point 7
+      
     hm = hmac.new(key=sessionKey, digestmod=hashlib.sha256)
     hm.update(authSignature.getData()[:8])
-    # If no confidentiality requested, it should be ''
+      
     hm.update(confounder)
     hm.update(bytes(message))
     return hm.digest()[:8]+'\x00'*24
 
 def ComputeNetlogonSignatureMD5(authSignature, message, confounder, sessionKey):
-    # [MS-NRPC] Section 3.3.4.2.1, point 7
+      
     md5 = hashlib.new('md5')
     md5.update(b'\x00'*4)
     md5.update(authSignature.getData()[:8])
-    # If no confidentiality requested, it should be ''
+      
     md5.update(confounder)
     md5.update(bytes(message))
     finalMD5 = md5.digest()
@@ -1688,7 +1688,7 @@ def ComputeNetlogonSignatureMD5(authSignature, message, confounder, sessionKey):
     return hm.digest()[:8]
 
 def encryptSequenceNumberRC4(sequenceNum, checkSum, sessionKey):
-    # [MS-NRPC] Section 3.3.4.2.1, point 9
+      
 
     hm = hmac.new(sessionKey, digestmod=hashlib.md5)
     hm.update(b'\x00'*4)
@@ -1700,18 +1700,18 @@ def encryptSequenceNumberRC4(sequenceNum, checkSum, sessionKey):
     return cipher.encrypt(sequenceNum)
 
 def decryptSequenceNumberRC4(sequenceNum, checkSum, sessionKey):
-    # [MS-NRPC] Section 3.3.4.2.2, point 5
+      
 
     return encryptSequenceNumberRC4(sequenceNum, checkSum, sessionKey)
 
 def encryptSequenceNumberAES(sequenceNum, checkSum, sessionKey):
-    # [MS-NRPC] Section 3.3.4.2.1, point 9
+      
     IV = checkSum[:8] + checkSum[:8]
     Cipher = AES.new(sessionKey, AES.MODE_CFB, IV)
     return Cipher.encrypt(sequenceNum)
 
 def decryptSequenceNumberAES(sequenceNum, checkSum, sessionKey):
-    # [MS-NRPC] Section 3.3.4.2.1, point 9
+      
     IV = checkSum[:8] + checkSum[:8]
     Cipher = AES.new(sessionKey, AES.MODE_CFB, IV)
     return Cipher.decrypt(sequenceNum)
@@ -1830,10 +1830,10 @@ def getSSPType1(workstation='', domain='', signingRequired=False):
 
     return auth
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 3.5.4.3.1 DsrGetDcNameEx2 (Opnum 34)
+  
+  
+  
+  
 class DsrGetDcNameEx2(NDRCALL):
     opnum = 34
     structure = (
@@ -1852,7 +1852,7 @@ class DsrGetDcNameEx2Response(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.3.2 DsrGetDcNameEx (Opnum 27)
+  
 class DsrGetDcNameEx(NDRCALL):
     opnum = 27
     structure = (
@@ -1869,7 +1869,7 @@ class DsrGetDcNameExResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.3.3 DsrGetDcName (Opnum 20)
+  
 class DsrGetDcName(NDRCALL):
     opnum = 20
     structure = (
@@ -1886,7 +1886,7 @@ class DsrGetDcNameResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.3.4 NetrGetDCName (Opnum 11)
+  
 class NetrGetDCName(NDRCALL):
     opnum = 11
     structure = (
@@ -1900,7 +1900,7 @@ class NetrGetDCNameResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.3.5 NetrGetAnyDCName (Opnum 13)
+  
 class NetrGetAnyDCName(NDRCALL):
     opnum = 13
     structure = (
@@ -1914,7 +1914,7 @@ class NetrGetAnyDCNameResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.3.6 DsrGetSiteName (Opnum 28)
+  
 class DsrGetSiteName(NDRCALL):
     opnum = 28
     structure = (
@@ -1927,7 +1927,7 @@ class DsrGetSiteNameResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.3.7 DsrGetDcSiteCoverageW (Opnum 38)
+  
 class DsrGetDcSiteCoverageW(NDRCALL):
     opnum = 38
     structure = (
@@ -1940,7 +1940,7 @@ class DsrGetDcSiteCoverageWResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.3.8 DsrAddressToSiteNamesW (Opnum 33)
+  
 class DsrAddressToSiteNamesW(NDRCALL):
     opnum = 33
     structure = (
@@ -1955,7 +1955,7 @@ class DsrAddressToSiteNamesWResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.3.9 DsrAddressToSiteNamesExW (Opnum 37)
+  
 class DsrAddressToSiteNamesExW(NDRCALL):
     opnum = 37
     structure = (
@@ -1970,7 +1970,7 @@ class DsrAddressToSiteNamesExWResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.3.10 DsrDeregisterDnsHostRecords (Opnum 41)
+  
 class DsrDeregisterDnsHostRecords(NDRCALL):
     opnum = 41
     structure = (
@@ -1986,7 +1986,7 @@ class DsrDeregisterDnsHostRecordsResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.3.11 DSRUpdateReadOnlyServerDnsRecords (Opnum 48)
+  
 class DSRUpdateReadOnlyServerDnsRecords(NDRCALL):
     opnum = 48
     structure = (
@@ -2005,7 +2005,7 @@ class DSRUpdateReadOnlyServerDnsRecordsResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.4.1 NetrServerReqChallenge (Opnum 4)
+  
 class NetrServerReqChallenge(NDRCALL):
     opnum = 4
     structure = (
@@ -2020,7 +2020,7 @@ class NetrServerReqChallengeResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.4.2 NetrServerAuthenticate3 (Opnum 26)
+  
 class NetrServerAuthenticate3(NDRCALL):
     opnum = 26
     structure = (
@@ -2040,7 +2040,7 @@ class NetrServerAuthenticate3Response(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.4.3 NetrServerAuthenticate2 (Opnum 15)
+  
 class NetrServerAuthenticate2(NDRCALL):
     opnum = 15
     structure = (
@@ -2059,7 +2059,7 @@ class NetrServerAuthenticate2Response(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.4.4 NetrServerAuthenticate (Opnum 5)
+  
 class NetrServerAuthenticate(NDRCALL):
     opnum = 5
     structure = (
@@ -2076,7 +2076,7 @@ class NetrServerAuthenticateResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.4.5 NetrServerPasswordSet2 (Opnum 30)
+  
 class NetrServerPasswordSet2(NDRCALL):
     opnum = 30
     structure = (
@@ -2085,7 +2085,7 @@ class NetrServerPasswordSet2(NDRCALL):
        ('SecureChannelType',NETLOGON_SECURE_CHANNEL_TYPE),
        ('ComputerName',WSTR),
        ('Authenticator',NETLOGON_AUTHENTICATOR),
-       #('ClearNewPassword',NL_TRUST_PASSWORD),
+         
        ('ClearNewPassword',NL_TRUST_PASSWORD_FIXED_ARRAY),
     )
 
@@ -2095,9 +2095,9 @@ class NetrServerPasswordSet2Response(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.4.6 NetrServerPasswordSet (Opnum 6)
+  
 
-# 3.5.4.4.7 NetrServerPasswordGet (Opnum 31)
+  
 class NetrServerPasswordGet(NDRCALL):
     opnum = 31
     structure = (
@@ -2115,7 +2115,7 @@ class NetrServerPasswordGetResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.4.8 NetrServerTrustPasswordsGet (Opnum 42)
+  
 class NetrServerTrustPasswordsGet(NDRCALL):
     opnum = 42
     structure = (
@@ -2134,7 +2134,7 @@ class NetrServerTrustPasswordsGetResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.4.9 NetrLogonGetDomainInfo (Opnum 29)
+  
 class NetrLogonGetDomainInfo(NDRCALL):
     opnum = 29
     structure = (
@@ -2153,7 +2153,7 @@ class NetrLogonGetDomainInfoResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.4.10 NetrLogonGetCapabilities (Opnum 21)
+  
 class NetrLogonGetCapabilities(NDRCALL):
     opnum = 21
     structure = (
@@ -2171,9 +2171,9 @@ class NetrLogonGetCapabilitiesResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.4.11 NetrChainSetClientAttributes (Opnum 49)
+  
 
-# 3.5.4.5.1 NetrLogonSamLogonEx (Opnum 39)
+  
 class NetrLogonSamLogonEx(NDRCALL):
     opnum = 39
     structure = (
@@ -2193,7 +2193,7 @@ class NetrLogonSamLogonExResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.5.2 NetrLogonSamLogonWithFlags (Opnum 45)
+  
 class NetrLogonSamLogonWithFlags(NDRCALL):
     opnum = 45
     structure = (
@@ -2216,7 +2216,7 @@ class NetrLogonSamLogonWithFlagsResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.5.3 NetrLogonSamLogon (Opnum 2)
+  
 class NetrLogonSamLogon(NDRCALL):
     opnum = 2
     structure = (
@@ -2237,7 +2237,7 @@ class NetrLogonSamLogonResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.5.4 NetrLogonSamLogoff (Opnum 3)
+  
 class NetrLogonSamLogoff(NDRCALL):
     opnum = 3
     structure = (
@@ -2255,7 +2255,7 @@ class NetrLogonSamLogoffResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.6.1 NetrDatabaseDeltas (Opnum 7)
+  
 class NetrDatabaseDeltas(NDRCALL):
     opnum = 7
     structure = (
@@ -2276,7 +2276,7 @@ class NetrDatabaseDeltasResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.6.2 NetrDatabaseSync2 (Opnum 16)
+  
 class NetrDatabaseSync2(NDRCALL):
     opnum = 16
     structure = (
@@ -2298,7 +2298,7 @@ class NetrDatabaseSync2Response(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.6.3 NetrDatabaseSync (Opnum 8)
+  
 class NetrDatabaseSync(NDRCALL):
     opnum = 8
     structure = (
@@ -2319,7 +2319,7 @@ class NetrDatabaseSyncResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.6.4 NetrDatabaseRedo (Opnum 17)
+  
 class NetrDatabaseRedo(NDRCALL):
     opnum = 17
     structure = (
@@ -2338,7 +2338,7 @@ class NetrDatabaseRedoResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.7.1 DsrEnumerateDomainTrusts (Opnum 40)
+  
 class DsrEnumerateDomainTrusts(NDRCALL):
     opnum = 40
     structure = (
@@ -2352,7 +2352,7 @@ class DsrEnumerateDomainTrustsResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.7.2 NetrEnumerateTrustedDomainsEx (Opnum 36)
+  
 class NetrEnumerateTrustedDomainsEx(NDRCALL):
     opnum = 36
     structure = (
@@ -2365,7 +2365,7 @@ class NetrEnumerateTrustedDomainsExResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.7.3 NetrEnumerateTrustedDomains (Opnum 19)
+  
 class NetrEnumerateTrustedDomains(NDRCALL):
     opnum = 19
     structure = (
@@ -2378,7 +2378,7 @@ class NetrEnumerateTrustedDomainsResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.7.4 NetrGetForestTrustInformation (Opnum 44)
+  
 class NetrGetForestTrustInformation(NDRCALL):
     opnum = 44
     structure = (
@@ -2396,7 +2396,7 @@ class NetrGetForestTrustInformationResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.7.5 DsrGetForestTrustInformation (Opnum 43)
+  
 class DsrGetForestTrustInformation(NDRCALL):
     opnum = 43
     structure = (
@@ -2411,7 +2411,7 @@ class DsrGetForestTrustInformationResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.7.6 NetrServerGetTrustInfo (Opnum 46)
+  
 class NetrServerGetTrustInfo(NDRCALL):
     opnum = 46
     structure = (
@@ -2431,7 +2431,7 @@ class NetrServerGetTrustInfoResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.8.1 NetrLogonGetTrustRid (Opnum 23)
+  
 class NetrLogonGetTrustRid(NDRCALL):
     opnum = 23
     structure = (
@@ -2445,7 +2445,7 @@ class NetrLogonGetTrustRidResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.8.2 NetrLogonComputeServerDigest (Opnum 24)
+  
 class NetrLogonComputeServerDigest(NDRCALL):
     opnum = 24
     structure = (
@@ -2462,7 +2462,7 @@ class NetrLogonComputeServerDigestResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.8.3 NetrLogonComputeClientDigest (Opnum 25)
+  
 class NetrLogonComputeClientDigest(NDRCALL):
     opnum = 25
     structure = (
@@ -2479,7 +2479,7 @@ class NetrLogonComputeClientDigestResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.8.4 NetrLogonSendToSam (Opnum 32)
+  
 class NetrLogonSendToSam(NDRCALL):
     opnum = 32
     structure = (
@@ -2496,7 +2496,7 @@ class NetrLogonSendToSamResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.8.5 NetrLogonSetServiceBits (Opnum 22)
+  
 class NetrLogonSetServiceBits(NDRCALL):
     opnum = 22
     structure = (
@@ -2510,7 +2510,7 @@ class NetrLogonSetServiceBitsResponse(NDRCALL):
        ('ErrorCode',NTSTATUS),
     )
 
-# 3.5.4.8.6 NetrLogonGetTimeServiceParentDomain (Opnum 35)
+  
 class NetrLogonGetTimeServiceParentDomain(NDRCALL):
     opnum = 35
     structure = (
@@ -2524,7 +2524,7 @@ class NetrLogonGetTimeServiceParentDomainResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.9.1 NetrLogonControl2Ex (Opnum 18)
+  
 class NetrLogonControl2Ex(NDRCALL):
     opnum = 18
     structure = (
@@ -2540,7 +2540,7 @@ class NetrLogonControl2ExResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.9.2 NetrLogonControl2 (Opnum 14)
+  
 class NetrLogonControl2(NDRCALL):
     opnum = 14
     structure = (
@@ -2556,7 +2556,7 @@ class NetrLogonControl2Response(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.9.3 NetrLogonControl (Opnum 12)
+  
 class NetrLogonControl(NDRCALL):
     opnum = 12
     structure = (
@@ -2572,7 +2572,7 @@ class NetrLogonControlResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.10.1 NetrLogonUasLogon (Opnum 0)
+  
 class NetrLogonUasLogon(NDRCALL):
     opnum = 0
     structure = (
@@ -2587,7 +2587,7 @@ class NetrLogonUasLogonResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-# 3.5.4.10.2 NetrLogonUasLogoff (Opnum 1)
+  
 class NetrLogonUasLogoff(NDRCALL):
     opnum = 1
     structure = (
@@ -2602,9 +2602,9 @@ class NetrLogonUasLogoffResponse(NDRCALL):
        ('ErrorCode',NET_API_STATUS),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  0 : (NetrLogonUasLogon, NetrLogonUasLogonResponse),
  1 : (NetrLogonUasLogoff, NetrLogonUasLogoffResponse),
@@ -2612,11 +2612,11 @@ OPNUMS = {
  3 : (NetrLogonSamLogoff, NetrLogonSamLogoffResponse),
  4 : (NetrServerReqChallenge, NetrServerReqChallengeResponse),
  5 : (NetrServerAuthenticate, NetrServerAuthenticateResponse),
-# 6 : (NetrServerPasswordSet, NetrServerPasswordSetResponse),
+  
  7 : (NetrDatabaseDeltas, NetrDatabaseDeltasResponse),
  8 : (NetrDatabaseSync, NetrDatabaseSyncResponse),
-# 9 : (NetrAccountDeltas, NetrAccountDeltasResponse),
-# 10 : (NetrAccountSync, NetrAccountSyncResponse),
+  
+  
  11 : (NetrGetDCName, NetrGetDCNameResponse),
  12 : (NetrLogonControl, NetrLogonControlResponse),
  13 : (NetrGetAnyDCName, NetrGetAnyDCNameResponse),
@@ -2653,13 +2653,13 @@ OPNUMS = {
  44 : (NetrGetForestTrustInformation, NetrGetForestTrustInformationResponse),
  45 : (NetrLogonSamLogonWithFlags, NetrLogonSamLogonWithFlagsResponse),
  46 : (NetrServerGetTrustInfo, NetrServerGetTrustInfoResponse),
-# 48 : (DsrUpdateReadOnlyServerDnsRecords, DsrUpdateReadOnlyServerDnsRecordsResponse),
-# 49 : (NetrChainSetClientAttributes, NetrChainSetClientAttributesResponse),
+  
+  
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def checkNullString(string):
     if string == NULL:
         return string

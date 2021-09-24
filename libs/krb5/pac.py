@@ -16,7 +16,7 @@ PAC_UPN_DNS_INFO     = 12
 
 PISID = PRPC_SID
 
-# 2.2.1 KERB_SID_AND_ATTRIBUTES
+  
 class KERB_SID_AND_ATTRIBUTES(NDRSTRUCT):
     structure = (
         ('Sid', PISID),
@@ -31,10 +31,10 @@ class PKERB_SID_AND_ATTRIBUTES_ARRAY(NDRPOINTER):
         ('Data', KERB_SID_AND_ATTRIBUTES_ARRAY),
     )
 
-# 2.2.2 GROUP_MEMBERSHIP
+  
 from libs.dcerpc.v5.nrpc import PGROUP_MEMBERSHIP_ARRAY
 
-# 2.2.3 DOMAIN_GROUP_MEMBERSHIP
+  
 class DOMAIN_GROUP_MEMBERSHIP(NDRSTRUCT):
     structure = (
         ('DomainId', PISID),
@@ -50,7 +50,7 @@ class PDOMAIN_GROUP_MEMBERSHIP_ARRAY(NDRPOINTER):
         ('Data', KERB_SID_AND_ATTRIBUTES_ARRAY),
     )
 
-# 2.3 PACTYPE
+  
 class PACTYPE(Structure):
     structure = (
         ('cBuffers', '<L=0'),
@@ -58,7 +58,7 @@ class PACTYPE(Structure):
         ('Buffers', ':'),
     )
 
-# 2.4 PAC_INFO_BUFFER
+  
 class PAC_INFO_BUFFER(Structure):
     structure = (
         ('ulType', '<L=0'),
@@ -66,7 +66,7 @@ class PAC_INFO_BUFFER(Structure):
         ('Offset', '<Q=0'),
     )
 
-# 2.5 KERB_VALIDATION_INFO
+  
 class KERB_VALIDATION_INFO(NDRSTRUCT):
     structure = (
         ('LogonTime', FILETIME),
@@ -93,7 +93,7 @@ class KERB_VALIDATION_INFO(NDRSTRUCT):
         ('LogonDomainName', RPC_UNICODE_STRING),
         ('LogonDomainId', PRPC_SID),
 
-        # Also called Reserved1
+          
         ('LMKey', CHAR_FIXED_8_ARRAY),
 
         ('UserAccountControl', ULONG),
@@ -104,7 +104,7 @@ class KERB_VALIDATION_INFO(NDRSTRUCT):
         ('Reserved3', ULONG),
 
         ('SidCount', ULONG),
-        #('ExtraSids', PNETLOGON_SID_AND_ATTRIBUTES_ARRAY),
+          
         ('ExtraSids', PKERB_SID_AND_ATTRIBUTES_ARRAY),
         ('ResourceGroupDomainSid', PISID),
         ('ResourceGroupCount', ULONG),
@@ -116,7 +116,7 @@ class PKERB_VALIDATION_INFO(NDRPOINTER):
         ('Data', KERB_VALIDATION_INFO),
     )
 
-# 2.6.1 PAC_CREDENTIAL_INFO
+  
 class PAC_CREDENTIAL_INFO(Structure):
     structure = (
         ('Version', '<L=0'),
@@ -124,7 +124,7 @@ class PAC_CREDENTIAL_INFO(Structure):
         ('SerializedData', ':'),
     )
 
-# 2.6.3 SECPKG_SUPPLEMENTAL_CRED
+  
 class SECPKG_SUPPLEMENTAL_CRED(NDRSTRUCT):
     structure = (
         ('PackageName', RPC_UNICODE_STRING),
@@ -135,14 +135,14 @@ class SECPKG_SUPPLEMENTAL_CRED(NDRSTRUCT):
 class SECPKG_SUPPLEMENTAL_CRED_ARRAY(NDRUniConformantArray):
     item = SECPKG_SUPPLEMENTAL_CRED
 
-# 2.6.2 PAC_CREDENTIAL_DATA
+  
 class PAC_CREDENTIAL_DATA(NDRSTRUCT):
     structure = (
         ('CredentialCount', ULONG),
         ('Credentials', SECPKG_SUPPLEMENTAL_CRED_ARRAY),
     )
 
-# 2.6.4 NTLM_SUPPLEMENTAL_CREDENTIAL
+  
 class NTLM_SUPPLEMENTAL_CREDENTIAL(NDRSTRUCT):
     structure = (
         ('Version', ULONG),
@@ -151,7 +151,7 @@ class NTLM_SUPPLEMENTAL_CREDENTIAL(NDRSTRUCT):
         ('NtPassword', '16s=b""'),
     )
 
-# 2.7 PAC_CLIENT_INFO
+  
 class PAC_CLIENT_INFO(Structure):
     structure = (
         ('ClientId', '<Q=0'),
@@ -160,14 +160,14 @@ class PAC_CLIENT_INFO(Structure):
         ('Name', ':'),
     )
 
-# 2.8 PAC_SIGNATURE_DATA
+  
 class PAC_SIGNATURE_DATA(Structure):
     structure = (
         ('SignatureType', '<l=0'),
         ('Signature', ':'),
     )
 
-# 2.9 Constrained Delegation Information - S4U_DELEGATION_INFO
+  
 class S4U_DELEGATION_INFO(NDRSTRUCT):
     structure = (
         ('S4U2proxyTarget', RPC_UNICODE_STRING),
@@ -175,7 +175,7 @@ class S4U_DELEGATION_INFO(NDRSTRUCT):
         ('S4UTransitedServices', PRPC_UNICODE_STRING_ARRAY ),
     )
 
-# 2.10 UPN_DNS_INFO
+  
 class UPN_DNS_INFO(Structure):
     structure = (
         ('UpnLength', '<H=0'),
@@ -185,13 +185,13 @@ class UPN_DNS_INFO(Structure):
         ('Flags', '<L=0'),
     )
 
-# 2.11 PAC_CLIENT_CLAIMS_INFO
+  
 class PAC_CLIENT_CLAIMS_INFO(Structure):
     structure = (
         ('Claims', ':'),
     )
 
-# 2.12 PAC_DEVICE_INFO
+  
 class PAC_DEVICE_INFO(NDRSTRUCT):
     structure = (
         ('UserId', ULONG),
@@ -205,7 +205,7 @@ class PAC_DEVICE_INFO(NDRSTRUCT):
         ('DomainGroup', PDOMAIN_GROUP_MEMBERSHIP_ARRAY ),
     )
 
-# 2.13 PAC_DEVICE_CLAIMS_INFO
+  
 class PAC_DEVICE_CLAIMS_INFO(Structure):
     structure = (
         ('Claims', ':'),

@@ -13,8 +13,8 @@ from six import b
 from libs.structure import Structure
 from libs import LOG
 
-USE_NTLMv2 = True # if false will fall back to NTLMv1 (or NTLMv1 with ESS a.k.a NTLM2)
-TEST_CASE = False # Only set to True when running Test Cases
+USE_NTLMv2 = True   
+TEST_CASE = False   
 
 
 def computeResponse(flags, serverChallenge, clientChallenge, serverName, domain, user, password, lmhash='', nthash='',
@@ -40,138 +40,138 @@ NTLM_AUTH_PKT           = 4
 NTLM_AUTH_PKT_INTEGRITY = 5
 NTLM_AUTH_PKT_PRIVACY   = 6
 
-# If set, requests 56-bit encryption. If the client sends NTLMSSP_NEGOTIATE_SEAL or NTLMSSP_NEGOTIATE_SIGN
-# with NTLMSSP_NEGOTIATE_56 to the server in the NEGOTIATE_MESSAGE, the server MUST return NTLMSSP_NEGOTIATE_56 to
-# the client in the CHALLENGE_MESSAGE. Otherwise it is ignored. If both NTLMSSP_NEGOTIATE_56 and NTLMSSP_NEGOTIATE_128
-# are requested and supported by the client and server, NTLMSSP_NEGOTIATE_56 and NTLMSSP_NEGOTIATE_128 will both be
-# returned to the client. Clients and servers that set NTLMSSP_NEGOTIATE_SEAL SHOULD set NTLMSSP_NEGOTIATE_56 if it is
-# supported. An alternate name for this field is NTLMSSP_NEGOTIATE_56.
+  
+  
+  
+  
+  
+  
 NTLMSSP_NEGOTIATE_56                       = 0x80000000
 
-# If set, requests an explicit key exchange. This capability SHOULD be used because it improves security for message
-# integrity or confidentiality. See sections 3.2.5.1.2, 3.2.5.2.1, and 3.2.5.2.2 for details. An alternate name for
-# this field is NTLMSSP_NEGOTIATE_KEY_EXCH.
+  
+  
+  
 NTLMSSP_NEGOTIATE_KEY_EXCH                 = 0x40000000
 
-# If set, requests 128-bit session key negotiation. An alternate name for this field is NTLMSSP_NEGOTIATE_128.
-# If the client sends NTLMSSP_NEGOTIATE_128 to the server in the NEGOTIATE_MESSAGE, the server MUST return
-# NTLMSSP_NEGOTIATE_128 to the client in the CHALLENGE_MESSAGE only if the client sets NTLMSSP_NEGOTIATE_SEAL or
-# NTLMSSP_NEGOTIATE_SIGN. Otherwise it is ignored. If both NTLMSSP_NEGOTIATE_56 and NTLMSSP_NEGOTIATE_128 are
-# requested and supported by the client and server, NTLMSSP_NEGOTIATE_56 and NTLMSSP_NEGOTIATE_128 will both be
-# returned to the client. Clients and servers that set NTLMSSP_NEGOTIATE_SEAL SHOULD set NTLMSSP_NEGOTIATE_128 if it
-# is supported. An alternate name for this field is NTLMSSP_NEGOTIATE_128
+  
+  
+  
+  
+  
+  
+  
 NTLMSSP_NEGOTIATE_128                      = 0x20000000
 
 NTLMSSP_RESERVED_1                         = 0x10000000
 NTLMSSP_RESERVED_2                         = 0x08000000
 NTLMSSP_RESERVED_3                         = 0x04000000
 
-# If set, requests the protocol version number. The data corresponding to this flag is provided in the Version field
-# of the NEGOTIATE_MESSAGE, the CHALLENGE_MESSAGE, and the AUTHENTICATE_MESSAGE.<22> An alternate name for this field
-# is NTLMSSP_NEGOTIATE_VERSION
+  
+  
+  
 NTLMSSP_NEGOTIATE_VERSION                  = 0x02000000
 NTLMSSP_RESERVED_4                         = 0x01000000
 
-# If set, indicates that the TargetInfo fields in the CHALLENGE_MESSAGE (section 2.2.1.2) are populated.
-# An alternate name for this field is NTLMSSP_NEGOTIATE_TARGET_INFO.
+  
+  
 NTLMSSP_NEGOTIATE_TARGET_INFO              = 0x00800000
 
-# If set, requests the usage of the LMOWF (section 3.3). An alternate name for this field is
-# NTLMSSP_REQUEST_NON_NT_SESSION_KEY.
+  
+  
 NTLMSSP_REQUEST_NON_NT_SESSION_KEY         = 0x00400000
 NTLMSSP_RESERVED_5                         = 0x00200000
 
-# If set, requests an identify level token. An alternate name for this field is NTLMSSP_NEGOTIATE_IDENTIFY
+  
 NTLMSSP_NEGOTIATE_IDENTIFY                 = 0x00100000
 
-# If set, requests usage of the NTLM v2 session security. NTLM v2 session security is a misnomer because it is not
-# NTLM v2. It is NTLM v1 using the extended session security that is also in NTLM v2. NTLMSSP_NEGOTIATE_LM_KEY and
-# NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY are mutually exclusive. If both NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
-# and NTLMSSP_NEGOTIATE_LM_KEY are requested, NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY alone MUST be returned to the
-# client. NTLM v2 authentication session key generation MUST be supported by both the client and the DC in order to be
-# used, and extended session security signing and sealing requires support from the client and the server in order to
-# be used.<23> An alternate name for this field is NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
+  
+  
+  
+  
+  
+  
+  
 NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY = 0x00080000
 NTLMSSP_NEGOTIATE_NTLM2                    = 0x00080000
 NTLMSSP_TARGET_TYPE_SHARE                  = 0x00040000
 
-# If set, TargetName MUST be a server name. The data corresponding to this flag is provided by the server in the
-# TargetName field of the CHALLENGE_MESSAGE. If this bit is set, then NTLMSSP_TARGET_TYPE_DOMAIN MUST NOT be set.
-# This flag MUST be ignored in the NEGOTIATE_MESSAGE and the AUTHENTICATE_MESSAGE. An alternate name for this field
-# is NTLMSSP_TARGET_TYPE_SERVER
+  
+  
+  
+  
 NTLMSSP_TARGET_TYPE_SERVER                 = 0x00020000
 
-# If set, TargetName MUST be a domain name. The data corresponding to this flag is provided by the server in the
-# TargetName field of the CHALLENGE_MESSAGE. If set, then NTLMSSP_TARGET_TYPE_SERVER MUST NOT be set. This flag MUST
-# be ignored in the NEGOTIATE_MESSAGE and the AUTHENTICATE_MESSAGE. An alternate name for this field is
-# NTLMSSP_TARGET_TYPE_DOMAIN.
+  
+  
+  
+  
 NTLMSSP_TARGET_TYPE_DOMAIN                 = 0x00010000
 
-# If set, requests the presence of a signature block on all messages. NTLMSSP_NEGOTIATE_ALWAYS_SIGN MUST be set in the
-# NEGOTIATE_MESSAGE to the server and the CHALLENGE_MESSAGE to the client. NTLMSSP_NEGOTIATE_ALWAYS_SIGN is overridden
-# by NTLMSSP_NEGOTIATE_SIGN and NTLMSSP_NEGOTIATE_SEAL, if they are supported. An alternate name for this field is
-# NTLMSSP_NEGOTIATE_ALWAYS_SIGN.
-NTLMSSP_NEGOTIATE_ALWAYS_SIGN              = 0x00008000       # forces the other end to sign packets
+  
+  
+  
+  
+NTLMSSP_NEGOTIATE_ALWAYS_SIGN              = 0x00008000         
 NTLMSSP_RESERVED_6                         = 0x00004000
 
-# This flag indicates whether the Workstation field is present. If this flag is not set, the Workstation field MUST be
-# ignored. If this flag is set, the length field of the Workstation field specifies whether the workstation name is
-# nonempty or not.<24> An alternate name for this field is NTLMSSP_NEGOTIATE_OEM_WORKSTATION_SUPPLIED.
+  
+  
+  
 NTLMSSP_NEGOTIATE_OEM_WORKSTATION_SUPPLIED = 0x00002000
 
-# If set, the domain name is provided (section 2.2.1.1).<25> An alternate name for this field is
-# NTLMSSP_NEGOTIATE_OEM_DOMAIN_SUPPLIED
+  
+  
 NTLMSSP_NEGOTIATE_OEM_DOMAIN_SUPPLIED      = 0x00001000
 
-# If set, the connection SHOULD be anonymous
+  
 NTLMSSP_NEGOTIATE_ANONYMOUS                = 0x00000800
 
-# If set, LM authentication is not allowed and only NT authentication is used.
+  
 NTLMSSP_NEGOTIATE_NT_ONLY                  = 0x00000400
 
-# If set, requests usage of the NTLM v1 session security protocol. NTLMSSP_NEGOTIATE_NTLM MUST be set in the
-# NEGOTIATE_MESSAGE to the server and the CHALLENGE_MESSAGE to the client. An alternate name for this field is
-# NTLMSSP_NEGOTIATE_NTLM
+  
+  
+  
 NTLMSSP_NEGOTIATE_NTLM                     = 0x00000200
 NTLMSSP_RESERVED_8                         = 0x00000100
 
-# If set, requests LAN Manager (LM) session key computation. NTLMSSP_NEGOTIATE_LM_KEY and
-# NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY are mutually exclusive. If both NTLMSSP_NEGOTIATE_LM_KEY and
-# NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY are requested, NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY alone MUST be
-# returned to the client. NTLM v2 authentication session key generation MUST be supported by both the client and the
-# DC in order to be used, and extended session security signing and sealing requires support from the client and the
-# server to be used. An alternate name for this field is NTLMSSP_NEGOTIATE_LM_KEY.
+  
+  
+  
+  
+  
+  
 NTLMSSP_NEGOTIATE_LM_KEY                   = 0x00000080
 
-# If set, requests connectionless authentication. If NTLMSSP_NEGOTIATE_DATAGRAM is set, then NTLMSSP_NEGOTIATE_KEY_EXCH
-# MUST always be set in the AUTHENTICATE_MESSAGE to the server and the CHALLENGE_MESSAGE to the client. An alternate
-# name for this field is NTLMSSP_NEGOTIATE_DATAGRAM.
+  
+  
+  
 NTLMSSP_NEGOTIATE_DATAGRAM                 = 0x00000040
 
-# If set, requests session key negotiation for message confidentiality. If the client sends NTLMSSP_NEGOTIATE_SEAL to
-# the server in the NEGOTIATE_MESSAGE, the server MUST return NTLMSSP_NEGOTIATE_SEAL to the client in the
-# CHALLENGE_MESSAGE. Clients and servers that set NTLMSSP_NEGOTIATE_SEAL SHOULD always set NTLMSSP_NEGOTIATE_56 and
-# NTLMSSP_NEGOTIATE_128, if they are supported. An alternate name for this field is NTLMSSP_NEGOTIATE_SEAL.
+  
+  
+  
+  
 NTLMSSP_NEGOTIATE_SEAL                     = 0x00000020
 
-# If set, requests session key negotiation for message signatures. If the client sends NTLMSSP_NEGOTIATE_SIGN to the
-# server in the NEGOTIATE_MESSAGE, the server MUST return NTLMSSP_NEGOTIATE_SIGN to the client in the CHALLENGE_MESSAGE.
-# An alternate name for this field is NTLMSSP_NEGOTIATE_SIGN.
-NTLMSSP_NEGOTIATE_SIGN                     = 0x00000010       # means packet is signed, if verifier is wrong it fails
+  
+  
+  
+NTLMSSP_NEGOTIATE_SIGN                     = 0x00000010         
 NTLMSSP_RESERVED_9                         = 0x00000008
 
-# If set, a TargetName field of the CHALLENGE_MESSAGE (section 2.2.1.2) MUST be supplied. An alternate name for this
-# field is NTLMSSP_REQUEST_TARGET.
+  
+  
 NTLMSSP_REQUEST_TARGET                     = 0x00000004
 
-# If set, requests OEM character set encoding. An alternate name for this field is NTLM_NEGOTIATE_OEM. See bit A for
-# details.
+  
+  
 NTLM_NEGOTIATE_OEM                         = 0x00000002
 
-# If set, requests Unicode character set encoding. An alternate name for this field is NTLMSSP_NEGOTIATE_UNICODE.
+  
 NTLMSSP_NEGOTIATE_UNICODE                  = 0x00000001
 
-# AV_PAIR constants
+  
 NTLMSSP_AV_EOL              = 0x00
 NTLMSSP_AV_HOSTNAME         = 0x01
 NTLMSSP_AV_DOMAINNAME       = 0x02
@@ -231,13 +231,13 @@ class AV_PAIRS:
             ans+= struct.pack('<HH', i, self[i][0])
             ans+= self[i][1]
  
-        # end with a NTLMSSP_AV_EOL
+          
         ans += struct.pack('<HH', NTLMSSP_AV_EOL, 0)
 
         return ans
 
-# [MS-NLMP] 2.2.2.10 VERSION
-# https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-nlmp/b1a6ceb2-f8ad-462b-b5af-f18527c48175
+  
+  
 class VERSION(Structure):
     NTLMSSP_REVISION_W2K3 = 0x0F
 
@@ -270,13 +270,13 @@ class NTLMAuthNegotiate(Structure):
         self['flags']= (
                NTLMSSP_NEGOTIATE_128     |
                NTLMSSP_NEGOTIATE_KEY_EXCH|
-               # NTLMSSP_LM_KEY      |
+                 
                NTLMSSP_NEGOTIATE_NTLM    |
                NTLMSSP_NEGOTIATE_UNICODE     |
-               # NTLMSSP_ALWAYS_SIGN |
+                 
                NTLMSSP_NEGOTIATE_SIGN        |
                NTLMSSP_NEGOTIATE_SEAL        |
-               # NTLMSSP_TARGET      |
+                 
                0)
         self['host_name']=''
         self['domain_name']=''
@@ -401,22 +401,22 @@ class NTLMAuthChallengeResponse(Structure):
         Structure.__init__(self)
         self['session_key']=''
         self['user_name']=username.encode('utf-16le')
-        self['domain_name']='' #"CLON".encode('utf-16le')
-        self['host_name']='' #"BETS".encode('utf-16le')
-        self['flags'] = (   #authResp['flags']
-            # we think (beto & gera) that his flags force a memory conten leakage when a windows 2000 answers using
-            # uninitializaed verifiers
+        self['domain_name']=''   
+        self['host_name']=''   
+        self['flags'] = (     
+              
+              
            NTLMSSP_NEGOTIATE_128     |
            NTLMSSP_NEGOTIATE_KEY_EXCH|
-           # NTLMSSP_LM_KEY      |
+             
            NTLMSSP_NEGOTIATE_NTLM    |
            NTLMSSP_NEGOTIATE_UNICODE     |
-           # NTLMSSP_ALWAYS_SIGN |
+             
            NTLMSSP_NEGOTIATE_SIGN        |
            NTLMSSP_NEGOTIATE_SEAL        |
-           # NTLMSSP_TARGET      |
+             
            0)
-        # Here we do the stuff
+          
         if username and ( lmhash != '' or nthash != ''):            
             self['lanman'] = get_ntlmv1_response(lmhash, challenge)
             self['ntlm'] = get_ntlmv1_response(nthash, challenge)
@@ -424,12 +424,12 @@ class NTLMAuthChallengeResponse(Structure):
             lmhash = compute_lmhash(password)
             nthash = compute_nthash(password)
             self['lanman']=get_ntlmv1_response(lmhash, challenge)
-            self['ntlm']=get_ntlmv1_response(nthash, challenge)    # This is not used for LM_KEY nor NTLM_KEY
+            self['ntlm']=get_ntlmv1_response(nthash, challenge)      
         else:
             self['lanman'] = ''
             self['ntlm'] = ''
             if not self['host_name']:
-                self['host_name'] = 'NULL'.encode('utf-16le')      # for NULL session there must be a hostname
+                self['host_name'] = 'NULL'.encode('utf-16le')        
 
     @staticmethod
     def checkVersion(flags):
@@ -440,7 +440,7 @@ class NTLMAuthChallengeResponse(Structure):
 
     @staticmethod
     def checkMIC(flags):
-        # TODO: Find a proper way to check the MIC is in there
+          
         if flags is not None:
            if flags & NTLMSSP_NEGOTIATE_VERSION == 0:
               return 0
@@ -457,9 +457,9 @@ class NTLMAuthChallengeResponse(Structure):
 
     def fromString(self,data):
         Structure.fromString(self,data)
-        # [MS-NLMP] page 27
-        # Payload data can be present in any order within the Payload field, 
-        # with variable-length padding before or after the data
+          
+          
+          
 
         domain_offset = self['domain_offset']
         domain_end = self['domain_len'] + domain_offset
@@ -516,7 +516,7 @@ class NTLMMessageSignature(ExtendedOrNotMessageSignature):
 KNOWN_DES_INPUT = b"KGS!@#$%"
 
 def __expand_DES_key(key):
-    # Expand the key from a 7-byte password key into a 8-byte DES key
+      
     if not isinstance(key, bytes):
         key = bytes(key)
     key  = bytearray(key[:7]).ljust(7, b'\x00')
@@ -541,11 +541,11 @@ def ntlmssp_DES_encrypt(key, challenge):
     answer += __DES_block(key[14:], challenge)
     return answer
 
-# High level functions to use NTLMSSP
+  
 
 def getNTLMSSPType1(workstation='', domain='', signingRequired = False, use_ntlmv2 = USE_NTLMv2):
-    # Let's do some encoding checks before moving on. Kind of dirty, but found effective when dealing with
-    # international characters.
+      
+      
     import sys
     encoding = sys.getfilesystemencoding()
     if encoding is not None:
@@ -558,7 +558,7 @@ def getNTLMSSPType1(workstation='', domain='', signingRequired = False, use_ntlm
         except:
             domain = domain.decode(encoding)
 
-    # Let's prepare a Type 1 NTLMSSP Message
+      
     auth = NTLMAuthNegotiate()
     auth['flags']=0
     if signingRequired:
@@ -569,20 +569,20 @@ def getNTLMSSPType1(workstation='', domain='', signingRequired = False, use_ntlm
     auth['flags'] |= NTLMSSP_NEGOTIATE_NTLM | NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY | NTLMSSP_NEGOTIATE_UNICODE | \
                      NTLMSSP_REQUEST_TARGET |  NTLMSSP_NEGOTIATE_128 | NTLMSSP_NEGOTIATE_56
 
-    # We're not adding workstation / domain fields this time. Normally Windows clients don't add such information but,
-    # we will save the workstation name to be used later.
+      
+      
     auth.setWorkstation(workstation)
 
     return auth
 
 def getNTLMSSPType3(type1, type2, user, password, domain, lmhash = '', nthash = '', use_ntlmv2 = USE_NTLMv2):
 
-    # Safety check in case somebody sent password = None.. That's not allowed. Setting it to '' and hope for the best.
+      
     if password is None:
         password = ''
 
-    # Let's do some encoding checks before moving on. Kind of dirty, but found effective when dealing with
-    # international characters.
+      
+      
     import sys
     encoding = sys.getfilesystemencoding()
     if encoding is not None:
@@ -601,11 +601,11 @@ def getNTLMSSPType3(type1, type2, user, password, domain, lmhash = '', nthash = 
 
     ntlmChallenge = NTLMAuthChallenge(type2)
 
-    # Let's start with the original flags sent in the type1 message
+      
     responseFlags = type1['flags']
 
-    # Token received and parsed. Depending on the authentication 
-    # method we will create a valid ChallengeResponse
+      
+      
     ntlmChallengeResponse = NTLMAuthChallengeResponse(user, password, ntlmChallenge['challenge'])
 
     clientChallenge = b("".join([random.choice(string.digits+string.ascii_letters) for _ in range(8)]))
@@ -616,61 +616,61 @@ def getNTLMSSPType3(type1, type2, user, password, domain, lmhash = '', nthash = 
                                                              clientChallenge, serverName, domain, user, password,
                                                              lmhash, nthash, use_ntlmv2)
 
-    # Let's check the return flags
+      
     if (ntlmChallenge['flags'] & NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY) == 0:
-        # No extended session security, taking it out
+          
         responseFlags &= 0xffffffff ^ NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY
     if (ntlmChallenge['flags'] & NTLMSSP_NEGOTIATE_128 ) == 0:
-        # No support for 128 key len, taking it out
+          
         responseFlags &= 0xffffffff ^ NTLMSSP_NEGOTIATE_128
     if (ntlmChallenge['flags'] & NTLMSSP_NEGOTIATE_KEY_EXCH) == 0:
-        # No key exchange supported, taking it out
+          
         responseFlags &= 0xffffffff ^ NTLMSSP_NEGOTIATE_KEY_EXCH
     if (ntlmChallenge['flags'] & NTLMSSP_NEGOTIATE_SEAL) == 0:
-        # No sign available, taking it out
+          
         responseFlags &= 0xffffffff ^ NTLMSSP_NEGOTIATE_SEAL
     if (ntlmChallenge['flags'] & NTLMSSP_NEGOTIATE_SIGN) == 0:
-        # No sign available, taking it out
+          
         responseFlags &= 0xffffffff ^ NTLMSSP_NEGOTIATE_SIGN
     if (ntlmChallenge['flags'] & NTLMSSP_NEGOTIATE_ALWAYS_SIGN) == 0:
-        # No sign available, taking it out
+          
         responseFlags &= 0xffffffff ^ NTLMSSP_NEGOTIATE_ALWAYS_SIGN
 
     keyExchangeKey = KXKEY(ntlmChallenge['flags'], sessionBaseKey, lmResponse, ntlmChallenge['challenge'], password,
                            lmhash, nthash, use_ntlmv2)
 
-    # Special case for anonymous login
+      
     if user == '' and password == '' and lmhash == '' and nthash == '':
       keyExchangeKey = b'\x00'*16
 
-    # If we set up key exchange, let's fill the right variables
+      
     if ntlmChallenge['flags'] & NTLMSSP_NEGOTIATE_KEY_EXCH:
-       # not exactly what I call random tho :\
-       # exportedSessionKey = this is the key we should use to sign
+         
+         
        exportedSessionKey = b("".join([random.choice(string.digits+string.ascii_letters) for _ in range(16)]))
-       #exportedSessionKey = "A"*16
-       #print "keyExchangeKey %r" % keyExchangeKey
-       # Let's generate the right session key based on the challenge flags
-       #if responseFlags & NTLMSSP_NTLM2_KEY:
-           # Extended session security enabled
-       #    if responseFlags & NTLMSSP_KEY_128:
-               # Full key
-       #        exportedSessionKey = exportedSessionKey
-       #    elif responseFlags & NTLMSSP_KEY_56:
-               # Only 56-bit key
-       #        exportedSessionKey = exportedSessionKey[:7]
-       #    else:
-       #        exportedSessionKey = exportedSessionKey[:5]
-       #elif responseFlags & NTLMSSP_KEY_56:
-           # No extended session security, just 56 bits key
-       #    exportedSessionKey = exportedSessionKey[:7] + '\xa0'
-       #else:
-       #    exportedSessionKey = exportedSessionKey[:5] + '\xe5\x38\xb0'
+         
+         
+         
+         
+             
+         
+                 
+         
+         
+                 
+         
+         
+         
+         
+             
+         
+         
+         
 
        encryptedRandomSessionKey = generateEncryptedSessionKey(keyExchangeKey, exportedSessionKey)
     else:
        encryptedRandomSessionKey = None
-       # [MS-NLMP] page 46
+         
        exportedSessionKey        = keyExchangeKey
 
     ntlmChallengeResponse['flags'] = responseFlags
@@ -687,7 +687,7 @@ def getNTLMSSPType3(type1, type2, user, password, domain, lmhash = '', nthash = 
     return ntlmChallengeResponse, exportedSessionKey
 
 
-# NTLMv1 Algorithm
+  
 
 def generateSessionKeyV1(password, lmhash, nthash):
     hash = MD4.new()
@@ -698,7 +698,7 @@ def generateSessionKeyV1(password, lmhash, nthash):
 def computeResponseNTLMv1(flags, serverChallenge, clientChallenge, serverName, domain, user, password, lmhash='',
                           nthash='', use_ntlmv2=USE_NTLMv2):
     if user == '' and password == '':
-        # Special case for anonymous authentication
+          
         lmResponse = ''
         ntResponse = ''
     else:
@@ -721,7 +721,7 @@ def computeResponseNTLMv1(flags, serverChallenge, clientChallenge, serverName, d
     return ntResponse, lmResponse, sessionBaseKey
 
 def compute_lmhash(password):
-    # This is done according to Samba's encryption specification (docs/html/ENCRYPTION.html)
+      
     password = password.upper()
     lmhash  = __DES_block(b(password[:7]), KNOWN_DES_INPUT)
     lmhash += __DES_block(b(password[7:14]), KNOWN_DES_INPUT)
@@ -738,7 +738,7 @@ def LMOWFv1(password, lmhash = '', nthash=''):
     return compute_lmhash(password)
 
 def compute_nthash(password):
-    # This is done according to Samba's encryption specification (docs/html/ENCRYPTION.html)
+      
     try:
         password = str(password).encode('utf_16le')
     except UnicodeDecodeError:
@@ -752,13 +752,13 @@ def compute_nthash(password):
 def get_ntlmv1_response(key, challenge):
     return ntlmssp_DES_encrypt(key, challenge)
 
-# NTLMv2 Algorithm - as described in MS-NLMP Section 3.3.2
+  
 
-# Crypto Stuff
+  
 
 def MAC(flags, handle, signingKey, seqNum, message):
-   # [MS-NLMP] Section 3.4.4
-   # Returns the right messageSignature depending on the flags
+     
+     
    messageSignature = NTLMMessageSignature(flags)
    if flags & NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY:
        if flags & NTLMSSP_NEGOTIATE_KEY_EXCH:
@@ -886,10 +886,10 @@ def computeResponseNTLMv2(flags, serverChallenge, clientChallenge, serverName, d
     responseKeyNT = NTOWFv2(user, password, domain, nthash)
 
     av_pairs = AV_PAIRS(serverName)
-    # In order to support SPN target name validation, we have to add this to the serverName av_pairs. Otherwise we will
-    # get access denied
-    # This is set at Local Security Policy -> Local Policies -> Security Options -> Server SPN target name validation
-    # level
+      
+      
+      
+      
     if TEST_CASE is False:
         av_pairs[NTLMSSP_AV_TARGET_NAME] = 'cifs/'.encode('utf-16le') + av_pairs[NTLMSSP_AV_HOSTNAME][1]
         if av_pairs[NTLMSSP_AV_TIME] is not None:
@@ -911,14 +911,14 @@ def computeResponseNTLMv2(flags, serverChallenge, clientChallenge, serverName, d
     sessionBaseKey = hmac_md5(responseKeyNT, ntProofStr)
 
     if user == '' and password == '':
-        # Special case for anonymous authentication
+          
         ntChallengeResponse = ''
         lmChallengeResponse = ''
 
     return ntChallengeResponse, lmChallengeResponse, sessionBaseKey
 
 class NTLM_HTTP(object):
-    # Parent class for NTLM HTTP classes.
+      
     MSG_TYPE = None
 
     @classmethod
@@ -926,7 +926,7 @@ class NTLM_HTTP(object):
         msg = None
         msg_type = 0
         if msg_64 != '':
-            msg = base64.b64decode(msg_64[5:]) # Remove the 'NTLM '
+            msg = base64.b64decode(msg_64[5:])   
             msg_type = ord(msg[8])
     
         for _cls in NTLM_HTTP.__subclasses__():
@@ -938,7 +938,7 @@ class NTLM_HTTP(object):
     
 class NTLM_HTTP_AuthRequired(NTLM_HTTP):
     commonHdr = ()
-    # Message 0 means the first HTTP request e.g. 'GET /bla.png'
+      
     MSG_TYPE = 0
 
     def fromString(self,data): 

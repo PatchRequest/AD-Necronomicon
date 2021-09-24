@@ -68,17 +68,17 @@ class Int32(univ.Integer):
 
 class UInt32(univ.Integer):
     pass
-#    subtypeSpec = univ.Integer.subtypeSpec + constraint.ValueRangeConstraint(
-#        0, 4294967295)
+  
+  
 
 class Microseconds(univ.Integer):
     subtypeSpec = univ.Integer.subtypeSpec + constraint.ValueRangeConstraint(
         0, 999999)
 
 class KerberosString(char.GeneralString):
-    # TODO marc: I'm not sure how to express this constraint in the API.
-    # For now, we will be liberal in what we accept.
-    # subtypeSpec = constraint.PermittedAlphabetConstraint(char.IA5String())
+      
+      
+      
     pass
 
 class Realm(KerberosString):
@@ -116,9 +116,9 @@ class PA_DATA(univ.Sequence):
         )
 
 class KerberosFlags(univ.BitString):
-    # TODO marc: it doesn't look like there's any way to specify the
-    # SIZE (32.. MAX) parameter to the encoder.  However, we can
-    # arrange at a higher layer to pass in >= 32 bits to the encoder.
+      
+      
+      
     pass
 
 class EncryptedData(univ.Sequence):

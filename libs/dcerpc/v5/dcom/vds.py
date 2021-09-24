@@ -20,10 +20,10 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'VDS SessionError: unknown error code: 0x%x' % (self.error_code)
 
-################################################################################
-# CONSTANTS
-################################################################################
-# 1.9 Standards Assignments
+  
+  
+  
+  
 CLSID_VirtualDiskService = string_to_bin('7D1933CB-86F6-4A98-8628-01BE94C9A575')
 IID_IEnumVdsObject = string_to_bin('118610B7-8D94-4030-B5B8-500889788E4E')
 IID_IVdsAdviseSink = string_to_bin('8326CD1D-CF59-4936-B786-5EFC08798E25')
@@ -35,13 +35,13 @@ IID_IVdsProvider = string_to_bin('10C5E575-7984-4E81-A56B-431F5F92AE42')
 
 error_status_t = ULONG
 
-# 2.2.1.1.3 VDS_OBJECT_ID
+  
 VDS_OBJECT_ID = GUID
 
-################################################################################
-# STRUCTURES
-################################################################################
-# 2.2.2.1.3.1 VDS_SERVICE_PROP
+  
+  
+  
+  
 class VDS_SERVICE_PROP(NDRSTRUCT):
     structure = (
         ('pwszVersion',LPWSTR),
@@ -51,7 +51,7 @@ class VDS_SERVICE_PROP(NDRSTRUCT):
 class OBJECT_ARRAY(NDRUniConformantVaryingArray):
     item = PMInterfacePointer
 
-# 2.2.2.7.1.1 VDS_PROVIDER_TYPE
+  
 class VDS_PROVIDER_TYPE(NDRENUM):
     class enumItems(Enum):
         VDS_PT_UNKNOWN     = 0
@@ -60,7 +60,7 @@ class VDS_PROVIDER_TYPE(NDRENUM):
         VDS_PT_VIRTUALDISK = 3
         VDS_PT_MAX         = 4
 
-# 2.2.2.7.2.1 VDS_PROVIDER_PROP
+  
 class VDS_PROVIDER_PROP(NDRSTRUCT):
     structure = (
         ('id',VDS_OBJECT_ID),
@@ -73,11 +73,11 @@ class VDS_PROVIDER_PROP(NDRSTRUCT):
         ('sRebuildPriority',SHORT),
     )
 
-################################################################################
-# RPC CALLS
-################################################################################
+  
+  
+  
 
-# 3.4.5.2.5.1 IVdsServiceInitialization::Initialize (Opnum 3)
+  
 class IVdsServiceInitialization_Initialize(DCOMCALL):
     opnum = 3
     structure = (
@@ -89,7 +89,7 @@ class IVdsServiceInitialization_InitializeResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.4.5.2.4.1 IVdsService::IsServiceReady (Opnum 3)
+  
 class IVdsService_IsServiceReady(DCOMCALL):
     opnum = 3
     structure = (
@@ -100,7 +100,7 @@ class IVdsService_IsServiceReadyResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.4.5.2.4.2 IVdsService::WaitForServiceReady (Opnum 4)
+  
 class IVdsService_WaitForServiceReady(DCOMCALL):
     opnum = 4
     structure = (
@@ -111,7 +111,7 @@ class IVdsService_WaitForServiceReadyResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.4.5.2.4.3 IVdsService::GetProperties (Opnum 5)
+  
 class IVdsService_GetProperties(DCOMCALL):
     opnum = 5
     structure = (
@@ -123,7 +123,7 @@ class IVdsService_GetPropertiesResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.4.5.2.4.4 IVdsService::QueryProviders (Opnum 6)
+  
 class IVdsService_QueryProviders(DCOMCALL):
     opnum = 6
     structure = (
@@ -136,8 +136,8 @@ class IVdsService_QueryProvidersResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.1.1 IEnumVdsObject Interface
-# 3.4.5.2.1.1 IEnumVdsObject::Next (Opnum 3)
+  
+  
 class IEnumVdsObject_Next(DCOMCALL):
     opnum = 3
     structure = (
@@ -150,7 +150,7 @@ class IEnumVdsObject_NextResponse(DCOMANSWER):
        ('pcFetched', ULONG),
        ('ErrorCode', error_status_t),
     )
-# 3.4.5.2.14.1 IVdsProvider::GetProperties (Opnum 3)
+  
 class IVdsProvider_GetProperties(DCOMCALL):
     opnum = 3
     structure = (
@@ -162,15 +162,15 @@ class IVdsProvider_GetPropertiesResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
 }
 
-################################################################################
-# HELPER FUNCTIONS AND INTERFACES
-################################################################################
+  
+  
+  
 class IEnumVdsObject(IRemUnknown2):
     def Next(self, celt=0xffff):
         request = IEnumVdsObject_Next()
@@ -181,7 +181,7 @@ class IEnumVdsObject(IRemUnknown2):
             resp = self.request(request, uuid = self.get_iPid())
         except Exception as e:
             resp = e.get_packet()
-            # If it is S_FALSE(1) means less items were returned
+              
             if resp['ErrorCode'] != 1:
                 raise
         interfaces = list()

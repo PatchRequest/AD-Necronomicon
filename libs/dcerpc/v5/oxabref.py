@@ -22,9 +22,9 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'OXABREF SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 class PUCHAR_ARRAY(NDRPOINTER):
     referent = (
         ('Data', STR),
@@ -35,11 +35,11 @@ class PPUCHAR_ARRAY(NDRPOINTER):
         ('Data', PUCHAR_ARRAY),
     )
 
-################################################################################
-# RPC CALLS
-################################################################################
+  
+  
+  
 
-# 3.1.4.1 RfrGetNewDSA (opnum 0)
+  
 class RfrGetNewDSA(NDRCALL):
     opnum = 0
     structure = (
@@ -55,7 +55,7 @@ class RfrGetNewDSAResponse(NDRCALL):
        ('ppszServer', PPUCHAR_ARRAY),
     )
 
-# 3.1.4.2 RfrGetFQDNFromServerDN (opnum 1)
+  
 class RfrGetFQDNFromServerDN(NDRCALL):
     opnum = 1
     structure = (
@@ -70,17 +70,17 @@ class RfrGetFQDNFromServerDNResponse(NDRCALL):
        ('ErrorCode', ULONG),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
     0   : (RfrGetNewDSA, RfrGetNewDSAResponse),
     1   : (RfrGetFQDNFromServerDN, RfrGetFQDNFromServerDNResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def checkNullString(string):
     if string == NULL:
         return string

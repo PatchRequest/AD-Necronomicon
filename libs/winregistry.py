@@ -9,7 +9,7 @@ from libs import LOG
 from libs.structure import Structure, hexdump
 
 
-# Constants
+  
 
 ROOT_KEY        = 0x2c
 REG_NONE        = 0x00
@@ -20,7 +20,7 @@ REG_DWORD       = 0x04
 REG_MULTISZ     = 0x07
 REG_QWORD       = 0x0b
 
-# Structs
+  
 class REG_REGF(Structure):
     structure = (
         ('Magic','"regf'),
@@ -36,7 +36,7 @@ class REG_REGF(Structure):
         ('1111','<L=0'),
         ('Name','48s=""'),
         ('Remaining1','411s=b""'),
-        ('CheckSum','<L=0xffffffff'), # Sum of all DWORDs from 0x0 to 0x1FB
+        ('CheckSum','<L=0xffffffff'),   
         ('Remaining2','3585s=b""'),
     )
 
@@ -165,7 +165,7 @@ class Registry:
         while len(data) > 0:
             try:
                 hbin = REG_HBIN(data[:0x20])
-                # Read the remaining bytes for this hbin
+                  
                 data += self.fd.read(hbin['OffsetNextHBin']-4096)
                 data = data[0x20:]
                 blocks = self.__processDataBlocks(data)
@@ -215,7 +215,7 @@ class Registry:
     def __processDataBlocks(self,data):
         res = []
         while len(data) > 0:
-            #blockSize = unpack('<l',data[:calcsize('l')])[0]
+              
             blockSize = unpack('<l',data[:4])[0]
             block = REG_HBINBLOCK()
             if blockSize > 0:
@@ -234,11 +234,11 @@ class Registry:
         return res
 
     def __getValueData(self, rec):
-        # We should receive a VK record
+          
         if rec['DataLen'] == 0:
             return ''
         if rec['DataLen'] < 0:
-            # if DataLen < 5 the value itself is stored in the Offset field
+              
             return rec['OffsetData']
         else:
             return self.__getData(rec['OffsetData'], rec['DataLen']+4)
@@ -260,7 +260,7 @@ class Registry:
             if unpack('<L',hashRec['KeyName'])[0] == self.__getLhHash(key):
                 return hashRec['OffsetNk']
         elif magic == 'ri':
-            # Special case here, don't know exactly why, an ri pointing to a NK :-o
+              
             offset = unpack('<L', hashData[:4])[0]
             nk = self.__getBlock(offset)
             if nk['KeyName'] == key:
@@ -275,9 +275,9 @@ class Registry:
         lf = self.__getBlock(parentKey['OffsetSubKeyLf'])
         if lf is not None:
             data = lf['HashRecords']
-            # Let's search the hash records for the name
+              
             if lf['Magic'] == 'ri':
-                # ri points to lf/lh records, so we must parse them before
+                  
                 records = b''
                 for i in range(lf['NumKeys']):
                     offset = unpack('<L', data[:4])[0]
@@ -286,12 +286,12 @@ class Registry:
                     data = data[4:]
                 data = records
 
-            #for record in range(lf['NumKeys']):
+              
             for record in range(parentKey['NumSubKeys']):
                 hashRec = data[:8]
                 res = self.__compareHash(lf['Magic'], hashRec, subKey)
                 if res is not None:
-                    # We have a match, now let's check the whole record
+                      
                     nk = self.__getBlock(res)
                     if nk['KeyName'].decode('utf-8') == subKey:
                         return nk
@@ -314,7 +314,7 @@ class Registry:
         data = lf['HashRecords']
 
         if lf['Magic'] == 'ri':
-            # ri points to lf/lh records, so we must parse them before
+              
             records = ''
             for i in range(lf['NumKeys']):
                 offset = unpack('<L', data[:4])[0]
@@ -345,8 +345,8 @@ class Registry:
             data = data[8:]
 
     def findKey(self, key):
-        # Let's strip '\' from the beginning, except for the case of
-        # only asking for the root node
+          
+          
         if key[0] == '\\' and len(key) > 1:
             key = key[1:]
 
@@ -357,7 +357,7 @@ class Registry:
                 if res is not None:
                     parentKey = res
                 else:
-                    #LOG.error("Key %s not found!" % key)
+                      
                     return None
 
         return parentKey
@@ -392,14 +392,14 @@ class Registry:
 
     def enumKey(self, parentKey):
         res = []
-        # If we're here.. we have a valid NK record for the key
-        # Now let's searcht the subkeys
+          
+          
         if parentKey['NumSubKeys'] > 0:
             lf = self.__getBlock(parentKey['OffsetSubKeyLf'])
             data = lf['HashRecords']
 
             if lf['Magic'] == 'ri':
-                # ri points to lf/lh records, so we must parse them before
+                  
                 records = ''
                 for i in range(lf['NumKeys']):
                     offset = unpack('<L', data[:4])[0]
@@ -416,8 +416,8 @@ class Registry:
         return res
 
     def enumValues(self,key):
-        # If we're here.. we have a valid NK record for the key
-        # Now let's search its values
+          
+          
         resp = []
         if key['NumValues'] > 0:
             valueList = self.__getValueBlocks(key['OffsetValueList'], key['NumValues']+1)
@@ -431,7 +431,7 @@ class Registry:
         return resp
 
     def getValue(self, keyValue):
-        # returns a tuple with (ValueType, ValueData) for the requested keyValue
+          
         regKey = ntpath.dirname(keyValue)
         regValue = ntpath.basename(keyValue)
 
@@ -458,7 +458,7 @@ class Registry:
         if key is None:
             return None
 
-        #print key.dump()
+          
         if key['OffsetClassName'] > 0:
             value = self.__getBlock(key['OffsetClassName'])
             return value['Data']

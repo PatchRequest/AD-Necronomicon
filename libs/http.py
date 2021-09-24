@@ -10,7 +10,7 @@ except ImportError:
 
 from libs import ntlm, LOG
 
-# Auth types
+  
 AUTH_AUTO      = 'Auto'
 AUTH_BASIC     = 'Basic'
 AUTH_NTLM      = 'NTLM'
@@ -18,9 +18,9 @@ AUTH_NEGOTIATE = 'Negotiate'
 AUTH_BEARER    = 'Bearer'
 AUTH_DIGEST    = 'Digest'
 
-################################################################################
-# CLASSES
-################################################################################
+  
+  
+  
 class HTTPClientSecurityProvider:
     def __init__(self, auth_type=AUTH_AUTO):
         self.__username = None
@@ -60,7 +60,7 @@ class HTTPClientSecurityProvider:
             if len(nthash) % 2:
                 nthash = '0%s' % nthash
 
-            try: # just in case they were converted already
+            try:   
                 self.__lmhash = binascii.unhexlify(lmhash)
                 self.__nthash = binascii.unhexlify(nthash)
             except:
@@ -119,12 +119,12 @@ class HTTPClientSecurityProvider:
 
         auth_line_http = 'Basic %s' % base64.b64encode(auth_line.encode('UTF-8')).decode('ascii')
 
-        # Format: auth_headers, reserved, ...
+          
         return {'Authorization': auth_line_http}, None
 
-    # It's important that the class contains the separate method that
-    # gets NTLM Type 1 value, as this way the class can be programmed to
-    # be used in relay attacks
+      
+      
+      
     def send_ntlm_type1(self, http_obj, method, path, headers, negotiateMessage):
         auth_headers = headers.copy()
         auth_headers['Content-Length'] = '0'
@@ -147,7 +147,7 @@ class HTTPClientSecurityProvider:
             self.__auth_types = self.parse_www_authenticate(res.getheader('WWW-Authenticate'))
 
         if AUTH_NTLM not in self.__auth_types:
-            # NTLM auth not supported for url
+              
             return None, None
 
         try:
@@ -161,7 +161,7 @@ class HTTPClientSecurityProvider:
             challenge = ntlm.NTLMAuthChallenge(serverChallenge)
             self.__ntlmssp_info = ntlm.AV_PAIRS(challenge['TargetInfoFields'])
 
-        # Format: serverChallenge, reserved, ...
+          
         return serverChallenge, None
 
     def get_auth_headers_auto(self, http_obj, method, path, headers):
@@ -187,5 +187,5 @@ class HTTPClientSecurityProvider:
             else:
                 raise Exception('No supported auth offered by URL: %s' % self.__auth_types)
 
-        # Format: auth_headers, reserved, ...
+          
         return {'Authorization': auth_line_http}, None

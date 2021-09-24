@@ -19,7 +19,7 @@ def _asn1_decode(data, asn1Spec):
             raise KerberosException("asn1 encoding invalid")
     return data
 
-# A principal can be represented as:
+  
 
 class Principal(object):
     """The principal's value can be supplied as:
@@ -37,10 +37,10 @@ If the value contains no realm, then default_realm will be used."""
         if value is None:
             return
 
-        try:               # Python 2
+        try:                 
             if isinstance(value, unicode):
                 value = value.encode('utf-8')
-        except NameError:  # Python 3
+        except NameError:    
             if isinstance(value, bytes):
                 value = value.decode('utf-8')
 
@@ -154,7 +154,7 @@ class Address(object):
             return None
 
     def encode(self):
-        # ipv4-mapped ipv6 addresses must be encoded as ipv4.
+          
         pass
 
 class EncryptedData(object):
@@ -183,8 +183,8 @@ class EncryptedData(object):
 
 class Ticket(object):
     def __init__(self):
-        # This is the kerberos version, not the service principal key
-        # version number.
+          
+          
         self.tkt_vno = None
         self.service_principal = None
         self.encrypted_part = None
@@ -214,8 +214,8 @@ class KerberosTime(object):
 
     @staticmethod
     def to_asn1(dt):
-        # A KerberosTime is really just a string, so we can return a
-        # string here, and the asn1 library will convert it correctly.
+          
+          
 
         return "%04d%02d%02d%02d%02d%02dZ" % (dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
 
@@ -233,7 +233,7 @@ class KerberosTime(object):
         return datetime.datetime(year, month, day, hour, minute, second)
 
 if __name__ == '__main__':
-    # TODO marc: turn this into a real test
+      
     print(Principal("marc"))
     print(Principal(("marc", None)))
     print(Principal((("marc",), None)))

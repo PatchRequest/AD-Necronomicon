@@ -3,33 +3,33 @@ from __future__ import print_function
 
 from libs.structure import Structure
 
-# Constants
+  
 
-# SMB Packet
+  
 SMB2_PACKET_SIZE     = 64
 
-# SMB Commands
-SMB2_NEGOTIATE       = 0x0000 #
-SMB2_SESSION_SETUP   = 0x0001 #
-SMB2_LOGOFF          = 0x0002 #
-SMB2_TREE_CONNECT    = 0x0003 #
-SMB2_TREE_DISCONNECT = 0x0004 #
-SMB2_CREATE          = 0x0005 #
-SMB2_CLOSE           = 0x0006 #
-SMB2_FLUSH           = 0x0007 #
-SMB2_READ            = 0x0008 #
-SMB2_WRITE           = 0x0009 #
-SMB2_LOCK            = 0x000A #
-SMB2_IOCTL           = 0x000B #
-SMB2_CANCEL          = 0x000C #
-SMB2_ECHO            = 0x000D #
-SMB2_QUERY_DIRECTORY = 0x000E #
+  
+SMB2_NEGOTIATE       = 0x0000   
+SMB2_SESSION_SETUP   = 0x0001   
+SMB2_LOGOFF          = 0x0002   
+SMB2_TREE_CONNECT    = 0x0003   
+SMB2_TREE_DISCONNECT = 0x0004   
+SMB2_CREATE          = 0x0005   
+SMB2_CLOSE           = 0x0006   
+SMB2_FLUSH           = 0x0007   
+SMB2_READ            = 0x0008   
+SMB2_WRITE           = 0x0009   
+SMB2_LOCK            = 0x000A   
+SMB2_IOCTL           = 0x000B   
+SMB2_CANCEL          = 0x000C   
+SMB2_ECHO            = 0x000D   
+SMB2_QUERY_DIRECTORY = 0x000E   
 SMB2_CHANGE_NOTIFY   = 0x000F
-SMB2_QUERY_INFO      = 0x0010 #
+SMB2_QUERY_INFO      = 0x0010   
 SMB2_SET_INFO        = 0x0011
 SMB2_OPLOCK_BREAK    = 0x0012
 
-# SMB Flags
+  
 SMB2_FLAGS_SERVER_TO_REDIR    = 0x00000001
 SMB2_FLAGS_ASYNC_COMMAND      = 0x00000002
 SMB2_FLAGS_RELATED_OPERATIONS = 0x00000004
@@ -37,33 +37,33 @@ SMB2_FLAGS_SIGNED             = 0x00000008
 SMB2_FLAGS_DFS_OPERATIONS     = 0x10000000
 SMB2_FLAGS_REPLAY_OPERATION   = 0x80000000
 
-# SMB Error SymLink Flags
+  
 SYMLINK_FLAG_ABSOLUTE         = 0x0
 SYMLINK_FLAG_RELATIVE         = 0x1
 
-# SMB2_NEGOTIATE
-# Security Modes
+  
+  
 SMB2_NEGOTIATE_SIGNING_ENABLED  = 0x1
 SMB2_NEGOTIATE_SIGNING_REQUIRED = 0x2
 
-# SMB2_NEGOTIATE_CONTEXT
+  
 SMB2_PREAUTH_INTEGRITY_CAPABILITIES = 0x1
 SMB2_ENCRYPTION_CAPABILITIES        = 0x2
 SMB2_COMPRESSION_CAPABILITIES       = 0x3
 SMB2_NETNAME_NEGOTIATE_CONTEXT_ID   = 0x5
 
-# SMB2_COMPRESSION_CAPABILITIES
+  
 SMB2_COMPRESSION_CAPABILITIES_FLAG_NONE    = 0x0
 SMB2_COMPRESSION_CAPABILITIES_FLAG_CHAINED = 0x1
 
-# Compression Algorithms
+  
 COMPRESSION_ALGORITHM_NONE         = 0x0
 COMPRESSION_ALGORITHM_LZNT1        = 0x1
 COMPRESSION_ALGORITHM_LZ77         = 0x2
 COMPRESSION_ALGORITHM_LZ77_HUFFMAN = 0x3
 COMPRESSION_ALGORITHM_PATTERN_V1   = 0x4
 
-# Capabilities
+  
 SMB2_GLOBAL_CAP_DFS                = 0x01
 SMB2_GLOBAL_CAP_LEASING            = 0x02
 SMB2_GLOBAL_CAP_LARGE_MTU          = 0x04
@@ -72,28 +72,28 @@ SMB2_GLOBAL_CAP_PERSISTENT_HANDLES = 0x10
 SMB2_GLOBAL_CAP_DIRECTORY_LEASING  = 0x20
 SMB2_GLOBAL_CAP_ENCRYPTION         = 0x40
 
-# Dialects
+  
 SMB2_DIALECT_002      = 0x0202
 SMB2_DIALECT_21       = 0x0210
 SMB2_DIALECT_30       = 0x0300
-SMB2_DIALECT_302      = 0x0302  #SMB 3.0.2
-SMB2_DIALECT_311      = 0x0311  #SMB 3.1.1
+SMB2_DIALECT_302      = 0x0302    
+SMB2_DIALECT_311      = 0x0311    
 SMB2_DIALECT_WILDCARD = 0x02FF
 
-# SMB2_SESSION_SETUP
-# Flags
+  
+  
 SMB2_SESSION_FLAG_BINDING        = 0x01
 SMB2_SESSION_FLAG_IS_GUEST       = 0x01
 SMB2_SESSION_FLAG_IS_NULL        = 0x02
 SMB2_SESSION_FLAG_ENCRYPT_DATA   = 0x04
 
-# SMB2_TREE_CONNECT 
-# Types
+  
+  
 SMB2_SHARE_TYPE_DISK   = 0x1
 SMB2_SHARE_TYPE_PIPE   = 0x2
 SMB2_SHARE_TYPE_PRINT  = 0x3
 
-# Share Flags
+  
 SMB2_SHAREFLAG_MANUAL_CACHING              = 0x00000000
 SMB2_SHAREFLAG_AUTO_CACHING                = 0x00000010
 SMB2_SHAREFLAG_VDO_CACHING                 = 0x00000020
@@ -109,27 +109,27 @@ SMB2_SHAREFLAG_ENABLE_HASH_V1              = 0x00002000
 SMB2_SHAREFLAG_ENABLE_HASH_V2              = 0x00004000
 SMB2_SHAREFLAG_ENCRYPT_DATA                = 0x00008000
 
-# Capabilities
+  
 SMB2_SHARE_CAP_DFS                         = 0x00000008
 SMB2_SHARE_CAP_CONTINUOUS_AVAILABILITY     = 0x00000010
 SMB2_SHARE_CAP_SCALEOUT                    = 0x00000020
 SMB2_SHARE_CAP_CLUSTER                     = 0x00000040
 
-# SMB_CREATE 
-# Oplocks
+  
+  
 SMB2_OPLOCK_LEVEL_NONE       = 0x00
 SMB2_OPLOCK_LEVEL_II         = 0x01
 SMB2_OPLOCK_LEVEL_EXCLUSIVE  = 0x08
 SMB2_OPLOCK_LEVEL_BATCH      = 0x09
 SMB2_OPLOCK_LEVEL_LEASE      = 0xFF
 
-# Impersonation Level
+  
 SMB2_IL_ANONYMOUS       = 0x00000000
 SMB2_IL_IDENTIFICATION  = 0x00000001
 SMB2_IL_IMPERSONATION   = 0x00000002
 SMB2_IL_DELEGATE        = 0x00000003
 
-# File Attributes
+  
 FILE_ATTRIBUTE_ARCHIVE             = 0x00000020
 FILE_ATTRIBUTE_COMPRESSED          = 0x00000800
 FILE_ATTRIBUTE_DIRECTORY           = 0x00000010
@@ -146,12 +146,12 @@ FILE_ATTRIBUTE_TEMPORARY           = 0x00000100
 FILE_ATTRIBUTE_INTEGRITY_STREAM    = 0x00000800
 FILE_ATTRIBUTE_NO_SCRUB_DATA       = 0x00020000
 
-# Share Access
+  
 FILE_SHARE_READ         = 0x00000001
 FILE_SHARE_WRITE        = 0x00000002
 FILE_SHARE_DELETE       = 0x00000004
 
-# Create Disposition
+  
 FILE_SUPERSEDE          = 0x00000000
 FILE_OPEN               = 0x00000001
 FILE_CREATE             = 0x00000002
@@ -159,7 +159,7 @@ FILE_OPEN_IF            = 0x00000003
 FILE_OVERWRITE          = 0x00000004
 FILE_OVERWRITE_IF       = 0x00000005
 
-# Create Options
+  
 FILE_DIRECTORY_FILE            = 0x00000001
 FILE_WRITE_THROUGH             = 0x00000002
 FILE_SEQUENTIAL_ONLY           = 0x00000004
@@ -179,7 +179,7 @@ FILE_OPEN_REPARSE_POINT        = 0x00200000
 FILE_OPEN_NO_RECALL            = 0x00400000
 FILE_OPEN_FOR_FREE_SPACE_QUERY = 0x00800000
 
-# File Access Mask / Desired Access
+  
 FILE_READ_DATA         = 0x00000001
 FILE_WRITE_DATA        = 0x00000002
 FILE_APPEND_DATA       = 0x00000004
@@ -200,14 +200,14 @@ GENERIC_EXECUTE        = 0x20000000
 GENERIC_WRITE          = 0x40000000
 GENERIC_READ           = 0x80000000
 
-# Directory Access Mask 
+  
 FILE_LIST_DIRECTORY    = 0x00000001
 FILE_ADD_FILE          = 0x00000002
 FILE_ADD_SUBDIRECTORY  = 0x00000004
 FILE_TRAVERSE          = 0x00000020
 FILE_DELETE_CHILD      = 0x00000040
 
-# Create Contexts
+  
 SMB2_CREATE_EA_BUFFER                     = 0x45787441
 SMB2_CREATE_SD_BUFFER                     = 0x53656344
 SMB2_CREATE_DURABLE_HANDLE_REQUEST        = 0x44486e51
@@ -222,53 +222,53 @@ SMB2_CREATE_DURABLE_HANDLE_REQUEST_V2     = 0x44483251
 SMB2_CREATE_DURABLE_HANDLE_RECONNECT_V2   = 0x44483243
 SMB2_CREATE_APP_INSTANCE_ID               = 0x45BCA66AEFA7F74A9008FA462E144D74
 
-# Flags
+  
 SMB2_CREATE_FLAG_REPARSEPOINT  = 0x1
 FILE_NEED_EA                   = 0x80
 
-# CreateAction
+  
 FILE_SUPERSEDED    = 0x00000000
 FILE_OPENED        = 0x00000001
 FILE_CREATED       = 0x00000002
 FILE_OVERWRITTEN   = 0x00000003
 
-# SMB2_CREATE_REQUEST_LEASE states
+  
 SMB2_LEASE_NONE            = 0x00
 SMB2_LEASE_READ_CACHING    = 0x01
 SMB2_LEASE_HANDLE_CACHING  = 0x02
 SMB2_LEASE_WRITE_CACHING   = 0x04
 
-# SMB2_CREATE_REQUEST_LEASE_V2 Flags
+  
 SMB2_LEASE_FLAG_PARENT_LEASE_KEY_SET = 0x4
 
-# SMB2_CREATE_DURABLE_HANDLE_REQUEST_V2 Flags
+  
 SMB2_DHANDLE_FLAG_PERSISTENT = 0x02
 
-# SMB2_CLOSE
-# Flags
+  
+  
 SMB2_CLOSE_FLAG_POSTQUERY_ATTRIB  = 0x0001
 
-# SMB2_READ
-# Channel
+  
+  
 SMB2_CHANNEL_NONE     = 0x00
 SMB2_CHANNEL_RDMA_V1  = 0x01
 
-# SMB2_WRITE
-# Flags
+  
+  
 SMB2_WRITEFLAG_WRITE_THROUGH = 0x01
 
-# Lease Break Notification
+  
 SMB2_NOTIFY_BREAK_LEASE_FLAG_ACK_REQUIRED  = 0x01
 
-# SMB_LOCK
-# Flags
+  
+  
 SMB2_LOCKFLAG_SHARED_LOCK       = 0x01
 SMB2_LOCKFLAG_EXCLUSIVE_LOCK    = 0x02
 SMB2_LOCKFLAG_UNLOCK            = 0x04
 SMB2_LOCKFLAG_FAIL_IMMEDIATELY  = 0x10
 
-# SMB IOCTL
-# Control Codes
+  
+  
 FSCTL_DFS_GET_REFERRALS              = 0x00060194
 FSCTL_PIPE_PEEK                      = 0x0011400C
 FSCTL_PIPE_WAIT                      = 0x00110018
@@ -286,28 +286,28 @@ FSCTL_DFS_GET_REFERRALS_EX           = 0x000601B0
 FSCTL_FILE_LEVEL_TRIM                = 0x00098208
 FSCTL_VALIDATE_NEGOTIATE_INFO        = 0x00140204
 
-# Flags
+  
 SMB2_0_IOCTL_IS_FSCTL  = 0x1
 
-# SRV_READ_HASH
-# Type
+  
+  
 SRV_HASH_TYPE_PEER_DIST  = 0x01
 
-# Version
+  
 SRV_HASH_VER_1  = 0x1
 SRV_HASH_VER_2  = 0x2
 
-# Retrieval Type
+  
 SRV_HASH_RETRIEVE_HASH_BASED  = 0x01
 SRV_HASH_RETRIEVE_FILE_BASED  = 0x02
 
-# NETWORK_INTERFACE_INFO
-# Capabilities
+  
+  
 RSS_CAPABLE  = 0x01
 RDMA_CAPABLE = 0x02
 
-# SMB2_QUERY_DIRECTORIES
-# Information Class
+  
+  
 FILE_DIRECTORY_INFORMATION         = 0x01
 FILE_FULL_DIRECTORY_INFORMATION    = 0x02
 FILEID_FULL_DIRECTORY_INFORMATION  = 0x26
@@ -315,17 +315,17 @@ FILE_BOTH_DIRECTORY_INFORMATION    = 0x03
 FILEID_BOTH_DIRECTORY_INFORMATION  = 0x25
 FILENAMES_INFORMATION              = 0x0C
 
-# Flags
+  
 SMB2_RESTART_SCANS        = 0x01
 SMB2_RETURN_SINGLE_ENTRY  = 0x02
 SMB2_INDEX_SPECIFIED      = 0x04
 SMB2_REOPEN               = 0x10
 
-# SMB2_CHANGE_NOTIFY
-# Flags
+  
+  
 SMB2_WATCH_TREE  = 0x01
 
-# Filters
+  
 FILE_NOTIFY_CHANGE_FILE_NAME     = 0x00000001
 FILE_NOTIFY_CHANGE_DIR_NAME      = 0x00000002
 FILE_NOTIFY_CHANGE_ATTRIBUTES    = 0x00000004
@@ -339,22 +339,22 @@ FILE_NOTIFY_CHANGE_STREAM_NAME   = 0x00000200
 FILE_NOTIFY_CHANGE_STREAM_SIZE   = 0x00000400
 FILE_NOTIFY_CHANGE_STREAM_WRITE  = 0x00000800
 
-# FILE_NOTIFY_INFORMATION
-# Actions
+  
+  
 FILE_ACTION_ADDED            = 0x00000001
 FILE_ACTION_REMOVED          = 0x00000002
 FILE_ACTION_MODIFIED         = 0x00000003
 FILE_ACTION_RENAMED_OLD_NAME = 0x00000004
 FILE_ACTION_RENAMED_NEW_NAME = 0x00000005
 
-# SMB2_QUERY_INFO
-# InfoTypes
+  
+  
 SMB2_0_INFO_FILE        = 0x01
 SMB2_0_INFO_FILESYSTEM  = 0x02
 SMB2_0_INFO_SECURITY    = 0x03
 SMB2_0_INFO_QUOTA       = 0x04
 
-# File Information Classes
+  
 SMB2_SEC_INFO_00                      = 0
 SMB2_FILE_ACCESS_INFO                 = 8
 SMB2_FILE_ALIGNMENT_INFO              = 17
@@ -401,7 +401,7 @@ SMB2_FILE_STREAM_INFO                 = 22
 SMB2_FILE_TRACKING_INFO               = 36
 SMB2_FILE_VALID_DATA_LENGTH_INFO      = 39
 
-# File System Information Classes
+  
 SMB2_FILESYSTEM_VOLUME_INFO           = 1
 SMB2_FILESYSTEM_LABEL_INFO            = 2
 SMB2_FILESYSTEM_SIZE_INFO             = 3
@@ -413,28 +413,28 @@ SMB2_FILESYSTEM_OBJECT_ID_INFO        = 8
 SMB2_FILESYSTEM_DRIVER_PATH_INFO      = 9
 SMB2_FILESYSTEM_SECTOR_SIZE_INFO      = 11
 
-# Additional information
+  
 OWNER_SECURITY_INFORMATION  = 0x00000001
 GROUP_SECURITY_INFORMATION  = 0x00000002
 DACL_SECURITY_INFORMATION   = 0x00000004
 SACL_SECURITY_INFORMATION   = 0x00000008
 LABEL_SECURITY_INFORMATION  = 0x00000010
 
-# Flags
+  
 SL_RESTART_SCAN         = 0x00000001
 SL_RETURN_SINGLE_ENTRY  = 0x00000002
 SL_INDEX_SPECIFIED      = 0x00000004
 
-# TRANSFORM_HEADER
+  
 SMB2_ENCRYPTION_AES128_CCM = 0x0001
 SMB2_ENCRYPTION_AES128_GCM = 0x0002
 
 
-# STRUCtures
-# Represents a SMB2/3 Packet
+  
+  
 class SMBPacketBase(Structure):
     def addCommand(self,command):
-        # Pad to 8 bytes and put the offset of another SMBPacket
+          
         raise Exception('Implement This!')
 
     def isValidAnswer(self, status):
@@ -545,7 +545,7 @@ class SMB2ErrorSymbolicLink(Structure):
         ('PathBuffer',':'),
     )
 
-# SMB2_NEGOTIATE
+  
 class SMB2Negotiate(Structure):
     structure = (
         ('StructureSize','<H=36'),
@@ -554,9 +554,9 @@ class SMB2Negotiate(Structure):
         ('Reserved','<H=0'),
         ('Capabilities','<L=0'),
         ('ClientGuid','16s=""'),
-        ('ClientStartTime','8s=""'),  # or (NegotiateContextOffset/NegotiateContextCount/Reserved2) in SMB 3.1.1
+        ('ClientStartTime','8s=""'),    
         ('Dialects','*<H'),
-        # SMB 3.1.1
+          
         ('Padding',':=""'),
         ('NegotiateContextList',':=""'),
     )
@@ -572,7 +572,7 @@ class SMB2Negotiate_Response(Structure):
         ('StructureSize','<H=65'),
         ('SecurityMode','<H=0'),
         ('DialectRevision','<H=0'),
-        # SMB 3.1.1 only. Otherwise Reserved
+          
         ('NegotiateContextCount','<H=0'),
         ('ServerGuid','16s=""'),
         ('Capabilities','<L=0'),
@@ -583,7 +583,7 @@ class SMB2Negotiate_Response(Structure):
         ('ServerStartTime','<Q=0'),
         ('SecurityBufferOffset','<H=0'),
         ('SecurityBufferLength','<H=0'),
-        # SMB 3.1.1 only. Otherwise Reserved
+          
         ('NegotiateContextOffset','<L=0'),
         ('_AlignPad','_-AlignPad','self["SecurityBufferOffset"] - (64 + self["StructureSize"] - 1)'),
         ('AlignPad',':=""'),
@@ -597,7 +597,7 @@ class SMB2Negotiate_Response(Structure):
         ('NegotiateContextList',':=""'),
     )
 
-# SMB2 NEGOTIATE_CONTEXT
+  
 class SMB2NegotiateContext(Structure):
     structure = (
         ('ContextType','<H=0'),
@@ -606,7 +606,7 @@ class SMB2NegotiateContext(Structure):
         ('Data',':=""'),
     )
 
-# SMB2_PREAUTH_INTEGRITY_CAPABILITIES
+  
 class SMB2PreAuthIntegrityCapabilities(Structure):
     structure = (
         ('HashAlgorithmCount','<H=0'),
@@ -615,14 +615,14 @@ class SMB2PreAuthIntegrityCapabilities(Structure):
         ('Salt',':=""'),
     )
 
-# SMB2_ENCRYPTION_CAPABILITIES
+  
 class SMB2EncryptionCapabilities(Structure):
     structure = (
         ('CipherCount','<H=0'),
         ('Ciphers','<H=0'),
     )
 
-# SMB2_COMPRESSION_CAPABILITIES
+  
 class SMB2CompressionCapabilities(Structure):
     structure = (
         ('CompressionAlgorithmCount','<H=0'),
@@ -631,13 +631,13 @@ class SMB2CompressionCapabilities(Structure):
         ('CompressionAlgorithms',':=""'),
     )
 
-# SMB2_NETNAME_NEGOTIATE_CONTEXT_ID
+  
 class SMB2NetNameNegotiateContextID(Structure):
     structure = (
         ('NetName',':=""'),
     )
 
-# SMB2_SESSION_SETUP
+  
 class SMB2SessionSetup(Structure):
     SIZE = 24
     structure = (
@@ -661,9 +661,9 @@ class SMB2SessionSetup(Structure):
             self['AlignPad'] = ''
 
     def getData(self):
-        #self['AlignPad'] = '\x00' * ((8 - ((24 + SMB2_PACKET_SIZE) & 7)) & 7)
-        #self['SecurityBufferOffset'] = 24 + SMB2_PACKET_SIZE +len(self['AlignPad'])
-        #self['SecurityBufferLength'] += len(self['AlignPad'])
+          
+          
+          
         return Structure.getData(self)
 
 
@@ -679,7 +679,7 @@ class SMB2SessionSetup_Response(Structure):
         ('Buffer',':'),
     )
 
-# SMB2_LOGOFF
+  
 class SMB2Logoff(Structure):
     structure = (
         ('StructureSize','<H=4'),
@@ -693,7 +693,7 @@ class SMB2Logoff_Response(Structure):
         ('Reserved','<H=0'),
     )
 
-# SMB2_TREE_CONNECT
+  
 class SMB2TreeConnect(Structure):
     SIZE = 8
     structure = (
@@ -721,7 +721,7 @@ class SMB2TreeConnect_Response(Structure):
         ('MaximalAccess','<L=0'),
     )
 
-# SMB2_TREE_DISCONNECT
+  
 class SMB2TreeDisconnect(Structure):
     structure = (
         ('StructureSize','<H=4'),
@@ -734,7 +734,7 @@ class SMB2TreeDisconnect_Response(Structure):
         ('Reserved','<H=0'),
     )
 
-# SMB2_CREATE
+  
 class SMB2Create(Structure):
     SIZE = 56
     structure = (
@@ -909,10 +909,10 @@ class SMB2_CREATE_QUERY_ON_DISK_ID(Structure):
         ('DiskIDBuffer','32s=""'),
     )
 
-# Todo: Add Classes for
-#SMB2_CREATE_SD_BUFFER
+  
+  
 
-# SMB2_CLOSE
+  
 class SMB2Close(Structure):
     structure = (
         ('StructureSize','<H=24'),
@@ -935,7 +935,7 @@ class SMB2Close_Response(Structure):
         ('FileAttributes','<L=0'),
     )
 
-# SMB2_FLUSH
+  
 class SMB2Flush(Structure):
     structure = (
         ('StructureSize','<H=24'),
@@ -950,7 +950,7 @@ class SMB2Flush_Response(Structure):
         ('Reserved','<H=0'),
     )
 
-# SMB2_READ
+  
 class SMB2Read(Structure):
     SIZE = 48
     structure = (
@@ -990,7 +990,7 @@ class SMB2Read_Response(Structure):
         ('Buffer',':'),
     )
 
-# SMB2_WRITE
+  
 class SMB2Write(Structure):
     SIZE = 48
     structure = (
@@ -1062,7 +1062,7 @@ class SMB2LeaseBreakAcknowledgement(Structure):
 
 SMB2LeaseBreakResponse = SMB2LeaseBreakAcknowledgement
 
-# SMB2_LOCK
+  
 class SMB2_LOCK_ELEMENT(Structure):
     structure = (
         ('Offset','<Q=0'),
@@ -1088,7 +1088,7 @@ class SMB2Lock_Response(Structure):
     )
 
 
-# SMB2_ECHO
+  
 class SMB2Echo(Structure):
     structure = (
         ('StructureSize','<H=4'),
@@ -1097,14 +1097,14 @@ class SMB2Echo(Structure):
 
 SMB2Echo_Response = SMB2Echo
 
-# SMB2_CANCEL`
+  
 class SMB2Cancel(Structure):
     structure = (
         ('StructureSize','<H=4'),
         ('Reserved','<H=0'),
     )
 
-# SMB2_IOCTL
+  
 class SMB2Ioctl(Structure):
     SIZE = 56
     structure = (
@@ -1120,8 +1120,8 @@ class SMB2Ioctl(Structure):
         ('MaxOutputResponse','<L=0'),
         ('Flags','<L=0'),
         ('Reserved2','<L=0'),
-        #('_AlignPad','_-AlignPad','self["InputOffset"] + self["OutputOffset"] - (64 + self["StructureSize"] - 1)'),
-        #('AlignPad',':=""'),
+          
+          
         ('_Buffer','_-Buffer','self["InputCount"]+self["OutputCount"]'),
         ('Buffer',':'),
     )
@@ -1184,7 +1184,7 @@ class VALIDATE_NEGOTIATE_INFO(Structure):
         ('Capabilities','<L=0'),
         ('Guid','16s=""'),
         ('SecurityMode','<H=0'),
-        #('DialectCount','<H=0'),
+          
         ('Dialects','<H*<H'),
     )
 
@@ -1295,7 +1295,7 @@ class SMB2Ioctl_Response(Structure):
         ('Buffer',':'),
     )
 
-# SMB2_QUERY_DIRECTORY
+  
 class SMB2QueryDirectory(Structure):
     SIZE = 32
     structure = (
@@ -1328,7 +1328,7 @@ class SMB2QueryDirectory_Response(Structure):
         ('Buffer',':'),
     )
 
-# SMB2_CHANGE_NOTIFY
+  
 class SMB2ChangeNotify(Structure):
     structure = (
         ('StructureSize','<H=32'),
@@ -1359,7 +1359,7 @@ class FILE_NOTIFY_INFORMATION(Structure):
         ('FileName',':'),
     )
 
-# SMB2_QUERY_INFO
+  
 class SMB2QueryInfo(Structure):
     SIZE = 40
     structure = (
@@ -1392,7 +1392,7 @@ class SMB2_QUERY_QUOTA_INFO(Structure):
         ('SidListLength','<L=0'),
         ('StartSidLength','<L=0'),
         ('StartSidOffset','<L=0'),
-        # ToDo: Check 2.2.37.1 here
+          
         ('SidBuffer',':'),
     )
 
@@ -1477,7 +1477,7 @@ class FILE_ALL_INFORMATION(Structure):
         ('NameInformation',':',FILE_NAME_INFORMATION),
     )
 
-# SMB2_SET_INFO
+  
 class SMB2SetInfo(Structure):
     SIZE = 32
     structure = (
@@ -1549,7 +1549,7 @@ class SMB2_COMPRESSION_PATTERN_PAYLOAD_V1(Structure):
         ('Repetitions','<L=0'),
     )
 
-# SMB2_SEC_INFO_00
+  
 class FileSecInformation(Structure):
     structure = (
         ('Revision','<h=1'),

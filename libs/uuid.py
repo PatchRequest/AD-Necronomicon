@@ -10,7 +10,7 @@ EMPTY_UUID = b'\x00'*16
 
 
 def generate():
-    # UHm... crappy Python has an maximum integer of 2**31-1.
+      
     top = (1<<31)-1
     return pack("IIII", randrange(top), randrange(top), randrange(top), randrange(top))
 
@@ -22,12 +22,12 @@ def bin_to_string(uuid):
 
 
 def string_to_bin(uuid):
-    # If a UUID in the 00000000000000000000000000000000 format, let's return bytes as is
+      
     if '-' not in uuid:
         return binascii.unhexlify(uuid)
 
-    # If a UUID in the 00000000-0000-0000-0000-000000000000 format, parse it as Variant 2 UUID
-    # The first three components of the UUID are little-endian, and the last two are big-endian
+      
+      
     matches = re.match(r"([\dA-Fa-f]{8})-([\dA-Fa-f]{4})-([\dA-Fa-f]{4})-([\dA-Fa-f]{4})-([\dA-Fa-f]{4})([\dA-Fa-f]{8})",
                        uuid)
     (uuid1, uuid2, uuid3, uuid4, uuid5, uuid6) = [int(x, 16) for x in matches.groups()]

@@ -22,20 +22,20 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'WKST SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
+  
+  
+  
 
-# 2.2.1.1 JOIN_MAX_PASSWORD_LENGTH
+  
 JOIN_MAX_PASSWORD_LENGTH = 256
 
-# 2.2.1.2 JOIN_OBFUSCATOR_LENGTH
+  
 JOIN_OBFUSCATOR_LENGTH = 8
 
-# 2.2.1.3 MAX_PREFERRED_LENGTH
+  
 MAX_PREFERRED_LENGTH = 0xffffffff
 
-# 2.2.5.22 USE_INFO_1
+  
 USE_OK       = 0x00000000
 USE_PAUSED   = 0x00000001
 USE_SESSLOST = 0x00000002
@@ -49,14 +49,14 @@ USE_SPOOLDEV = 0x00000001
 USE_CHARDEV  = 0x00000002
 USE_IPC      = 0x00000003
 
-# 3.2.4.9 NetrUseDel (Opnum 10)
-# Force Level
+  
+  
 USE_NOFORCE       = 0x00000000
 USE_FORCE         = 0x00000001
 USE_LOTS_OF_FORCE = 0x00000002
 
-# 3.2.4.13 NetrJoinDomain2 (Opnum 22)
-# Options
+  
+  
 NETSETUP_JOIN_DOMAIN           = 0x00000001
 NETSETUP_ACCT_CREATE           = 0x00000002
 NETSETUP_ACCT_DELETE           = 0x00000004
@@ -68,21 +68,21 @@ NETSETUP_JOIN_DC_ACCOUNT       = 0x00000200
 NETSETUP_JOIN_WITH_NEW_NAME    = 0x00000400
 NETSETUP_INSTALL_INVOCATION    = 0x00040000
 
-# 3.2.4.14 NetrUnjoinDomain2 (Opnum 23)
-# Options
+  
+  
 NETSETUP_ACCT_DELETE              = 0x00000004
 NETSETUP_IGNORE_UNSUPPORTED_FLAGS = 0x10000000
 
-# 3.2.4.15 NetrRenameMachineInDomain2 (Opnum 24)
-# Options
+  
+  
 NETSETUP_ACCT_CREATE           = 0x00000002
 NETSETUP_DNS_NAME_CHANGES_ONLY = 0x00001000
 
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 
-# 2.2.2.1 WKSSVC_IDENTIFY_HANDLE
+  
 class WKSSVC_IDENTIFY_HANDLE(NDRSTRUCT):
     structure =  (
         ('Data', WSTR),
@@ -93,7 +93,7 @@ class LPWKSSVC_IDENTIFY_HANDLE(NDRPOINTER):
         ('Data', WKSSVC_IDENTIFY_HANDLE),
     )
 
-# 2.2.2.2 WKSSVC_IMPERSONATE_HANDLE
+  
 class WKSSVC_IMPERSONATE_HANDLE(NDRSTRUCT):
     structure =  (
         ('Data',WSTR),
@@ -104,7 +104,7 @@ class LPWKSSVC_IMPERSONATE_HANDLE(NDRPOINTER):
         ('Data', WKSSVC_IMPERSONATE_HANDLE),
     )
 
-# 2.2.3.1 NETSETUP_JOIN_STATUS
+  
 class NETSETUP_JOIN_STATUS(NDRENUM):
     class enumItems(Enum):
         NetSetupUnknownStatus = 0
@@ -112,7 +112,7 @@ class NETSETUP_JOIN_STATUS(NDRENUM):
         NetSetupWorkgroupName = 2
         NetSetupDomainName    = 3
 
-# 2.2.3.2 NETSETUP_NAME_TYPE
+  
 class NETSETUP_NAME_TYPE(NDRENUM):
     class enumItems(Enum):
         NetSetupUnknown           = 0
@@ -122,7 +122,7 @@ class NETSETUP_NAME_TYPE(NDRENUM):
         NetSetupNonExistentDomain = 4
         NetSetupDnsMachine        = 5
 
-# 2.2.3.3 NET_COMPUTER_NAME_TYPE
+  
 class NET_COMPUTER_NAME_TYPE(NDRENUM):
     class enumItems(Enum):
         NetPrimaryComputerName    = 0
@@ -130,7 +130,7 @@ class NET_COMPUTER_NAME_TYPE(NDRENUM):
         NetAllComputerNames       = 2
         NetComputerNameTypeMax    = 3
 
-# 2.2.5.1 WKSTA_INFO_100
+  
 class WKSTA_INFO_100(NDRSTRUCT):
     structure = (
         ('wki100_platform_id', ULONG),
@@ -145,7 +145,7 @@ class LPWKSTA_INFO_100(NDRPOINTER):
         ('Data', WKSTA_INFO_100),
     )
 
-# 2.2.5.2 WKSTA_INFO_101
+  
 class WKSTA_INFO_101(NDRSTRUCT):
     structure = (
         ('wki101_platform_id', ULONG),
@@ -161,7 +161,7 @@ class LPWKSTA_INFO_101(NDRPOINTER):
         ('Data', WKSTA_INFO_101),
     )
 
-# 2.2.5.3 WKSTA_INFO_102
+  
 class WKSTA_INFO_102(NDRSTRUCT):
     structure = (
         ('wki102_platform_id', ULONG),
@@ -178,7 +178,7 @@ class LPWKSTA_INFO_102(NDRPOINTER):
         ('Data', WKSTA_INFO_102),
     )
 
-# 2.2.5.4 WKSTA_INFO_502
+  
 class WKSTA_INFO_502(NDRSTRUCT):
     structure = (
         ('wki502_char_wait', ULONG),
@@ -223,7 +223,7 @@ class LPWKSTA_INFO_502(NDRPOINTER):
         ('Data', WKSTA_INFO_502),
     )
 
-# 2.2.5.5 WKSTA_INFO_1013
+  
 class WKSTA_INFO_1013(NDRSTRUCT):
     structure = (
         ('wki1013_keep_conn', ULONG),
@@ -234,7 +234,7 @@ class LPWKSTA_INFO_1013(NDRPOINTER):
         ('Data', WKSTA_INFO_1013),
     )
 
-# 2.2.5.6 WKSTA_INFO_1018
+  
 class WKSTA_INFO_1018(NDRSTRUCT):
     structure = (
         ('wki1018_sess_timeout', ULONG),
@@ -245,7 +245,7 @@ class LPWKSTA_INFO_1018(NDRPOINTER):
         ('Data', WKSTA_INFO_1018),
     )
 
-# 2.2.5.7 WKSTA_INFO_1046
+  
 class WKSTA_INFO_1046(NDRSTRUCT):
     structure = (
         ('wki1046_dormant_file_limit', ULONG),
@@ -256,7 +256,7 @@ class LPWKSTA_INFO_1046(NDRPOINTER):
         ('Data', WKSTA_INFO_1046),
     )
 
-# 2.2.4.1 WKSTA_INFO
+  
 class WKSTA_INFO(NDRUNION):
     commonHdr = (
         ('tag', ULONG),
@@ -276,7 +276,7 @@ class LPWKSTA_INFO(NDRPOINTER):
         ('Data', WKSTA_INFO),
     )
 
-# 2.2.5.8 WKSTA_TRANSPORT_INFO_0
+  
 class WKSTA_TRANSPORT_INFO_0(NDRSTRUCT):
     structure = (
         ('wkti0_quality_of_service', ULONG),
@@ -286,13 +286,13 @@ class WKSTA_TRANSPORT_INFO_0(NDRSTRUCT):
         ('wkti0_wan_ish', ULONG),
     )
 
-# 2.2.5.9 WKSTA_USER_INFO_0
+  
 class WKSTA_USER_INFO_0(NDRSTRUCT):
     structure = (
         ('wkui0_username', LPWSTR),
     )
 
-# 2.2.5.10 WKSTA_USER_INFO_1
+  
 class WKSTA_USER_INFO_1(NDRSTRUCT):
     structure = (
         ('wkui1_username', LPWSTR),
@@ -301,7 +301,7 @@ class WKSTA_USER_INFO_1(NDRSTRUCT):
         ('wkui1_logon_server', LPWSTR),
     )
 
-# 2.2.5.11 STAT_WORKSTATION_0
+  
 class STAT_WORKSTATION_0(NDRSTRUCT):
     structure = (
         ('StatisticsStartTime', LARGE_INTEGER),
@@ -351,7 +351,7 @@ class LPSTAT_WORKSTATION_0(NDRPOINTER):
         ('Data', STAT_WORKSTATION_0),
     )
 
-# 2.2.5.12 WKSTA_USER_INFO_0_CONTAINER
+  
 class WKSTA_USER_INFO_0_ARRAY(NDRUniConformantArray):
     item = WKSTA_USER_INFO_0
 
@@ -371,7 +371,7 @@ class LPWKSTA_USER_INFO_0_CONTAINER(NDRPOINTER):
         ('Data', WKSTA_USER_INFO_0_CONTAINER),
     )
 
-# 2.2.5.13 WKSTA_USER_INFO_1_CONTAINER
+  
 class WKSTA_USER_INFO_1_ARRAY(NDRUniConformantArray):
     item = WKSTA_USER_INFO_1
 
@@ -391,7 +391,7 @@ class LPWKSTA_USER_INFO_1_CONTAINER(NDRPOINTER):
         ('Data', WKSTA_USER_INFO_1_CONTAINER),
     )
 
-# 2.2.5.14 WKSTA_USER_ENUM_STRUCT
+  
 class WKSTA_USER_ENUM_UNION(NDRUNION):
     commonHdr = (
         ('tag', ULONG),
@@ -409,7 +409,7 @@ class WKSTA_USER_ENUM_STRUCT(NDRSTRUCT):
     )
 
 
-# 2.2.5.15 WKSTA_TRANSPORT_INFO_0_CONTAINER
+  
 class WKSTA_TRANSPORT_INFO_0_ARRAY(NDRUniConformantArray):
     item = WKSTA_TRANSPORT_INFO_0
 
@@ -429,7 +429,7 @@ class LPWKSTA_TRANSPORT_INFO_0_CONTAINER(NDRPOINTER):
         ('Data', WKSTA_TRANSPORT_INFO_0_CONTAINER),
     )
 
-# 2.2.5.16 WKSTA_TRANSPORT_ENUM_STRUCT
+  
 class WKSTA_TRANSPORT_ENUM_UNION(NDRUNION):
     commonHdr = (
         ('tag', ULONG),
@@ -445,7 +445,7 @@ class WKSTA_TRANSPORT_ENUM_STRUCT(NDRSTRUCT):
         ('WkstaTransportInfo', WKSTA_TRANSPORT_ENUM_UNION),
     )
 
-# 2.2.5.17 JOINPR_USER_PASSWORD
+  
 class WCHAR_ARRAY(WIDESTR):
     def getDataLen(self, data, offset=0):
         return JOIN_MAX_PASSWORD_LENGTH
@@ -460,7 +460,7 @@ class JOINPR_USER_PASSWORD(NDRSTRUCT):
         ('Buffer', WCHAR_ARRAY),
     )
 
-# 2.2.5.18 JOINPR_ENCRYPTED_USER_PASSWORD
+  
 class JOINPR_ENCRYPTED_USER_PASSWORD(NDRSTRUCT):
     structure = (
         ('Buffer', '524s=b""'),
@@ -473,14 +473,14 @@ class PJOINPR_ENCRYPTED_USER_PASSWORD(NDRPOINTER):
         ('Data', JOINPR_ENCRYPTED_USER_PASSWORD),
     )
 
-# 2.2.5.19 UNICODE_STRING
+  
 UNICODE_STRING = WSTR
 class PUNICODE_STRING(NDRPOINTER):
     referent = (
         ('Data', UNICODE_STRING),
     )
 
-# 2.2.5.20 NET_COMPUTER_NAME_ARRAY
+  
 class UNICODE_STRING_ARRAY(NDRUniConformantArray):
     item = RPC_UNICODE_STRING
 
@@ -500,7 +500,7 @@ class PNET_COMPUTER_NAME_ARRAY(NDRPOINTER):
         ('Data', NET_COMPUTER_NAME_ARRAY), 
     )
 
-# 2.2.5.21 USE_INFO_0
+  
 class USE_INFO_0(NDRSTRUCT):
     structure = (
         ('ui0_local', LPWSTR),
@@ -512,7 +512,7 @@ class LPUSE_INFO_0(NDRPOINTER):
         ('Data', USE_INFO_0),
     )
 
-# 2.2.5.22 USE_INFO_1
+  
 class USE_INFO_1(NDRSTRUCT):
     structure = (
         ('ui1_local', LPWSTR),
@@ -529,7 +529,7 @@ class LPUSE_INFO_1(NDRPOINTER):
         ('Data', USE_INFO_1),
     )
 
-# 2.2.5.23 USE_INFO_2
+  
 class USE_INFO_2(NDRSTRUCT):
     structure = (
         ('ui2_useinfo', USE_INFO_1),
@@ -542,7 +542,7 @@ class LPUSE_INFO_2(NDRPOINTER):
         ('Data', USE_INFO_2),
     )
 
-# 2.2.5.24 USE_INFO_3
+  
 class USE_INFO_3(NDRSTRUCT):
     structure = (
         ('ui3_ui2', USE_INFO_2),
@@ -554,7 +554,7 @@ class LPUSE_INFO_3(NDRPOINTER):
         ('Data', USE_INFO_3),
     )
 
-# 2.2.4.2 USE_INFO
+  
 class USE_INFO(NDRUNION):
     commonHdr = (
         ('tag', ULONG),
@@ -567,7 +567,7 @@ class USE_INFO(NDRUNION):
         3: ('UseInfo3', LPUSE_INFO_3),
     }
 
-# 2.2.5.25 USE_INFO_0_CONTAINER
+  
 class USE_INFO_0_CONTAINER(NDRSTRUCT):
     structure = (
         ('EntriesRead', ULONG),
@@ -579,7 +579,7 @@ class LPUSE_INFO_0_CONTAINER(NDRPOINTER):
         ('Data', USE_INFO_0_CONTAINER),
     )
 
-# 2.2.5.26 USE_INFO_1_CONTAINER
+  
 class USE_INFO_1_CONTAINER(NDRSTRUCT):
     structure = (
         ('EntriesRead', ULONG),
@@ -591,7 +591,7 @@ class LPUSE_INFO_1_CONTAINER(NDRPOINTER):
         ('Data', USE_INFO_1_CONTAINER),
     )
 
-# 2.2.5.27 USE_INFO_2_CONTAINER
+  
 class USE_INFO_2_CONTAINER(NDRSTRUCT):
     structure = (
         ('EntriesRead', ULONG),
@@ -603,7 +603,7 @@ class LPUSE_INFO_2_CONTAINER(NDRPOINTER):
         ('Data', USE_INFO_2_CONTAINER),
     )
 
-# 2.2.5.28 USE_ENUM_STRUCT
+  
 class USE_ENUM_UNION(NDRUNION):
     commonHdr = (
         ('tag', ULONG),
@@ -621,11 +621,11 @@ class USE_ENUM_STRUCT(NDRSTRUCT):
         ('UseInfo', USE_ENUM_UNION),
     )
 
-################################################################################
-# RPC CALLS
-################################################################################
+  
+  
+  
 
-# 3.2.4.1 NetrWkstaGetInfo (Opnum 0)
+  
 class NetrWkstaGetInfo(NDRCALL):
     opnum = 0
     structure = (
@@ -639,7 +639,7 @@ class NetrWkstaGetInfoResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.2 NetrWkstaSetInfo (Opnum 1)
+  
 class NetrWkstaSetInfo(NDRCALL):
     opnum = 1
     structure = (
@@ -655,7 +655,7 @@ class NetrWkstaSetInfoResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.3 NetrWkstaUserEnum (Opnum 2)
+  
 class NetrWkstaUserEnum(NDRCALL):
     opnum = 2
     structure = (
@@ -673,7 +673,7 @@ class NetrWkstaUserEnumResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.4 NetrWkstaTransportEnum (Opnum 5)
+  
 class NetrWkstaTransportEnum(NDRCALL):
     opnum = 5
     structure = (
@@ -691,7 +691,7 @@ class NetrWkstaTransportEnumResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.5 NetrWkstaTransportAdd (Opnum 6)
+  
 class NetrWkstaTransportAdd(NDRCALL):
     opnum = 6
     structure = (
@@ -707,7 +707,7 @@ class NetrWkstaTransportAddResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.7 NetrUseAdd (Opnum 8)
+  
 class NetrUseAdd(NDRCALL):
     opnum = 8
     structure = (
@@ -723,7 +723,7 @@ class NetrUseAddResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.8 NetrUseGetInfo (Opnum 9)
+  
 class NetrUseGetInfo(NDRCALL):
     opnum = 9
     structure = (
@@ -738,7 +738,7 @@ class NetrUseGetInfoResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.9 NetrUseDel (Opnum 10)
+  
 class NetrUseDel(NDRCALL):
     opnum = 10
     structure = (
@@ -752,7 +752,7 @@ class NetrUseDelResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.10 NetrUseEnum (Opnum 11)
+  
 class NetrUseEnum(NDRCALL):
     opnum = 11
     structure = (
@@ -770,7 +770,7 @@ class NetrUseEnumResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.11 NetrWorkstationStatisticsGet (Opnum 13)
+  
 class NetrWorkstationStatisticsGet(NDRCALL):
     opnum = 13
     structure = (
@@ -786,7 +786,7 @@ class NetrWorkstationStatisticsGetResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.12 NetrGetJoinInformation (Opnum 20)
+  
 class NetrGetJoinInformation(NDRCALL):
     opnum = 20
     structure = (
@@ -801,7 +801,7 @@ class NetrGetJoinInformationResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.13 NetrJoinDomain2 (Opnum 22)
+  
 class NetrJoinDomain2(NDRCALL):
     opnum = 22
     structure = (
@@ -818,7 +818,7 @@ class NetrJoinDomain2Response(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.14 NetrUnjoinDomain2 (Opnum 23)
+  
 class NetrUnjoinDomain2(NDRCALL):
     opnum = 23
     structure = (
@@ -833,7 +833,7 @@ class NetrUnjoinDomain2Response(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.15 NetrRenameMachineInDomain2 (Opnum 24)
+  
 class NetrRenameMachineInDomain2(NDRCALL):
     opnum = 24
     structure = (
@@ -849,7 +849,7 @@ class NetrRenameMachineInDomain2Response(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.16 NetrValidateName2 (Opnum 25)
+  
 class NetrValidateName2(NDRCALL):
     opnum = 25
     structure = (
@@ -865,7 +865,7 @@ class NetrValidateName2Response(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.17 NetrGetJoinableOUs2 (Opnum 26)
+  
 class NetrGetJoinableOUs2(NDRCALL):
     opnum = 26
     structure = (
@@ -883,7 +883,7 @@ class NetrGetJoinableOUs2Response(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.18 NetrAddAlternateComputerName (Opnum 27)
+  
 class NetrAddAlternateComputerName(NDRCALL):
     opnum = 27
     structure = (
@@ -899,7 +899,7 @@ class NetrAddAlternateComputerNameResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.19 NetrRemoveAlternateComputerName (Opnum 28)
+  
 class NetrRemoveAlternateComputerName(NDRCALL):
     opnum = 28
     structure = (
@@ -915,7 +915,7 @@ class NetrRemoveAlternateComputerNameResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.20 NetrSetPrimaryComputerName (Opnum 29)
+  
 class NetrSetPrimaryComputerName(NDRCALL):
     opnum = 29
     structure = (
@@ -931,7 +931,7 @@ class NetrSetPrimaryComputerNameResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-# 3.2.4.21 NetrEnumerateComputerNames (Opnum 30)
+  
 class NetrEnumerateComputerNames(NDRCALL):
     opnum = 30
     structure = (
@@ -946,16 +946,16 @@ class NetrEnumerateComputerNamesResponse(NDRCALL):
        ('ErrorCode',ULONG),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  0 : (NetrWkstaGetInfo, NetrWkstaGetInfoResponse),
  1 : (NetrWkstaSetInfo, NetrWkstaSetInfoResponse),
  2 : (NetrWkstaUserEnum, NetrWkstaUserEnumResponse),
  5 : (NetrWkstaTransportEnum, NetrWkstaTransportEnumResponse),
  6 : (NetrWkstaTransportAdd, NetrWkstaTransportAddResponse),
-# 7 : (NetrWkstaTransportDel, NetrWkstaTransportDelResponse),
+  
  8 : (NetrUseAdd, NetrUseAddResponse),
  9 : (NetrUseGetInfo, NetrUseGetInfoResponse),
 10 : (NetrUseDel, NetrUseDelResponse),
@@ -973,9 +973,9 @@ OPNUMS = {
 30 : (NetrEnumerateComputerNames, NetrEnumerateComputerNamesResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def checkNullString(string):
     if string == NULL:
         return string

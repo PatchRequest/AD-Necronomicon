@@ -126,7 +126,7 @@ class KeytabEntry:
     class KeytabEntryMainpart(Structure):
         """
       keytab_entry {
-          int32_t size;     # wtf, signed size. what could possibly ...
+          int32_t size;       
           uint16_t num_components;    /* sub 1 if version 0x501 */  |\
           counted_octet_string realm;                               | \\  Keytab
           counted_octet_string components[num_components];          | /  Princial
@@ -149,14 +149,14 @@ class KeytabEntry:
         self.rest = b''
         if data:
             self.main_part = self.KeytabEntryMainpart(data)
-            self.size = abs(self.main_part['size']) + 4  # size field itself not included
+            self.size = abs(self.main_part['size']) + 4    
             self.kvno = self.main_part['vno8']
             self.deleted = self.main_part['size'] < 0
             len_main = len(self.main_part)
             if self.size > len_main:
                 self.rest = data[len_main:self.size]
                 if len(self.rest) >= 4 and \
-                        self.rest[:4] != [0, 0, 0, 0]:  # if "field" is present but all 0, it seems to gets ignored
+                        self.rest[:4] != [0, 0, 0, 0]:    
                     self.kvno = unpack('!L', self.rest[:4])[0]
         else:
             self.main_part = self.KeytabEntryMainpart()
@@ -181,8 +181,8 @@ class KeytabEntry:
             text += "%sTimestamp: %s" % (indent, datetime.fromtimestamp(self.main_part['timestamp']).isoformat())
             text += "\tKVNO: %i\n" % self.kvno
             text += "%sKey: %s" % (indent, self.main_part['keyblock'].prettyPrint())
-            #if self.rest:
-            #    text += "\n%sRest: %s" % (indent, self.rest)
+              
+              
             return text
 
 

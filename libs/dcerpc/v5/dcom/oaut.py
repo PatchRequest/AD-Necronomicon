@@ -28,10 +28,10 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'OAUT SessionError: unknown error code: 0x%x' % (self.error_code)
 
-################################################################################
-# CONSTANTS
-################################################################################
-# 1.9 Standards Assignments
+  
+  
+  
+  
 IID_IDispatch = string_to_bin('00020400-0000-0000-C000-000000000046')
 IID_ITypeInfo = string_to_bin('00020401-0000-0000-C000-000000000046')
 IID_ITypeComp = string_to_bin('00020403-0000-0000-C000-000000000046')
@@ -42,24 +42,24 @@ error_status_t = ULONG
 LCID = DWORD
 WORD = NDRUSHORT
 
-# 2.2.2 IID
+  
 IID = GUID
 
-# 2.2.3 LPOLESTR
+  
 LPOLESTR = LPWSTR
 OLESTR = WSTR
 
-# 2.2.4 REFIID
+  
 REFIID = IID
 
-# 2.2.25 DATE
+  
 DATE = DOUBLE
 class PDATE(NDRPOINTER):
     referent = (
         ('Data', DATE),
     )
 
-# 2.2.27 VARIANT_BOOL
+  
 VARIANT_BOOL = USHORT
 
 class PVARIANT_BOOL(NDRPOINTER):
@@ -67,8 +67,8 @@ class PVARIANT_BOOL(NDRPOINTER):
         ('Data', VARIANT_BOOL),
     )
 
-# 3.1.4.4 IDispatch::Invoke (Opnum 6)
-# dwFlags
+  
+  
 DISPATCH_METHOD         = 0x00000001
 DISPATCH_PROPERTYGET    = 0x00000002
 DISPATCH_PROPERTYPUT    = 0x00000004
@@ -77,10 +77,10 @@ DISPATCH_zeroVarResult  = 0x00020000
 DISPATCH_zeroExcepInfo  = 0x00040000
 DISPATCH_zeroArgErr     = 0x00080000
 
-################################################################################
-# STRUCTURES
-################################################################################
-# 2.2.26 DECIMAL
+  
+  
+  
+  
 class DECIMAL(NDRSTRUCT):
     structure = (
         ('wReserved',WORD),
@@ -95,7 +95,7 @@ class PDECIMAL(NDRPOINTER):
         ('Data', DECIMAL),
     )
 
-# 2.2.7 VARIANT Type Constants
+  
 class VARENUM(NDRENUM):
     class enumItems(Enum):
         VT_EMPTY       = 0
@@ -158,9 +158,9 @@ class VARENUM(NDRENUM):
         VT_UINT_OR_VT_BYREF     = VT_UINT | VT_BYREF
         VT_DECIMAL_OR_VT_BYREF  = VT_DECIMAL | VT_BYREF
 
-# 2.2.8 SAFEARRAY Feature Constants
+  
 class SF_TYPE(NDRENUM):
-    # [v1_enum] type
+      
     structure = (
         ('Data', '<L'),
     )
@@ -177,9 +177,9 @@ class SF_TYPE(NDRENUM):
         SF_RECORD    = VARENUM.VT_RECORD
         SF_HAVEIID   = VARENUM.VT_UNKNOWN | 0x8000
 
-# 2.2.10 CALLCONV Calling Convention Constants
+  
 class CALLCONV(NDRENUM):
-    # [v1_enum] type
+      
     structure = (
         ('Data', '<L'),
     )
@@ -189,9 +189,9 @@ class CALLCONV(NDRENUM):
         CC_STDCALL = 4
 
 
-# 2.2.12 FUNCKIND Function Access Constants
+  
 class FUNCKIND(NDRENUM):
-    # [v1_enum] type
+      
     structure = (
         ('Data', '<L'),
     )
@@ -200,9 +200,9 @@ class FUNCKIND(NDRENUM):
         FUNC_STATIC      = 3
         FUNC_DISPATCH    = 4
 
-# 2.2.14 INVOKEKIND Function Invocation Constants
+  
 class INVOKEKIND(NDRENUM):
-    # [v1_enum] type
+      
     structure = (
         ('Data', '<L'),
     )
@@ -212,9 +212,9 @@ class INVOKEKIND(NDRENUM):
         INVOKE_PROPERTYPUT    = 4
         INVOKE_PROPERTYPUTREF = 8
 
-# 2.2.17 TYPEKIND Type Kind Constants
+  
 class TYPEKIND(NDRENUM):
-    # [v1_enum] type
+      
     structure = (
         ('Data', '<L'),
     )
@@ -228,8 +228,8 @@ class TYPEKIND(NDRENUM):
         TKIND_ALIAS     = 6
         TKIND_UNION     = 7
 
-# 2.2.23 BSTR
-# 2.2.23.1 FLAGGED_WORD_BLOB
+  
+  
 class USHORT_ARRAY(NDRUniConformantArray):
     item = '<H'
 
@@ -241,7 +241,7 @@ class FLAGGED_WORD_BLOB(NDRSTRUCT):
     )
     def __setitem__(self, key, value):
         if key == 'asData':
-            value = value #+ '\x00'
+            value = value   
             array = list()
             for letter in value:
                 encoded = letter.encode('utf-16le')
@@ -249,7 +249,7 @@ class FLAGGED_WORD_BLOB(NDRSTRUCT):
             self.fields[key]['Data'] = array
             self['cBytes'] = len(value)*2
             self['clSize'] = len(value)
-            self.data = None        # force recompute
+            self.data = None          
         else:
             return NDRSTRUCT.__setitem__(self, key, value)
 
@@ -270,7 +270,7 @@ class FLAGGED_WORD_BLOB(NDRSTRUCT):
         value = ''
         print('%sasData: %s' % (ind,self['asData']), end=' ')
 
-# 2.2.23.2 BSTR Type Definition
+  
 class BSTR(NDRPOINTER):
     referent = (
         ('Data', FLAGGED_WORD_BLOB),
@@ -281,7 +281,7 @@ class PBSTR(NDRPOINTER):
         ('Data', BSTR),
     )
 
-# 2.2.24 CURRENCY
+  
 class CURRENCY(NDRSTRUCT):
     structure = (
         ('int64', LONGLONG),
@@ -292,8 +292,8 @@ class PCURRENCY(NDRPOINTER):
         ('Data', CURRENCY),
     )
 
-# 2.2.28.2 BRECORD
-# 2.2.28.2.1 _wireBRECORD
+  
+  
 class _wireBRECORD(NDRSTRUCT):
     structure = (
         ('fFlags', LONGLONG),
@@ -307,8 +307,8 @@ class BRECORD(NDRPOINTER):
         ('Data', _wireBRECORD),
     )
 
-# 2.2.30 SAFEARRAY
-# 2.2.30.1 SAFEARRAYBOUND
+  
+  
 class SAFEARRAYBOUND(NDRSTRUCT):
     structure = (
         ('cElements', ULONG),
@@ -320,7 +320,7 @@ class PSAFEARRAYBOUND(NDRPOINTER):
         ('Data', SAFEARRAYBOUND),
     )
 
-# 2.2.30.2 SAFEARR_BSTR
+  
 class BSTR_ARRAY(NDRUniConformantArray):
     item = BSTR
 
@@ -335,21 +335,21 @@ class SAFEARR_BSTR(NDRSTRUCT):
         ('aBstr', PBSTR_ARRAY),
     )
 
-# 2.2.30.3 SAFEARR_UNKNOWN
+  
 class SAFEARR_UNKNOWN(NDRSTRUCT):
     structure = (
         ('Size', ULONG),
         ('apUnknown', MInterfacePointer_ARRAY),
     )
 
-# 2.2.30.4 SAFEARR_DISPATCH
+  
 class SAFEARR_DISPATCH(NDRSTRUCT):
     structure = (
         ('Size', ULONG),
         ('apDispatch', MInterfacePointer_ARRAY),
     )
 
-# 2.2.30.6 SAFEARR_BRECORD
+  
 class BRECORD_ARRAY(NDRUniConformantArray):
     item = BRECORD
 
@@ -359,7 +359,7 @@ class SAFEARR_BRECORD(NDRSTRUCT):
         ('aRecord', BRECORD_ARRAY),
     )
 
-# 2.2.30.7 SAFEARR_HAVEIID
+  
 class SAFEARR_HAVEIID(NDRSTRUCT):
     structure = (
         ('Size', ULONG),
@@ -367,15 +367,15 @@ class SAFEARR_HAVEIID(NDRSTRUCT):
         ('iid', IID),
     )
 
-# 2.2.30.8 Scalar-Sized Arrays
-# 2.2.30.8.1 BYTE_SIZEDARR
+  
+  
 class BYTE_SIZEDARR(NDRSTRUCT):
     structure = (
         ('clSize', ULONG),
         ('pData', BYTE_ARRAY),
     )
 
-# 2.2.30.8.2 WORD_SIZEDARR
+  
 class WORD_ARRAY(NDRUniConformantArray):
     item = '<H'
 
@@ -385,7 +385,7 @@ class WORD_SIZEDARR(NDRSTRUCT):
         ('pData', WORD_ARRAY),
     )
 
-# 2.2.30.8.3 DWORD_SIZEDARR
+  
 class DWORD_ARRAY(NDRUniConformantArray):
     item = '<L'
 
@@ -395,7 +395,7 @@ class DWORD_SIZEDARR(NDRSTRUCT):
         ('pData', DWORD_ARRAY),
     )
 
-# 2.2.30.8.4 HYPER_SIZEDARR
+  
 class HYPER_ARRAY(NDRUniConformantArray):
     item = '<Q'
 
@@ -406,14 +406,14 @@ class HYPER_SIZEDARR(NDRSTRUCT):
     )
 
 
-# 2.2.36 HREFTYPE
+  
 HREFTYPE = DWORD
 
-# 2.2.30.5 SAFEARR_VARIANT
+  
 class VARIANT_ARRAY(NDRUniConformantArray):
-    # In order to avoid the lack of forward declarations in Python
-    # I declare the item in the constructor
-    #item = VARIANT
+      
+      
+      
     def __init__(self, data = None, isNDR64 = False):
         NDRUniConformantArray.__init__(self, data, isNDR64)
         self.item = VARIANT
@@ -424,11 +424,11 @@ class PVARIANT_ARRAY(NDRPOINTER):
     )
 
 class PVARIANT(NDRPOINTER):
-    # In order to avoid the lack of forward declarations in Python
-    # I declare the item in the constructor
-    #referent = (
-    #    ('Data', VARIANT),
-    #)
+      
+      
+      
+      
+      
     def __init__(self, data = None, isNDR64 = False):
         NDRPOINTER.__init__(self, data, isNDR64)
         self.referent = ( ('Data', VARIANT),)
@@ -440,7 +440,7 @@ class SAFEARR_VARIANT(NDRSTRUCT):
         ('aVariant', VARIANT_ARRAY),
     )
 
-# 2.2.30.9 SAFEARRAYUNION
+  
 class SAFEARRAYUNION(NDRUNION):
     commonHdr = (
         ('tag', ULONG),
@@ -458,7 +458,7 @@ class SAFEARRAYUNION(NDRUNION):
         SF_TYPE.SF_I8       : ('HyperStr', HYPER_SIZEDARR),
     }
 
-# 2.2.30.10 SAFEARRAY
+  
 class SAFEARRAYBOUND_ARRAY(NDRUniConformantArray):
     item = SAFEARRAYBOUND
 
@@ -482,8 +482,8 @@ class PSAFEARRAY(NDRPOINTER):
         ('Data', SAFEARRAY),
     )
 
-# 2.2.29 VARIANT
-# 2.2.29.1 _wireVARIANT
+  
+  
 class EMPTY(NDR):
     align = 0
     structure = (
@@ -567,10 +567,10 @@ class PVARIANT(NDRPOINTER):
         ('Data', VARIANT),
     )
 
-# 2.2.32 DISPID
+  
 DISPID = LONG
 
-# 2.2.33 DISPPARAMS
+  
 class DISPID_ARRAY(NDRUniConformantArray):
     item = '<L'
 
@@ -587,7 +587,7 @@ class DISPPARAMS(NDRSTRUCT):
         ('cNamedArgs', UINT),
     )
 
-# 2.2.34 EXCEPINFO
+  
 class EXCEPINFO(NDRSTRUCT):
     structure = (
         ('wCode',WORD),
@@ -601,18 +601,18 @@ class EXCEPINFO(NDRSTRUCT):
         ('scode', HRESULT),
     )
 
-# 2.2.35 MEMBERID
+  
 MEMBERID = DISPID
 
-# 2.2.38 ARRAYDESC
+  
 class ARRAYDESC(NDRSTRUCT):
-    # In order to avoid the lack of forward declarations in Python
-    # I declare the item in the constructor
-    #structure = (
-    #    ('tdescElem',TYPEDESC),
-    #    ('cDims',USHORT),
-    #    ('rgbounds',SAFEARRAYBOUND_ARRAY),
-    #)
+      
+      
+      
+      
+      
+      
+      
     def __init__(self, data = None, isNDR64 = False):
         NDRSTRUCT.__init__(self, data, isNDR64)
         self.structure = (
@@ -621,20 +621,20 @@ class ARRAYDESC(NDRSTRUCT):
             ('rgbounds',SAFEARRAYBOUND_ARRAY),
         )
 
-# 2.2.37 TYPEDESC
+  
 class tdUnion(NDRUNION):
     notAlign = True
     commonHdr = (
         ('tag', USHORT),
     )
-    # In order to avoid the lack of forward declarations in Python
-    # I declare the item in the constructor
-    #union = {
-    #    VARENUM.VT_PTR: ('lptdesc', tdUnion),
-    #    VARENUM.VT_SAFEARRAY: ('lptdesc', tdUnion),
-    #    VARENUM.VT_CARRAY: ('lpadesc', ARRAYDESC),
-    #    VARENUM.VT_USERDEFINED: ('hreftype', HREFTYPE),
-    #}
+      
+      
+      
+      
+      
+      
+      
+      
     def __init__(self, data = None, isNDR64=False, topLevel = False):
         NDRUNION.__init__(self,None, isNDR64=isNDR64, topLevel=topLevel)
         self.union = {
@@ -660,14 +660,14 @@ class PTYPEDESC(NDRPOINTER):
     )
     def __init__(self, data = None, isNDR64=False, topLevel = False):
         ret = NDRPOINTER.__init__(self,None, isNDR64=isNDR64, topLevel = False)
-        # We're forcing the pointer not to be topLevel
+          
         if data is None:
             self.fields['ReferentID'] = random.randint(1,65535)
         else:
            self.fromString(data)
 
 
-# 2.2.48 SCODE
+  
 SCODE = LONG
 
 class SCODE_ARRAY(NDRUniConformantArray):
@@ -678,7 +678,7 @@ class PSCODE_ARRAY(NDRPOINTER):
         ('Data', SCODE_ARRAY),
     )
 
-# 2.2.39 PARAMDESCEX
+  
 class PARAMDESCEX(NDRSTRUCT):
     structure = (
         ('cBytes',ULONG),
@@ -691,14 +691,14 @@ class PPARAMDESCEX(NDRPOINTER):
     )
 
 
-# 2.2.40 PARAMDESC
+  
 class PARAMDESC(NDRSTRUCT):
     structure = (
         ('pparamdescex',PPARAMDESCEX),
         ('wParamFlags',USHORT),
     )
 
-# 2.2.41 ELEMDESC
+  
 class ELEMDESC(NDRSTRUCT):
     structure = (
         ('tdesc',TYPEDESC),
@@ -713,7 +713,7 @@ class PELEMDESC_ARRAY(NDRPOINTER):
         ('Data', ELEMDESC_ARRAY),
     )
 
-# 2.2.42 FUNCDESC
+  
 class FUNCDESC(NDRSTRUCT):
     structure = (
         ('memid',MEMBERID),
@@ -734,7 +734,7 @@ class LPFUNCDESC(NDRPOINTER):
     referent = (
         ('Data', FUNCDESC),
     )
-# 2.2.44 TYPEATTR
+  
 class TYPEATTR(NDRSTRUCT):
     structure = (
         ('guid',GUID),
@@ -773,10 +773,10 @@ class OLESTR_ARRAY(NDRUniConformantArray):
     item = LPOLESTR
 
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 3.1.4.1 IDispatch::GetTypeInfoCount (Opnum 3)
+  
+  
+  
+  
 class IDispatch_GetTypeInfoCount(DCOMCALL):
     opnum = 3
     structure = (
@@ -789,7 +789,7 @@ class IDispatch_GetTypeInfoCountResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.2 IDispatch::GetTypeInfo (Opnum 4)
+  
 class IDispatch_GetTypeInfo(DCOMCALL):
     opnum = 4
     structure = (
@@ -803,7 +803,7 @@ class IDispatch_GetTypeInfoResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.3 IDispatch::GetIDsOfNames (Opnum 5)
+  
 class IDispatch_GetIDsOfNames(DCOMCALL):
     opnum = 5
     structure = (
@@ -819,7 +819,7 @@ class IDispatch_GetIDsOfNamesResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.4.4 IDispatch::Invoke (Opnum 6)
+  
 class IDispatch_Invoke(DCOMCALL):
     opnum = 6
     structure = (
@@ -841,7 +841,7 @@ class IDispatch_InvokeResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.7.4.1 ITypeInfo::GetTypeAttr (Opnum 3)
+  
 class ITypeInfo_GetTypeAttr(DCOMCALL):
     opnum = 3
     structure = (
@@ -854,7 +854,7 @@ class ITypeInfo_GetTypeAttrResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.7.4.2 ITypeInfo::GetTypeComp (Opnum 4)
+  
 class ITypeInfo_GetTypeComp(DCOMCALL):
     opnum = 4
     structure = (
@@ -866,7 +866,7 @@ class ITypeInfo_GetTypeCompResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.7.4.3 ITypeInfo::GetFuncDesc (Opnum 5)
+  
 class ITypeInfo_GetFuncDesc(DCOMCALL):
     opnum = 5
     structure = (
@@ -880,7 +880,7 @@ class ITypeInfo_GetFuncDescResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.7.4.5 ITypeInfo::GetNames (Opnum 7)
+  
 class ITypeInfo_GetNames(DCOMCALL):
     opnum = 7
     structure = (
@@ -895,7 +895,7 @@ class ITypeInfo_GetNamesResponse(DCOMANSWER):
        ('ErrorCode', error_status_t),
     )
 
-# 3.7.4.8 ITypeInfo::GetDocumentation (Opnum 12)
+  
 class ITypeInfo_GetDocumentation(DCOMCALL):
     opnum = 12
     structure = (
@@ -912,42 +912,42 @@ class ITypeInfo_GetDocumentationResponse(DCOMANSWER):
     )
 
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
 }
 
-################################################################################
-# HELPER FUNCTIONS AND INTERFACES
-################################################################################
-# 4.8.5 Enumerating All Methods in an Interface
-# INPUT: IDispatch pointer from the automation server
-# CALL IDispatch::GetTypeInfoCount and OBTAIN pcTInfo
-# COMMENT see Section 3.1.4.1 for information on pcTInfo i
-# IF pcTInfo = 0 THEN
-#     PRINT Automation Server does not support type information for this object
-# ELSE
-#     CALL IDispatch::GetTypeInfo with correct LocaleID and OBTAIN ITypeInfo pointer
-#     CALL ITypeInfo::GetDocumentation(MEMBERID_NIL, 1, &BstrName, NULL, NULL, NULL)
-#     PRINT Name of the Interface is BstrName
-#     CALL ITypeInfo::GetTypeAttr and OBTAIN TYPEATTR pointer
-#
-#     FOR X = 0 to TYPEATTR:: cFuncs -1
-#         CALL ITypeInfo::GetFuncDesc with X and OBTAIN FUNCDESC pointer
-#         CALL ITypeInfo::GetNames with FUNCDESC::memid and appropriate values for
-#             rgBstrNames, cMaxNames and pcNames
-#         COMMENT see Section 3.7.4.5 for more information regarding the parameters
-#                 to ITypeinfo::GetNames
-#         IF pcNames > 0 THEN
-#             PRINT Name of the method is rgBstrNames[0]
-#             PRINT Parameters to above method are following
-#             FOR Y = 1 to pcNames -1
-#                 PRINT rgBstrNames[Y]
-#             END FOR
-#         END IF
-#     END FOR i
-# ENDIF
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 def enumerateMethods(iInterface):
     methods = dict()
     typeInfoCount = iInterface.GetTypeInfoCount()

@@ -11,7 +11,7 @@ from six import b, PY3, indexbytes
 
 
 def get_random_bytes(lenBytes):
-    # We don't really need super strong randomness here to use PyCrypto.Random
+      
     return urandom(lenBytes)
 
 class Enctype(object):
@@ -42,20 +42,20 @@ class InvalidChecksum(ValueError):
 
 
 def _zeropad(s, padsize):
-    # Return s padded with 0 bytes to a multiple of padsize.
+      
     padlen = (padsize - (len(s) % padsize)) % padsize
     return s + b'\0'*padlen
 
 
 def _xorbytes(b1, b2):
-    # xor two strings together and return the resulting string.
+      
     assert len(b1) == len(b2)
     return bytearray((x ^ y) for x, y in zip(b1, b2))
 
 
 def _mac_equal(mac1, mac2):
-    # Constant-time comparison function.  (We can't use HMAC.verify
-    # since we use truncated macs.)
+      
+      
     assert len(mac1) == len(mac2)
     res = 0
     for x, y in zip(mac1, mac2):
@@ -64,29 +64,29 @@ def _mac_equal(mac1, mac2):
 
 
 def _nfold(ba, nbytes):
-    # Convert bytearray to a string of length nbytes using the RFC 3961 nfold
-    # operation.
+      
+      
 
-    # Rotate the bytes in ba to the right by nbits bits.
+      
     def rotate_right(ba, nbits):
         ba = bytearray(ba)
         nbytes, remain = (nbits//8) % len(ba), nbits % 8
         return bytearray((ba[i-nbytes] >> remain) | ((ba[i-nbytes-1] << (8-remain)) & 0xff) for i in range(len(ba)))
 
-    # Add equal-length strings together with end-around carry.
+      
     def add_ones_complement(str1, str2):
         n = len(str1)
         v = [a + b for a, b in zip(str1, str2)]
-        # Propagate carry bits to the left until there aren't any left.
+          
         while any(x & ~0xff for x in v):
             v = [(v[i-n+1]>>8) + (v[i]&0xff) for i in range(n)]
         return bytearray(x for x in v)
 
-    # Concatenate copies of str to produce the least common multiple
-    # of len(str) and nbytes, rotating each copy of str to the right
-    # by 13 bits times its list position.  Decompose the concatenation
-    # into slices of length nbytes, and add them together as
-    # big-endian ones' complement integers.
+      
+      
+      
+      
+      
     slen = len(ba)
     lcm = nbytes * slen // gcd(nbytes, slen)
     bigstr = bytearray()
@@ -116,15 +116,15 @@ def _is_weak_des_key(keybytes):
 
 
 class _EnctypeProfile(object):
-    # Base class for enctype profiles.  Usable enctype classes must define:
-    #   * enctype: enctype number
-    #   * keysize: protocol size of key in bytes
-    #   * seedsize: random_to_key input size in bytes
-    #   * random_to_key (if the keyspace is not dense)
-    #   * string_to_key
-    #   * encrypt
-    #   * decrypt
-    #   * prf
+      
+      
+      
+      
+      
+      
+      
+      
+      
 
     @classmethod
     def random_to_key(cls, seed):
@@ -134,22 +134,22 @@ class _EnctypeProfile(object):
 
 
 class _SimplifiedEnctype(_EnctypeProfile):
-    # Base class for enctypes using the RFC 3961 simplified profile.
-    # Defines the encrypt, decrypt, and prf methods.  Subclasses must
-    # define:
-    #   * blocksize: Underlying cipher block size in bytes
-    #   * padsize: Underlying cipher padding multiple (1 or blocksize)
-    #   * macsize: Size of integrity MAC in bytes
-    #   * hashmod: PyCrypto hash module for underlying hash function
-    #   * basic_encrypt, basic_decrypt: Underlying CBC/CTS cipher
+      
+      
+      
+      
+      
+      
+      
+      
 
     @classmethod
     def derive(cls, key, constant):
-        # RFC 3961 only says to n-fold the constant only if it is
-        # shorter than the cipher block size.  But all Unix
-        # implementations n-fold constants if their length is larger
-        # than the block size as well, and n-folding when the length
-        # is equal to the block size is a no-op.
+          
+          
+          
+          
+          
         plaintext = _nfold(constant, cls.blocksize)
         rndseed = b''
         while len(rndseed) < cls.seedsize:
@@ -182,16 +182,16 @@ class _SimplifiedEnctype(_EnctypeProfile):
         expmac = hmac[:cls.macsize]
         if not _mac_equal(mac, expmac):
             raise InvalidChecksum('ciphertext integrity failure')
-        # Discard the confounder.
+          
         return bytes(basic_plaintext[cls.blocksize:])
 
     @classmethod
     def prf(cls, key, string):
-        # Hash the input.  RFC 3961 says to truncate to the padding
-        # size, but implementations truncate to the block size.
+          
+          
         hashval = cls.hashmod.new(string).digest()
         truncated = hashval[:-(len(hashval) % cls.blocksize)]
-        # Encrypt the hash with a derived key.
+          
         kp = cls.derive(key, b'prf')
         return cls.basic_encrypt(kp, truncated)
 
@@ -265,14 +265,14 @@ class _DESCBC(_SimplifiedEnctype):
 
         for block in [s[i:i+8] for i in range(0, len(s), 8)]:
             temp56 = list()
-            #removeMSBits
+              
             for byte in block:
                 if PY3:
                     temp56.append(byte&0b01111111)
                 else:
                     temp56.append(ord(byte)&0b01111111)
             
-            #reverse
+              
             if odd is False:
                 bintemp = b''
                 for byte in temp56:
@@ -331,12 +331,12 @@ class _DES3CBC(_SimplifiedEnctype):
 
     @classmethod
     def random_to_key(cls, seed):
-        # XXX Maybe reframe as _DESEnctype.random_to_key and use that
-        # way from DES3 random-to-key when DES is implemented, since
-        # MIT does this instead of the RFC 3961 random-to-key.
+          
+          
+          
         def expand(seed):
             def parity(b):
-                # Return b with the low-order bit set to yield odd parity.
+                  
                 b &= ~1
                 return b if bin(b & ~1).count('1') % 2 else b | 1
             assert len(seed) == 7
@@ -374,7 +374,7 @@ class _DES3CBC(_SimplifiedEnctype):
 
 
 class _AESEnctype(_SimplifiedEnctype):
-    # Base class for aes128-cts and aes256-cts.
+      
     blocksize = 16
     padsize = 1
     macsize = 12
@@ -394,8 +394,8 @@ class _AESEnctype(_SimplifiedEnctype):
         aes = AES.new(key.contents, AES.MODE_CBC, b'\0' * 16)
         ctext = aes.encrypt(_zeropad(bytes(plaintext), 16))
         if len(plaintext) > 16:
-            # Swap the last two ciphertext blocks and truncate the
-            # final block to match the plaintext length.
+              
+              
             lastlen = len(plaintext) % 16 or 16
             ctext = ctext[:-32] + ctext[-16:] + ctext[-32:-16][:lastlen]
         return ctext
@@ -406,25 +406,25 @@ class _AESEnctype(_SimplifiedEnctype):
         aes = AES.new(key.contents, AES.MODE_ECB)
         if len(ciphertext) == 16:
             return aes.decrypt(ciphertext)
-        # Split the ciphertext into blocks.  The last block may be partial.
+          
         cblocks = [bytearray(ciphertext[p:p+16]) for p in range(0, len(ciphertext), 16)]
         lastlen = len(cblocks[-1])
-        # CBC-decrypt all but the last two blocks.
+          
         prev_cblock = bytearray(16)
         plaintext = b''
         for bb in cblocks[:-2]:
             plaintext += _xorbytes(bytearray(aes.decrypt(bytes(bb))), prev_cblock)
             prev_cblock = bb
-        # Decrypt the second-to-last cipher block.  The left side of
-        # the decrypted block will be the final block of plaintext
-        # xor'd with the final partial cipher block; the right side
-        # will be the omitted bytes of ciphertext from the final
-        # block.
+          
+          
+          
+          
+          
         bb = bytearray(aes.decrypt(bytes(cblocks[-2])))
         lastplaintext =_xorbytes(bb[:lastlen], cblocks[-1])
         omitted = bb[lastlen:]
-        # Decrypt the final cipher block plus the omitted bytes to get
-        # the second-to-last plaintext block.
+          
+          
         plaintext += _xorbytes(bytearray(aes.decrypt(bytes(cblocks[-1]) + bytes(omitted))), prev_cblock)
         return plaintext + lastplaintext
 
@@ -448,8 +448,8 @@ class _RC4(_EnctypeProfile):
 
     @staticmethod
     def usage_str(keyusage):
-        # Return a four-byte string for an RFC 3961 keyusage, using
-        # the RFC 4757 rules.  Per the errata, do not map 9 to 8.
+          
+          
         table = {3: 8, 23: 13}
         msusage = table[keyusage] if keyusage in table else keyusage
         return pack('<I', msusage)
@@ -479,13 +479,13 @@ class _RC4(_EnctypeProfile):
         exp_cksum = bytearray(HMAC.new(ki, basic_plaintext, MD5).digest())
         ok = _mac_equal(cksum, exp_cksum)
         if not ok and keyusage == 9:
-            # Try again with usage 8, due to RFC 4757 errata.
+              
             ki = HMAC.new(key.contents, pack('<I', 8), MD5).digest()
             exp_cksum = HMAC.new(ki, basic_plaintext, MD5).digest()
             ok = _mac_equal(cksum, exp_cksum)
         if not ok:
             raise InvalidChecksum('ciphertext integrity failure')
-        # Discard the confounder.
+          
         return bytes(basic_plaintext[8:])
 
     @classmethod
@@ -494,10 +494,10 @@ class _RC4(_EnctypeProfile):
 
 
 class _ChecksumProfile(object):
-    # Base class for checksum profiles.  Usable checksum classes must
-    # define:
-    #   * checksum
-    #   * verify (if verification is not just checksum-and-compare)
+      
+      
+      
+      
     @classmethod
     def verify(cls, key, keyusage, text, cksum):
         expected = cls.checksum(key, keyusage, text)
@@ -506,11 +506,11 @@ class _ChecksumProfile(object):
 
 
 class _SimplifiedChecksum(_ChecksumProfile):
-    # Base class for checksums using the RFC 3961 simplified profile.
-    # Defines the checksum and verify methods.  Subclasses must
-    # define:
-    #   * macsize: Size of checksum in bytes
-    #   * enc: Profile of associated enctype
+      
+      
+      
+      
+      
 
     @classmethod
     def checksum(cls, key, keyusage, text):
@@ -611,8 +611,8 @@ def encrypt(key, keyusage, plaintext, confounder=None):
 
 
 def decrypt(key, keyusage, ciphertext):
-    # Throw InvalidChecksum on checksum failure.  Throw ValueError on
-    # invalid key enctype or malformed ciphertext.
+      
+      
     e = _get_enctype_profile(key.enctype)
     return e.decrypt(key, keyusage, ciphertext)
 
@@ -628,18 +628,18 @@ def make_checksum(cksumtype, key, keyusage, text):
 
 
 def verify_checksum(cksumtype, key, keyusage, text, cksum):
-    # Throw InvalidChecksum exception on checksum failure.  Throw
-    # ValueError on invalid cksumtype, invalid key enctype, or
-    # malformed checksum.
+      
+      
+      
     c = _get_checksum_profile(cksumtype)
     c.verify(key, keyusage, text, cksum)
 
 
 def cf2(enctype, key1, key2, pepper1, pepper2):
-    # Combine two keys and two pepper strings to produce a result key
-    # of type enctype, using the RFC 6113 KRB-FX-CF2 function.
+      
+      
     def prfplus(key, pepper, l):
-        # Produce l bytes of output using the RFC 6113 PRF+ function.
+          
         out = b''
         count = 1
         while len(out) < l:

@@ -22,20 +22,20 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'RRP SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
-# 2.2.2 PREGISTRY_SERVER_NAME
+  
+  
+  
+  
 PREGISTRY_SERVER_NAME = PWCHAR
 
-# 2.2.3 error_status_t
+  
 error_status_t = ULONG
 
-# 2.2.5 RRP_UNICODE_STRING
+  
 RRP_UNICODE_STRING = RPC_UNICODE_STRING
 PRRP_UNICODE_STRING = PRPC_UNICODE_STRING
 
-# 2.2.4 REGSAM
+  
 REGSAM = ULONG
 
 KEY_QUERY_VALUE        = 0x00000001
@@ -58,21 +58,21 @@ REG_QWORD               = 11
 REG_QWORD_LITTLE_ENDIAN = 11
 REG_SZ                  = 1
 
-# 3.1.5.7 BaseRegCreateKey (Opnum 6)
+  
 REG_CREATED_NEW_KEY     = 0x00000001
 REG_OPENED_EXISTING_KEY = 0x00000002
 
-# 3.1.5.19 BaseRegRestoreKey (Opnum 19)
-# Flags
+  
+  
 REG_WHOLE_HIVE_VOLATILE = 0x00000001
 REG_REFRESH_HIVE        = 0x00000002
 REG_NO_LAZY_FLUSH       = 0x00000004
 REG_FORCE_RESTORE       = 0x00000008
 
-################################################################################
-# STRUCTURES
-################################################################################
-# 2.2.1 RPC_HKEY
+  
+  
+  
+  
 class RPC_HKEY(NDRSTRUCT):
     structure =  (
         ('context_handle_attributes',ULONG),
@@ -86,7 +86,7 @@ class RPC_HKEY(NDRSTRUCT):
     def isNull(self):
         return self['context_handle_uuid'] == b'\x00'*16
 
-# 2.2.6 RVALENT
+  
 class RVALENT(NDRSTRUCT):
     structure =  (
         ('ve_valuename',PRRP_UNICODE_STRING),
@@ -98,7 +98,7 @@ class RVALENT(NDRSTRUCT):
 class RVALENT_ARRAY(NDRUniConformantVaryingArray):
     item = RVALENT
 
-# 2.2.9 RPC_SECURITY_DESCRIPTOR
+  
 class BYTE_ARRAY(NDRUniConformantVaryingArray):
     pass
 
@@ -114,7 +114,7 @@ class RPC_SECURITY_DESCRIPTOR(NDRSTRUCT):
         ('cbOutSecurityDescriptor',DWORD),
     )
 
-# 2.2.8 RPC_SECURITY_ATTRIBUTES
+  
 class RPC_SECURITY_ATTRIBUTES(NDRSTRUCT):
     structure =  (
         ('nLength',DWORD),
@@ -127,10 +127,10 @@ class PRPC_SECURITY_ATTRIBUTES(NDRPOINTER):
         ('Data', RPC_SECURITY_ATTRIBUTES),
     )
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 3.1.5.1 OpenClassesRoot (Opnum 0)
+  
+  
+  
+  
 class OpenClassesRoot(NDRCALL):
     opnum = 0
     structure = (
@@ -144,7 +144,7 @@ class OpenClassesRootResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.2 OpenCurrentUser (Opnum 1)
+  
 class OpenCurrentUser(NDRCALL):
     opnum = 1
     structure = (
@@ -158,7 +158,7 @@ class OpenCurrentUserResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.3 OpenLocalMachine (Opnum 2)
+  
 class OpenLocalMachine(NDRCALL):
     opnum = 2
     structure = (
@@ -172,7 +172,7 @@ class OpenLocalMachineResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.4 OpenPerformanceData (Opnum 3)
+  
 class OpenPerformanceData(NDRCALL):
     opnum = 3
     structure = (
@@ -186,7 +186,7 @@ class OpenPerformanceDataResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.5 OpenUsers (Opnum 4)
+  
 class OpenUsers(NDRCALL):
     opnum = 4
     structure = (
@@ -200,7 +200,7 @@ class OpenUsersResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.6 BaseRegCloseKey (Opnum 5)
+  
 class BaseRegCloseKey(NDRCALL):
     opnum = 5
     structure = (
@@ -213,7 +213,7 @@ class BaseRegCloseKeyResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.7 BaseRegCreateKey (Opnum 6)
+  
 class BaseRegCreateKey(NDRCALL):
     opnum = 6
     structure = (
@@ -233,7 +233,7 @@ class BaseRegCreateKeyResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.8 BaseRegDeleteKey (Opnum 7)
+  
 class BaseRegDeleteKey(NDRCALL):
     opnum = 7
     structure = (
@@ -246,7 +246,7 @@ class BaseRegDeleteKeyResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.9 BaseRegDeleteValue (Opnum 8)
+  
 class BaseRegDeleteValue(NDRCALL):
     opnum = 8
     structure = (
@@ -259,7 +259,7 @@ class BaseRegDeleteValueResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.10 BaseRegEnumKey (Opnum 9)
+  
 class BaseRegEnumKey(NDRCALL):
     opnum = 9
     structure = (
@@ -278,7 +278,7 @@ class BaseRegEnumKeyResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.11 BaseRegEnumValue (Opnum 10)
+  
 class BaseRegEnumValue(NDRCALL):
     opnum = 10
     structure = (
@@ -301,7 +301,7 @@ class BaseRegEnumValueResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.12 BaseRegFlushKey (Opnum 11)
+  
 class BaseRegFlushKey(NDRCALL):
     opnum = 11
     structure = (
@@ -313,7 +313,7 @@ class BaseRegFlushKeyResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.13 BaseRegGetKeySecurity (Opnum 12)
+  
 class BaseRegGetKeySecurity(NDRCALL):
     opnum = 12
     structure = (
@@ -328,7 +328,7 @@ class BaseRegGetKeySecurityResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.14 BaseRegLoadKey (Opnum 13)
+  
 class BaseRegLoadKey(NDRCALL):
     opnum = 13
     structure = (
@@ -342,7 +342,7 @@ class BaseRegLoadKeyResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.15 BaseRegOpenKey (Opnum 15)
+  
 class BaseRegOpenKey(NDRCALL):
     opnum = 15
     structure = (
@@ -358,7 +358,7 @@ class BaseRegOpenKeyResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.16 BaseRegQueryInfoKey (Opnum 16)
+  
 class BaseRegQueryInfoKey(NDRCALL):
     opnum = 16
     structure = (
@@ -380,7 +380,7 @@ class BaseRegQueryInfoKeyResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.17 BaseRegQueryValue (Opnum 17)
+  
 class BaseRegQueryValue(NDRCALL):
     opnum = 17
     structure = (
@@ -401,7 +401,7 @@ class BaseRegQueryValueResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.18 BaseRegReplaceKey (Opnum 18)
+  
 class BaseRegReplaceKey(NDRCALL):
     opnum = 18
     structure = (
@@ -416,7 +416,7 @@ class BaseRegReplaceKeyResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.19 BaseRegRestoreKey (Opnum 19)
+  
 class BaseRegRestoreKey(NDRCALL):
     opnum = 19
     structure = (
@@ -430,7 +430,7 @@ class BaseRegRestoreKeyResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.20 BaseRegSaveKey (Opnum 20)
+  
 class BaseRegSaveKey(NDRCALL):
     opnum = 20
     structure = (
@@ -444,7 +444,7 @@ class BaseRegSaveKeyResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.21 BaseRegSetKeySecurity (Opnum 21)
+  
 class BaseRegSetKeySecurity(NDRCALL):
     opnum = 21
     structure = (
@@ -458,7 +458,7 @@ class BaseRegSetKeySecurityResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.22 BaseRegSetValue (Opnum 22)
+  
 class BaseRegSetValue(NDRCALL):
     opnum = 22
     structure = (
@@ -474,7 +474,7 @@ class BaseRegSetValueResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.23 BaseRegUnLoadKey (Opnum 23)
+  
 class BaseRegUnLoadKey(NDRCALL):
     opnum = 23
     structure = (
@@ -487,7 +487,7 @@ class BaseRegUnLoadKeyResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.24 BaseRegGetVersion (Opnum 26)
+  
 class BaseRegGetVersion(NDRCALL):
     opnum = 26
     structure = (
@@ -500,7 +500,7 @@ class BaseRegGetVersionResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.25 OpenCurrentConfig (Opnum 27)
+  
 class OpenCurrentConfig(NDRCALL):
     opnum = 27
     structure = (
@@ -514,7 +514,7 @@ class OpenCurrentConfigResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.26 BaseRegQueryMultipleValues (Opnum 29)
+  
 class BaseRegQueryMultipleValues(NDRCALL):
     opnum = 29
     structure = (
@@ -533,7 +533,7 @@ class BaseRegQueryMultipleValuesResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.27 BaseRegSaveKeyEx (Opnum 31)
+  
 class BaseRegSaveKeyEx(NDRCALL):
     opnum = 31
     structure = (
@@ -548,7 +548,7 @@ class BaseRegSaveKeyExResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.28 OpenPerformanceText (Opnum 32)
+  
 class OpenPerformanceText(NDRCALL):
     opnum = 32
     structure = (
@@ -562,7 +562,7 @@ class OpenPerformanceTextResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.29 OpenPerformanceNlsText (Opnum 33)
+  
 class OpenPerformanceNlsText(NDRCALL):
     opnum = 33
     structure = (
@@ -576,7 +576,7 @@ class OpenPerformanceNlsTextResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.30 BaseRegQueryMultipleValues2 (Opnum 34)
+  
 class BaseRegQueryMultipleValues2(NDRCALL):
     opnum = 34
     structure = (
@@ -595,7 +595,7 @@ class BaseRegQueryMultipleValues2Response(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-# 3.1.5.31 BaseRegDeleteKeyEx (Opnum 35)
+  
 class BaseRegDeleteKeyEx(NDRCALL):
     opnum = 35
     structure = (
@@ -610,9 +610,9 @@ class BaseRegDeleteKeyExResponse(NDRCALL):
        ('ErrorCode', error_status_t),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  0 : (OpenClassesRoot, OpenClassesRootResponse),
  1 : (OpenCurrentUser, OpenCurrentUserResponse),
@@ -647,9 +647,9 @@ OPNUMS = {
 35 : (BaseRegDeleteKeyEx, BaseRegDeleteKeyExResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def checkNullString(string):
     if string == NULL:
         return string
@@ -784,12 +784,12 @@ def hBaseRegEnumValue(dce, hKey, dwIndex, dataLen=256):
     request['dwIndex'] = dwIndex
     retries = 1
 
-    # We need to be aware the size might not be enough, so let's catch ERROR_MORE_DATA exception
+      
     while True:
         try:
-            # Only the maximum length field of the lpValueNameIn is used to determine the buffer length to be allocated
-            # by the service. Specify a string with a zero length but maximum length set to the largest buffer size
-            # needed to hold the value names.
+              
+              
+              
             request.fields['lpValueNameIn'].fields['MaximumLength'] = dataLen*2
             request.fields['lpValueNameIn'].fields['Data'].fields['Data'].fields['MaximumCount'] = dataLen
 
@@ -802,7 +802,7 @@ def hBaseRegEnumValue(dce, hKey, dwIndex, dataLen=256):
                 LOG.debug('Too many retries when calling hBaseRegEnumValue, aborting')
                 raise
             if e.get_error_code() == system_errors.ERROR_MORE_DATA:
-                # We need to adjust the size
+                  
                 retries +=1
                 dataLen = e.get_packet()['lpcbData']
                 continue
@@ -851,8 +851,8 @@ def hBaseRegOpenKey(dce, hKey, lpSubKey, dwOptions=0x00000001, samDesired = MAXI
 def hBaseRegQueryInfoKey(dce, hKey):
     request = BaseRegQueryInfoKey()
     request['hKey'] = hKey
-    # Not the cleanest way, but oh well
-    # Plus, Windows XP needs MaximumCount also set
+      
+      
     request.fields['lpClassIn'].fields['MaximumLength'] = 1024
     request.fields['lpClassIn'].fields['Data'].fields['Data'].fields['MaximumCount'] = 1024//2
     return dce.request(request)
@@ -863,7 +863,7 @@ def hBaseRegQueryValue(dce, hKey, lpValueName, dataLen=512):
     request['lpValueName'] = checkNullString(lpValueName)
     retries = 1
 
-    # We need to be aware the size might not be enough, so let's catch ERROR_MORE_DATA exception
+      
     while True:
         try:
             request['lpData'] =b' ' * dataLen
@@ -875,7 +875,7 @@ def hBaseRegQueryValue(dce, hKey, lpValueName, dataLen=512):
                 LOG.debug('Too many retries when calling hBaseRegQueryValue, aborting')
                 raise
             if e.get_error_code() == system_errors.ERROR_MORE_DATA:
-                # We need to adjust the size
+                  
                 dataLen = e.get_packet()['lpcbData']
                 continue
             else:
@@ -883,8 +883,8 @@ def hBaseRegQueryValue(dce, hKey, lpValueName, dataLen=512):
         else:
             break
 
-    # Returns
-    # ( dataType, data )
+      
+      
     return resp['lpType'], unpackValue(resp['lpType'], resp['lpData'])
 
 def hBaseRegReplaceKey(dce, hKey, lpSubKey, lpNewFile, lpOldFile):
@@ -930,8 +930,8 @@ def hOpenCurrentConfig(dce, samDesired = MAXIMUM_ALLOWED):
     return dce.request(request)
 
 def hBaseRegQueryMultipleValues(dce, hKey, val_listIn):
-    # ToDo, check the result to see whether we need to
-    # have a bigger buffer for the data to receive
+      
+      
     request = BaseRegQueryMultipleValues()
     request['hKey'] = hKey
 

@@ -23,10 +23,10 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'EVEN SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
-# 2.2.2 EventType
+  
+  
+  
+  
 EVENTLOG_SUCCESS           = 0x0000
 EVENTLOG_ERROR_TYPE        = 0x0001
 EVENTLOG_WARNING_TYPE      = 0x0002
@@ -34,25 +34,25 @@ EVENTLOG_INFORMATION_TYPE  = 0x0004
 EVENTLOG_AUDIT_SUCCESS     = 0x0008
 EVENTLOG_AUDIT_FAILURE     = 0x0010
 
-# 2.2.7 EVENTLOG_HANDLE_A and EVENTLOG_HANDLE_W
-#EVENTLOG_HANDLE_A
+  
+  
 EVENTLOG_HANDLE_W = LPWSTR
 
-# 2.2.9 Constants Used in Method Definitions
+  
 MAX_STRINGS      = 0x00000100
 MAX_SINGLE_EVENT = 0x0003FFFF
 MAX_BATCH_BUFF   = 0x0007FFFF
 
-# 3.1.4.7 ElfrReadELW (Opnum 10)
+  
 EVENTLOG_SEQUENTIAL_READ = 0x00000001
 EVENTLOG_SEEK_READ       = 0x00000002
 
 EVENTLOG_FORWARDS_READ   = 0x00000004
 EVENTLOG_BACKWARDS_READ  = 0x00000008
 
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 
 class IELF_HANDLE(NDRSTRUCT):
     structure =  (
@@ -61,7 +61,7 @@ class IELF_HANDLE(NDRSTRUCT):
     def getAlignment(self):
         return 1
 
-# 2.2.3 EVENTLOGRECORD
+  
 class EVENTLOGRECORD(Structure):
     structure = (
         ('Length','<L=0'),
@@ -92,20 +92,20 @@ class EVENTLOGRECORD(Structure):
         ('Length2','<L=0'),
     )
 
-# 2.2.4 EVENTLOG_FULL_INFORMATION
+  
 class EVENTLOG_FULL_INFORMATION(NDRSTRUCT):
     structure = (
         ('dwFull', ULONG),
     )
 
-# 2.2.8 RPC_CLIENT_ID
+  
 class RPC_CLIENT_ID(NDRSTRUCT):
     structure = (
         ('UniqueProcess', ULONG),
         ('UniqueThread', ULONG),
     )
 
-# 2.2.12 RPC_STRING
+  
 class RPC_STRING(NDRSTRUCT):
     structure = (
         ('Length','<H=0'),
@@ -131,10 +131,10 @@ class RPC_STRING(NDRSTRUCT):
         else:
             return self.fields['Data'].dump('',indent)
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 3.1.4.9 ElfrClearELFW (Opnum 0)
+  
+  
+  
+  
 class ElfrClearELFW(NDRCALL):
     opnum = 0
     structure = (
@@ -147,7 +147,7 @@ class ElfrClearELFWResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.11 ElfrBackupELFW (Opnum 1)
+  
 class ElfrBackupELFW(NDRCALL):
     opnum = 1
     structure = (
@@ -160,7 +160,7 @@ class ElfrBackupELFWResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.21 ElfrCloseEL (Opnum 2)
+  
 class ElfrCloseEL(NDRCALL):
     opnum = 2
     structure = (
@@ -173,7 +173,7 @@ class ElfrCloseELResponse(NDRCALL):
         ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.18 ElfrNumberOfRecords (Opnum 4)
+  
 class ElfrNumberOfRecords(NDRCALL):
     opnum = 4
     structure = (
@@ -186,7 +186,7 @@ class ElfrNumberOfRecordsResponse(NDRCALL):
         ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.19 ElfrOldestRecord (Opnum 5)
+  
 class ElfrOldestRecord(NDRCALL):
     opnum = 5
     structure = (
@@ -199,7 +199,7 @@ class ElfrOldestRecordResponse(NDRCALL):
         ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.3 ElfrOpenELW (Opnum 7)
+  
 class ElfrOpenELW(NDRCALL):
     opnum = 7
     structure = (
@@ -216,7 +216,7 @@ class ElfrOpenELWResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5 ElfrRegisterEventSourceW (Opnum 8)
+  
 class ElfrRegisterEventSourceW(NDRCALL):
     opnum = 8
     structure = (
@@ -233,7 +233,7 @@ class ElfrRegisterEventSourceWResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.1 ElfrOpenBELW (Opnum 9)
+  
 class ElfrOpenBELW(NDRCALL):
     opnum = 9
     structure = (
@@ -249,7 +249,7 @@ class ElfrOpenBELWResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.7 ElfrReadELW (Opnum 10)
+  
 class ElfrReadELW(NDRCALL):
     opnum = 10
     structure = (
@@ -267,7 +267,7 @@ class ElfrReadELWResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.13 ElfrReportEventW (Opnum 11)
+  
 class ElfrReportEventW(NDRCALL):
     opnum = 11
     structure = (
@@ -294,9 +294,9 @@ class ElfrReportEventWResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
     0   : (ElfrClearELFW, ElfrClearELFWResponse),
     1   : (ElfrBackupELFW, ElfrBackupELFWResponse),
@@ -310,9 +310,9 @@ OPNUMS = {
     11  : (ElfrReportEventW, ElfrReportEventWResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def hElfrOpenBELW(dce, backupFileName = NULL):
     request = ElfrOpenBELW()
     request['UNCServerName'] = NULL

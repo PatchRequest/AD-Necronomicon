@@ -31,9 +31,9 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'NSPI SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 class handle_t(NDRSTRUCT):
     structure = (
          ('context_handle_attributes',ULONG),
@@ -47,12 +47,12 @@ class handle_t(NDRSTRUCT):
     def isNull(self):
         return self['context_handle_uuid'] == b'\x00'*16
 
-# 2.2.1 Permitted Property Type Values
+  
 PtypEmbeddedTable = 0x0000000D
 PtypNull          = 0x00000001
 PtypUnspecified   = 0x00000000
 
-# 2.2.3 Display Type Values
+  
 DT_MAILUSER         = 0x00000000
 DT_DISTLIST         = 0x00000001
 DT_FORUM            = 0x00000002
@@ -65,14 +65,14 @@ DT_TEMPLATE         = 0x00000101
 DT_ADDRESS_TEMPLATE = 0x00000102
 DT_SEARCH           = 0x00000200
 
-# 2.2.4 Default Language Code Identifier
+  
 NSPI_DEFAULT_LOCALE = 0x00000409
 
-# 2.2.5 Required Codepages
+  
 CP_TELETEX    = 0x00004F25
 CP_WINUNICODE = 0x000004B0
 
-# 2.2.6.1 Comparison Flags
+  
 NORM_IGNORECASE     = 1 << 0
 NORM_IGNORENONSPACE = 1 << 1
 NORM_IGNORESYMBOLS  = 1 << 2
@@ -80,57 +80,57 @@ SORT_STRINGSORT     = 1 << 12
 NORM_IGNOREKANATYPE = 1 << 16
 NORM_IGNOREWIDTH    = 1 << 17
 
-# 2.2.7 Permanent Entry ID GUID
+  
 GUID_NSPI = string_to_bin("C840A7DC-42C0-1A10-B4B9-08002B2FE182")
 
-# 2.2.8 Positioning Minimal Entry IDs
+  
 MID_BEGINNING_OF_TABLE = 0x00000000
 MID_END_OF_TABLE       = 0x00000002
 MID_CURRENT            = 0x00000001
 
-# 2.2.9 Ambiguous Name Resolution Minimal Entry IDs
+  
 MID_UNRESOLVED = 0x00000000
 MID_AMBIGUOUS  = 0x00000001
 MID_RESOLVED   = 0x00000002
 
-# 2.2.10 Table Sort Orders
+  
 SortTypeDisplayName         = 0
 SortTypePhoneticDisplayName = 0x00000003
 SortTypeDisplayName_RO      = 0x000003E8
 SortTypeDisplayName_W       = 0x000003E9
 
-# 2.2.11 NspiBind Flags
+  
 fAnonymousLogin = 0x00000020
 
-# 2.2.12 Retrieve Property Flags
+  
 fSkipObjects = 0x00000001
 fEphID       = 0x00000002
 
-# 2.2.13 NspiGetSpecialTable Flags
+  
 NspiAddressCreationTemplates = 0x00000002
 NspiUnicodeStrings           = 0x00000004
 
-# 2.2.14 NspiQueryColumns Flags
+  
 NspiUnicodeProptypes = 0x80000000
 
-# 2.2.15 NspiGetIDsFromNames Flags
+  
 NspiVerifyNames = 0x00000002
 
-# 2.2.16 NspiGetTemplateInfo Flags
+  
 TI_TEMPLATE          = 0x00000001
 TI_SCRIPT            = 0x00000004
 TI_EMT               = 0x00000010
 TI_HELPFILE_NAME     = 0x00000020
 TI_HELPFILE_CONTENTS = 0x00000040
 
-# 2.2.17 NspiModLinkAtt Flags
+  
 fDelete = 0x00000001
 
-# 2.3.1.1 FlatUID_r
+  
 FlatUID_r = UUID
 PFlatUID_r = PUUID
 
-# 2.3.1.2 PropertyTagArray_r
+  
 class PropertyTagArray(NDRUniConformantVaryingArray):
     item = DWORD
 
@@ -145,7 +145,7 @@ class PPropertyTagArray_r(NDRPOINTER):
          ('Data', PropertyTagArray_r),
     )
 
-# 2.3.1.3 Binary_r
+  
 class Binary(NDRUniConformantArray):
     item = 'c'
 
@@ -160,7 +160,7 @@ class Binary_r(NDRSTRUCT):
          ('lpb', PBinary),
     )
 
-# 2.3.1.4 ShortArray_r
+  
 class ShortArray(NDRUniConformantArray):
     item = SHORT
 
@@ -175,7 +175,7 @@ class ShortArray_r(NDRSTRUCT):
          ('lpi', PShortArray),
     )
 
-# 2.3.1.5 LongArray_r
+  
 class LongArray(NDRUniConformantArray):
     item = LONG
 
@@ -190,7 +190,7 @@ class LongArray_r(NDRSTRUCT):
          ('lpl', PLongArray)
     )
 
-# 2.3.1.6 StringArray_r
+  
 class StringArray(NDRUniConformantArray):
     item = LPSTR
 
@@ -205,7 +205,7 @@ class StringArray_r(NDRSTRUCT):
          ('lppszA', PStringArray)
     )
 
-# 2.3.1.7 BinaryArray_r
+  
 class BinaryArray(NDRUniConformantArray):
     item = Binary_r
 
@@ -220,7 +220,7 @@ class BinaryArray_r(NDRSTRUCT):
          ('lpbin', PBinaryArray)
     )
 
-# 2.3.1.8 FlatUIDArray_r
+  
 class FlatUIDArray(NDRUniConformantArray):
     item = PFlatUID_r
 
@@ -235,7 +235,7 @@ class FlatUIDArray_r(NDRSTRUCT):
          ('lpguid', PFlatUIDArray)
     )
 
-# 2.3.1.9 WStringArray_r
+  
 class WStringArray(NDRUniConformantArray):
     item = LPWSTR
 
@@ -250,7 +250,7 @@ class WStringArray_r(NDRSTRUCT):
          ('lppszW', PWStringArray)
     )
 
-# 2.3.1.10 DateTimeArray_r
+  
 class DateTimeArray(NDRUniConformantArray):
     item = PFILETIME
 
@@ -265,39 +265,39 @@ class DateTimeArray_r(NDRSTRUCT):
          ('lpft', PDateTimeArray)
     )
 
-# 2.3.1.11 PROP_VAL_UNION
+  
 class PROP_VAL_UNION(NDRUNION):
     commonHdr = (
          ('tag', DWORD),
     )
 
     union = {
-        0x0002: ('i', SHORT),               # PtypInteger16
-        0x0003: ('l', LONG),                # PtypInteger32
-        0x000B: ('b', USHORT),              # PtypBoolean
-        0x001E: ('lpszA', LPSTR),           # PtypString8
-        0x0102: ('bin', Binary_r),          # PtypBinary
-        0x001F: ('lpszW', LPWSTR),          # PtypString
-        0x0048: ('lpguid', PFlatUID_r),     # PtypGuid
-        0x0040: ('ft', FILETIME),           # PtypTime
-        0x000A: ('err', ULONG),             # PtypErrorCode
-        0x1002: ('MVi', ShortArray_r),      # PtypMultipleInteger16
-        0x1003: ('MVl', LongArray_r),       # PtypMultipleInteger32
-        0x101E: ('MVszA', StringArray_r),   # PtypMultipleString8
-        0x1102: ('MVbin', BinaryArray_r),   # PtypMultipleBinary
-        0x1048: ('MVguid', FlatUIDArray_r), # PtypMultipleGuid
-        0x101F: ('MVszW', WStringArray_r),  # PtypMultipleString
-        0x1040: ('MVft', DateTimeArray_r),  # PtypMultipleTime
-        0x0001: ('lReserved', LONG),        # PtypNull
-        0x000D: ('lReserved', LONG),        # PtypEmbeddedTable
-        0x0000: ('lReserved', LONG),        # PtypUnspecified
+        0x0002: ('i', SHORT),                 
+        0x0003: ('l', LONG),                  
+        0x000B: ('b', USHORT),                
+        0x001E: ('lpszA', LPSTR),             
+        0x0102: ('bin', Binary_r),            
+        0x001F: ('lpszW', LPWSTR),            
+        0x0048: ('lpguid', PFlatUID_r),       
+        0x0040: ('ft', FILETIME),             
+        0x000A: ('err', ULONG),               
+        0x1002: ('MVi', ShortArray_r),        
+        0x1003: ('MVl', LongArray_r),         
+        0x101E: ('MVszA', StringArray_r),     
+        0x1102: ('MVbin', BinaryArray_r),     
+        0x1048: ('MVguid', FlatUIDArray_r),   
+        0x101F: ('MVszW', WStringArray_r),    
+        0x1040: ('MVft', DateTimeArray_r),    
+        0x0001: ('lReserved', LONG),          
+        0x000D: ('lReserved', LONG),          
+        0x0000: ('lReserved', LONG),          
     }
 
-# 2.3.1.12 PropertyValue_r
+  
 class PropertyValue_r(NDRSTRUCT):
     structure = (
          ('ulPropTag', DWORD),
-         ('ulReserved', DWORD), # dwAlignPad
+         ('ulReserved', DWORD),   
          ('Value', PROP_VAL_UNION),
     )
 
@@ -306,7 +306,7 @@ class PPropertyValue_r(NDRPOINTER):
          ('Data', PropertyValue_r),
     )
 
-# 2.3.2 PropertyRow_r
+  
 class PropertyValue(NDRUniConformantArray):
     item = PropertyValue_r
 
@@ -317,7 +317,7 @@ class PPropertyValue(NDRPOINTER):
 
 class PropertyRow_r(NDRSTRUCT):
     structure = (
-         ('Reserved', DWORD), # ulAdrEntryPad
+         ('Reserved', DWORD),   
          ('cValues', DWORD),
          ('lpProps', PPropertyValue)
     )
@@ -327,7 +327,7 @@ class PPropertyRow_r(NDRPOINTER):
          ('Data', PropertyRow_r),
     )
 
-# 2.3.3 PropertyRowSet_r
+  
 class PropertyRowSet(NDRUniConformantArray): 
     item = PropertyRow_r
 
@@ -342,7 +342,7 @@ class PPropertyRowSet_r(NDRPOINTER):
          ('Data', PropertyRowSet_r),
     )
 
-# 2.3.4 Restrictions
+  
 class Restriction_r(NDRSTRUCT):
     pass
 
@@ -351,7 +351,7 @@ class PRestriction_r(NDRPOINTER):
          ('Data', Restriction_r),
     )
 
-# 2.3.4.1 AndRestriction_r, OrRestriction_r
+  
 class AndRestriction(NDRUniConformantArray): 
     item = Restriction_r
 
@@ -368,13 +368,13 @@ class AndRestriction_r(NDRSTRUCT):
 
 OrRestriction_r = AndRestriction_r
 
-# 2.3.4.2 NotRestriction_r
+  
 class NotRestriction_r(NDRSTRUCT):
     structure = (
          ('lpRes', PRestriction_r),
     )
 
-# 2.3.4.3 ContentRestriction_r
+  
 class ContentRestriction_r(NDRSTRUCT):
     structure = (
          ('ulFuzzyLevel', DWORD),
@@ -382,7 +382,7 @@ class ContentRestriction_r(NDRSTRUCT):
          ('lpProp', PPropertyValue_r),
     )
 
-# 2.3.4.4 BitMaskRestriction_r
+  
 class BitMaskRestriction_r(NDRSTRUCT):
     structure = (
          ('relBMR', DWORD),
@@ -390,7 +390,7 @@ class BitMaskRestriction_r(NDRSTRUCT):
          ('ulMask', DWORD),
     )
 
-# 2.3.4.5 PropertyRestriction_r
+  
 class PropertyRestriction_r(NDRSTRUCT):
     structure = (
          ('relop', DWORD),
@@ -398,7 +398,7 @@ class PropertyRestriction_r(NDRSTRUCT):
          ('lpProp', PPropertyValue_r),
     )
 
-# 2.3.4.6 ComparePropsRestriction_r
+  
 class ComparePropsRestriction_r(NDRSTRUCT):
     structure = (
          ('relop', DWORD),
@@ -406,14 +406,14 @@ class ComparePropsRestriction_r(NDRSTRUCT):
          ('ulPropTag2', DWORD),
     )
 
-# 2.3.4.7 SubRestriction_r
+  
 class SubRestriction_r(NDRSTRUCT):
     structure = (
          ('ulSubObject', DWORD),
          ('lpRes', PRestriction_r),
     )
 
-# 2.3.4.8 SizeRestriction_r
+  
 class SizeRestriction_r(NDRSTRUCT):
     structure = (
          ('relop', DWORD),
@@ -421,7 +421,7 @@ class SizeRestriction_r(NDRSTRUCT):
          ('cb', DWORD),
     )
 
-# 2.3.4.9 ExistRestriction_r
+  
 class ExistRestriction_r(NDRSTRUCT):
     structure = (
          ('ulReserved1', DWORD),
@@ -429,7 +429,7 @@ class ExistRestriction_r(NDRSTRUCT):
          ('ulReserved2', DWORD),
     )
 
-# 2.3.4.10 RestrictionUnion_r
+  
 class RestrictionUnion_r(NDRUNION):
     commonHdr = (
          ('tag', DWORD),
@@ -448,13 +448,13 @@ class RestrictionUnion_r(NDRUNION):
         0x00000009: ('resSubRestriction', SubRestriction_r),
     }
 
-# 2.3.4.11 Restriction_r
+  
 Restriction_r.structure = (
     ('rt', DWORD),
     ('res', RestrictionUnion_r),
 )
 
-# 2.3.5.1 PropertyName_r
+  
 class PropertyName_r(NDRSTRUCT):
     structure = (
          ('lpguid', PFlatUID_r),
@@ -467,7 +467,7 @@ class PPropertyName_r(NDRPOINTER):
          ('Data', PropertyName_r),
     )
 
-# 2.3.5.2 PropertyNameSet_r
+  
 class PropertyNameSet(NDRUniConformantArray):
     item = PropertyName_r
 
@@ -482,7 +482,7 @@ class PPropertyNameSet_r(NDRPOINTER):
          ('Data', PropertyNameSet_r),
     )
 
-# 2.3.6.1 StringsArray_r
+  
 class StringsArray(NDRUniConformantArray):
     item = LPSTR
 
@@ -492,7 +492,7 @@ class StringsArray_r(NDRSTRUCT):
          ('Strings', StringsArray)
     )
 
-# 2.3.6.1 StringsArray_r
+  
 class WStringsArray(NDRUniConformantArray):
     item = LPWSTR
 
@@ -502,7 +502,7 @@ class WStringsArray_r(NDRSTRUCT):
          ('Strings', WStringsArray)
     )
 
-# 2.3.7 STAT
+  
 class STAT(NDRSTRUCT):
     structure = (
          ('SortType', DWORD),
@@ -521,10 +521,10 @@ class PSTAT(NDRPOINTER):
          ('Data', STAT),
     )
 
-# 2.3.8.1 MinimalEntryID
+  
 MinEntryID = '<L=0'
 
-# 2.3.8.2 EphemeralEntryID
+  
 class EphemeralEntryID(Structure):
     structure = (
          ('IDType','<B=0x87'),
@@ -537,7 +537,7 @@ class EphemeralEntryID(Structure):
          ('MId',MinEntryID),
     )
 
-# 2.3.8.3 PermanentEntryID
+  
 class PermanentEntryID(Structure):
     default_guid = GUID_NSPI
     structure = (
@@ -554,11 +554,11 @@ class PermanentEntryID(Structure):
     def __str__(self):
         return self["DistinguishedName"]
 
-################################################################################
-# RPC CALLS
-################################################################################
+  
+  
+  
 
-# 3.1.4.1 RfrGetNewDSA (opnum 0)
+  
 class NspiBind(NDRCALL):
     opnum = 0
     structure = (
@@ -574,12 +574,12 @@ class NspiBindResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.2 NspiUnbind (Opnum 1)
+  
 class NspiUnbind(NDRCALL):
     opnum = 1
     structure = (
         ('contextHandle', handle_t),
-        ('Reserved', DWORD), # flags
+        ('Reserved', DWORD),   
     )
 
 class NspiUnbindResponse(NDRCALL):
@@ -588,12 +588,12 @@ class NspiUnbindResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.4 NspiUpdateStat (Opnum 2)
+  
 class NspiUpdateStat(NDRCALL):
     opnum = 2
     structure = (
         ('hRpc', handle_t),
-        ('Reserved', DWORD), # flags
+        ('Reserved', DWORD),   
         ('pStat', STAT),
         ('plDelta', LPLONG),
     )
@@ -605,7 +605,7 @@ class NspiUpdateStatResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.8 NspiQueryRows (Opnum 3)
+  
 class DWORD_ARRAY(NDRUniConformantArray):
     item = DWORD
 
@@ -633,12 +633,12 @@ class NspiQueryRowsResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.9 NspiSeekEntries (Opnum 4)
+  
 class NspiSeekEntries(NDRCALL):
     opnum = 4
     structure = (
         ('hRpc', handle_t),
-        ('Reserved', DWORD), # flags
+        ('Reserved', DWORD),   
         ('pStat', STAT),
         ('pTarget', PropertyValue_r),
         ('lpETable', PropertyTagArray_r),
@@ -652,53 +652,53 @@ class NspiSeekEntriesResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.10 NspiGetMatches (Opnum 5)
-#class NspiGetMatches(NDRCALL):
-#    opnum = 5
-#    structure = (
-#        ('hRpc', handle_t),
-#        ('Reserved1', DWORD), # flags
-#        ('pStat', STAT),
-#        ('pReserved', PropertyTagArray_r), # mids
-#        ('Reserved2', DWORD), # interfaceOptions
-#        ('Filter', Restriction_r),
-#        ('lpPropName', PropertyName_r),
-#        ('ulRequested', DWORD),
-#        ('pPropTags', PropertyTagArray_r),
-#    )
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-#class NspiGetMatchesResponse(NDRCALL):
-#    structure = (
-#        ('pStat', PSTAT),
-#        ('ppOutMIds', PPropertyTagArray_r),
-#        ('ppRows', PPropertyRowSet_r),
-#        ('ErrorCode', ULONG),
-#    )
+  
+  
+  
+  
+  
+  
+  
 
-# 3.1.4.11 NspiResortRestriction (Opnum 6)
-#class NspiResortRestriction(NDRCALL):
-#    opnum = 6
-#    structure = (
-#        ('hRpc', handle_t),
-#        ('Reserved', DWORD),
-#        ('pStat', STAT),
-#        ('pInMIds', PropertyTagArray_r),
-#        ('ppOutMIds', PPropertyTagArray_r),
-#    )
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-#class NspiResortRestrictionResponse(NDRCALL):
-#    structure = (
-#        ('pStat', PSTAT),
-#        ('ppOutMIds', PPropertyTagArray_r),
-#        ('ErrorCode', ULONG),
-#    )
+  
+  
+  
+  
+  
+  
 
-# 3.1.4.13 NspiDNToMId (Opnum 7)
+  
 class NspiDNToMId(NDRCALL):
     opnum = 7
     structure = (
         ('hRpc', handle_t),
-        ('Reserved', DWORD), # flags
+        ('Reserved', DWORD),   
         ('pNames', StringsArray_r),
     )
 
@@ -708,7 +708,7 @@ class NspiDNToMIdResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.6 NspiGetPropList (Opnum 8)
+  
 class NspiGetPropList(NDRCALL):
     opnum = 8
     structure = (
@@ -724,7 +724,7 @@ class NspiGetPropListResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.7 NspiGetProps (Opnum 9)
+  
 class NspiGetProps(NDRCALL):
     opnum = 9
     structure = (
@@ -740,12 +740,12 @@ class NspiGetPropsResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.12 NspiCompareMIds (Opnum 10)
+  
 class NspiCompareMIds(NDRCALL):
     opnum = 10
     structure = (
         ('hRpc', handle_t),
-        ('Reserved', DWORD), # flags
+        ('Reserved', DWORD),   
         ('pStat', STAT),
         ('MId1', DWORD),
         ('MId2', DWORD),
@@ -757,24 +757,24 @@ class NspiCompareMIdsResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.14 NspiModProps (Opnum 11)
-#class NspiModProps(NDRCALL):
-#    opnum = 11
-#    structure = (
-#        ('hRpc', handle_t),
-#        ('Reserved', DWORD), # flags
-#        ('pStat', STAT),
-#        ('pPropTags', PropertyTagArray_r),
-#        ('pRow', PropertyRow_r),
-#    )
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-#class NspiModPropsResponse(NDRCALL):
-#    structure = (
-#        ('plResult', LPLONG),
-#        ('ErrorCode', ULONG),
-#    )
+  
+  
+  
+  
+  
 
-# 3.1.4.3 NspiGetSpecialTable (Opnum 12)
+  
 class NspiGetSpecialTable(NDRCALL):
     opnum = 12
     structure = (
@@ -786,15 +786,15 @@ class NspiGetSpecialTable(NDRCALL):
 
 class NspiGetSpecialTableResponse(NDRCALL):
     structure = (
-        # In Exchange 2013 / 2016 / 2019 lpVersion is 
-        # a RuntimeHelpers.GetHashCode value, and it will be
-        # different each call
+          
+          
+          
         ('lpVersion', DWORD), 
         ('ppRows', PPropertyRowSet_r),
         ('ErrorCode', DWORD),
     )
 
-# 3.1.4.20 NspiGetTemplateInfo (Opnum 13)
+  
 class NspiGetTemplateInfo(NDRCALL):
     opnum = 13
     structure = (
@@ -812,7 +812,7 @@ class NspiGetTemplateInfoResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.15 NspiModLinkAtt (Opnum 14)
+  
 class NspiModLinkAtt(NDRCALL):
     opnum = 14
     structure = (
@@ -828,28 +828,28 @@ class NspiModLinkAttResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# Undocumented opnum 15
-#class NspiDeleteEntries(NDRCALL):
-#    opnum = 15
-#    structure = (
-#        ('hRpc', handle_t),
-#        ('dwFlags', DWORD),
-#        ('dwMId', DWORD),
-#        ('entryIds', BinaryArray_r),
-#    )
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
-#class NspiDeleteEntriesResponse(NDRCALL):
-#    structure = (
-#        ('ErrorCode', ULONG),
-#    )
+  
+  
+  
+  
 
-# 3.1.4.5 NspiQueryColumns (Opnum 16)
+  
 class NspiQueryColumns(NDRCALL):
     opnum = 16
     structure = (
         ('hRpc', handle_t),
-        ('Reserved', DWORD), # flags
-        ('dwFlags', DWORD),  # mapiFlags
+        ('Reserved', DWORD),   
+        ('dwFlags', DWORD),    
     )
 
 class NspiQueryColumnsResponse(NDRCALL):
@@ -858,12 +858,12 @@ class NspiQueryColumnsResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.16 NspiGetNamesFromIDs (Opnum 17)
+  
 class NspiGetNamesFromIDs(NDRCALL):
     opnum = 17
     structure = (
         ('hRpc', handle_t),
-        ('Reserved', DWORD), # flags
+        ('Reserved', DWORD),   
         ('lpguid', PFlatUID_r),
         ('pPropTags', PPropertyTagArray_r),
     )
@@ -875,7 +875,7 @@ class NspiGetNamesFromIDsResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.17 NspiGetIDsFromNames (Opnum 18)
+  
 class PropertyName_r_ARRAY(NDRUniConformantVaryingArray):
     item = PropertyName_r
 
@@ -883,8 +883,8 @@ class NspiGetIDsFromNames(NDRCALL):
     opnum = 18
     structure = (
         ('hRpc', handle_t),
-        ('Reserved', DWORD), # flags
-        ('dwFlags', DWORD),  # mapiFlags
+        ('Reserved', DWORD),   
+        ('dwFlags', DWORD),    
         ('cPropNames', DWORD),
         ('pNames', PropertyName_r_ARRAY),
     )
@@ -895,12 +895,12 @@ class NspiGetIDsFromNamesResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.18 NspiResolveNames (Opnum 19)
+  
 class NspiResolveNames(NDRCALL):
     opnum = 19
     structure = (
         ('hRpc', handle_t),
-        ('Reserved', DWORD), # flags
+        ('Reserved', DWORD),   
         ('pStat', STAT),
         ('pPropTags', PPropertyTagArray_r),
         ('paStr', StringsArray_r),
@@ -913,12 +913,12 @@ class NspiResolveNamesResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# 3.1.4.19 NspiResolveNamesW (Opnum 20)
+  
 class NspiResolveNamesW(NDRCALL):
     opnum = 20
     structure = (
         ('hRpc', handle_t),
-        ('Reserved', DWORD), # flags
+        ('Reserved', DWORD),   
         ('pStat', STAT),
         ('pPropTags', PPropertyTagArray_r),
         ('paStr', WStringsArray_r),
@@ -931,26 +931,26 @@ class NspiResolveNamesWResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
     0  : (NspiBind, NspiBindResponse),
     1  : (NspiUnbind, NspiUnbindResponse),
     2  : (NspiUpdateStat, NspiUpdateStatResponse),
     3  : (NspiQueryRows, NspiQueryRowsResponse),
     4  : (NspiSeekEntries, NspiSeekEntriesResponse),
-#    5  : (NspiGetMatches, NspiGetMatchesResponse),
-#    6  : (NspiResortRestriction, NspiResortRestrictionResponse),
+  
+  
     7  : (NspiDNToMId, NspiDNToMIdResponse),
     8  : (NspiGetPropList, NspiGetPropListResponse),
     9  : (NspiGetProps, NspiGetPropsResponse),
     10 : (NspiCompareMIds, NspiCompareMIdsResponse),
-#    11 : (NspiModProps, NspiModPropsResponse),
+  
     12 : (NspiGetSpecialTable, NspiGetSpecialTableResponse),
     13 : (NspiGetTemplateInfo, NspiGetTemplateInfoResponse),
     14 : (NspiModLinkAtt, NspiModLinkAttResponse),
-#    15 : (NspiDeleteEntries, NspiDeleteEntriesResponse),
+  
     16 : (NspiQueryColumns, NspiQueryColumnsResponse),
     17 : (NspiGetNamesFromIDs, NspiGetNamesFromIDsResponse),
     18 : (NspiGetIDsFromNames, NspiGetIDsFromNamesResponse),
@@ -958,9 +958,9 @@ OPNUMS = {
     20 : (NspiResolveNamesW, NspiResolveNamesWResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def checkNullString(string):
     if string == NULL:
         return string
@@ -978,10 +978,10 @@ def get_guid_from_dn(legacyDN):
 
 def get_dn_from_guid(guid, minimize=False):
     if minimize:
-        # MS-OXNSPI
+          
         dn_template = "/guid="
     else:
-        # MS-NSPI and MS-OXNSPI
+          
         dn_template = "/o=NT5/ou=00000000000000000000000000000000/cn="
 
     guid_bin = string_to_bin(guid)
@@ -1019,7 +1019,7 @@ def simplifyPropertyRow(rowSetElem):
             row[PropTag] = int(prop_value['Data'])
         elif isinstance(prop_value, LPWSTR):
             if PropTag in [0x8c38001f]:
-                # What is this field for?
+                  
                 row[PropTag] = ExchBinaryObject(prop_value['Data'].encode("utf-16le")[:-2])
             else:
                 row[PropTag] = prop_value['Data'][:-1]
@@ -1143,16 +1143,16 @@ def hNspiSeekEntries(dce, handler, displayName, ContainerID=0, SortType=0, \
     request['hRpc'] = handler
     request['pStat']['ContainerID'] = ContainerID
 
-    # MS-OXNSPI 3.1.4.1.9.9
-    # If the SortType field in the input parameter pStat has any value other than
-    # SortTypeDisplayName, the server MUST return the value GeneralFailure.
+      
+      
+      
     request['pStat']['SortType'] = SortTypeDisplayName
 
-    # MS-OXNSPI 3.1.4.1.9.10
-    # If the SortType field in the input parameter pStat is SortTypeDisplayName and the property
-    # specified in the input parameter pTarget is anything other than PidTagDisplayName (with either
-    # the Property Type PtypString8 or PtypString), the server MUST return the value
-    # GeneralFailure.
+      
+      
+      
+      
+      
     request['pTarget']['ulPropTag'] = 0x3001001F
     request['pTarget']['Value']['tag'] = 0x0000001F
     request['pTarget']['Value']['lpszW'] = checkNullString(displayName)
@@ -1229,7 +1229,7 @@ def hNspiGetSpecialTable(dce, handler, dwFlags=NspiUnicodeStrings, pStat=STAT(),
     resp = dce.request(request)
     return resp
 
-# Lookups specified LegacyDN or CN={ulType},CN={dwLocaleID},CN=Display-Templates,CN=Addressing in Configuration Naming Context
+  
 def hNspiGetTemplateInfo(dce, handler, pDN=NULL, dwLocaleID=0, ulType=0, dwCodePage=0, dwFlags=0xFFFFFFFF):
     request = NspiGetTemplateInfo()
     request['hRpc'] = handler

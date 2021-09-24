@@ -39,33 +39,33 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'DHCPM SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
+  
+  
+  
 DHCP_SRV_HANDLE = LPWSTR
 DHCP_IP_ADDRESS = DWORD
 DHCP_IP_MASK = DWORD
 DHCP_OPTION_ID = DWORD
 
-# DHCP enumeratiom flags
+  
 DHCP_FLAGS_OPTION_DEFAULT = 0x00000000
 DHCP_FLAGS_OPTION_IS_VENDOR = 0x00000003
 
-# Errors
+  
 ERROR_DHCP_JET_ERROR = 0x00004E2D
 ERROR_DHCP_SUBNET_NOT_PRESENT = 0x00004E25
 ERROR_DHCP_SUBNET_EXISTS = 0x00004E54
-################################################################################
-# STRUCTURES
-################################################################################
-# 2.2.1.1.3 DHCP_SEARCH_INFO_TYPE
+  
+  
+  
+  
 class DHCP_SEARCH_INFO_TYPE(NDRENUM):
     class enumItems(Enum):
         DhcpClientIpAddress       = 0
         DhcpClientHardwareAddress = 1
         DhcpClientName            = 2
 
-# 2.2.1.1.11 QuarantineStatus
+  
 class QuarantineStatus(NDRENUM):
     class enumItems(Enum):
         NOQUARANTINE        = 0
@@ -76,7 +76,7 @@ class QuarantineStatus(NDRENUM):
         DEFAULTQUARSETTING  = 5
         NOQUARINFO          = 6
 
-# 2.2.1.2.7 DHCP_HOST_INFO
+  
 class DHCP_HOST_INFO(NDRSTRUCT):
     structure = (
         ('IpAddress', DHCP_IP_ADDRESS),
@@ -84,7 +84,7 @@ class DHCP_HOST_INFO(NDRSTRUCT):
         ('HostName', LPWSTR),
     )
 
-# 2.2.1.2.9 DHCP_BINARY_DATA
+  
 class BYTE_ARRAY(NDRUniConformantArray):
     item = 'c'
 
@@ -101,14 +101,14 @@ class DHCP_BINARY_DATA(NDRSTRUCT):
 
 DHCP_CLIENT_UID = DHCP_BINARY_DATA
 
-# 2.2.1.2.11 DATE_TIME
+  
 class DATE_TIME(NDRSTRUCT):
     structure = (
         ('dwLowDateTime', DWORD),
         ('dwHighDateTime', DWORD),
     )
 
-# 2.2.1.2.19 DHCP_CLIENT_INFO_VQ
+  
 class DHCP_CLIENT_INFO_VQ(NDRSTRUCT):
     structure = (
         ('ClientIpAddress', DHCP_IP_ADDRESS),
@@ -138,7 +138,7 @@ class DHCP_SEARCH_INFO(NDRSTRUCT):
         ('SearchInfo', DHCP_CLIENT_SEARCH_UNION),
     )
 
-# 2.2.1.2.14 DHCP_CLIENT_INFO_V4
+  
 class DHCP_CLIENT_INFO_V4(NDRSTRUCT):
     structure = (
         ('ClientIpAddress', DHCP_IP_ADDRESS),
@@ -174,7 +174,7 @@ class LPDHCP_CLIENT_INFO_V5(NDRPOINTER):
         ('Data', DHCP_CLIENT_INFO_V5),
     )
 
-# 2.2.1.2.115 DHCP_CLIENT_INFO_PB
+  
 class DHCP_CLIENT_INFO_PB(NDRSTRUCT):
     structure = (
         ('ClientIpAddress', DHCP_IP_ADDRESS),
@@ -511,10 +511,10 @@ class LPDHCP_ALL_OPTION_VALUES(NDRPOINTER):
         ('Data', DHCP_ALL_OPTIONS_VALUES),
     )
 
-################################################################################
-# RPC CALLS
-################################################################################
-# Interface dhcpsrv
+  
+  
+  
+  
 class DhcpGetSubnetInfo(NDRCALL):
     opnum = 2
     structure = (
@@ -608,7 +608,7 @@ class DhcpEnumSubnetClientsV4Response(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-# Interface dhcpsrv2
+  
 
 class DhcpEnumSubnetClientsV5(NDRCALL):
     opnum = 0
@@ -729,9 +729,9 @@ class DhcpV4GetClientInfoResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
     0: (DhcpEnumSubnetClientsV5, DhcpEnumSubnetClientsV5Response),
     2: (DhcpGetSubnetInfo, DhcpGetSubnetInfoResponse),
@@ -749,9 +749,9 @@ OPNUMS = {
 }
 
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def hDhcpGetClientInfoV4(dce, searchType, searchValue):
     request = DhcpGetClientInfoV4()
 
@@ -761,7 +761,7 @@ def hDhcpGetClientInfoV4(dce, searchType, searchValue):
     if searchType == DHCP_SEARCH_INFO_TYPE.DhcpClientIpAddress:
         request['SearchInfo']['SearchInfo']['ClientIpAddress'] = searchValue
     elif searchType == DHCP_SEARCH_INFO_TYPE.DhcpClientHardwareAddress:
-        # This should be a DHCP_BINARY_DATA
+          
         request['SearchInfo']['SearchInfo']['ClientHardwareAddress'] = searchValue
     else:
         request['SearchInfo']['SearchInfo']['ClientName'] = searchValue

@@ -13,7 +13,7 @@ from libs.dcerpc.v5.ndr import NDRSTRUCT
 from libs import hresult_errors
 from threading import Thread
 
-# MS/RPC Constants
+  
 MSRPC_REQUEST   = 0x00
 MSRPC_PING      = 0x01
 MSRPC_RESPONSE  = 0x02
@@ -36,16 +36,16 @@ MSRPC_CO_CANCEL = 0x12
 MSRPC_ORPHANED  = 0x13
 MSRPC_RTS       = 0x14
 
-# MS/RPC Packet Flags
+  
 PFC_FIRST_FRAG     = 0x01
 PFC_LAST_FRAG      = 0x02
 
-# For PDU types bind, bind_ack, alter_context, and
-# alter_context_resp, this flag MUST be interpreted as PFC_SUPPORT_HEADER_SIGN
+  
+  
 MSRPC_SUPPORT_SIGN  = 0x04
 
-#For the
-#remaining PDU types, this flag MUST be interpreted as PFC_PENDING_CANCEL.
+  
+  
 MSRPC_PENDING_CANCEL= 0x04
 
 PFC_RESERVED_1      = 0x08
@@ -54,7 +54,7 @@ PFC_DID_NOT_EXECUTE = 0x20
 PFC_MAYBE           = 0x40
 PFC_OBJECT_UUID     = 0x80
 
-# Auth Types - Security Providers
+  
 RPC_C_AUTHN_NONE          = 0x00
 RPC_C_AUTHN_GSS_NEGOTIATE = 0x09
 RPC_C_AUTHN_WINNT         = 0x0A
@@ -63,7 +63,7 @@ RPC_C_AUTHN_GSS_KERBEROS  = 0x10
 RPC_C_AUTHN_NETLOGON      = 0x44
 RPC_C_AUTHN_DEFAULT       = 0xFF
 
-# Auth Levels
+  
 RPC_C_AUTHN_LEVEL_NONE          = 1
 RPC_C_AUTHN_LEVEL_CONNECT       = 2
 RPC_C_AUTHN_LEVEL_CALL          = 3
@@ -71,7 +71,7 @@ RPC_C_AUTHN_LEVEL_PKT           = 4
 RPC_C_AUTHN_LEVEL_PKT_INTEGRITY = 5
 RPC_C_AUTHN_LEVEL_PKT_PRIVACY   = 6
 
-#Reasons for rejection of a context element, included in bind_ack result reason
+  
 rpc_provider_reason = {
     0       : 'reason_not_specified',
     1       : 'abstract_syntax_not_supported',
@@ -86,36 +86,36 @@ MSRPC_CONT_RESULT_ACCEPT = 0
 MSRPC_CONT_RESULT_USER_REJECT = 1
 MSRPC_CONT_RESULT_PROV_REJECT = 2
 
-#Results of a presentation context negotiation
+  
 rpc_cont_def_result = {
     0       : 'acceptance',
     1       : 'user_rejection',
     2       : 'provider_rejection'
 }
 
-#status codes, references:
-#https://docs.microsoft.com/windows/desktop/Rpc/rpc-return-values
-#https://msdn.microsoft.com/library/default.asp?url=/library/en-us/randz/protocol/common_return_values.asp
-#winerror.h
-#https://www.opengroup.org/onlinepubs/9629399/apdxn.htm
+  
+  
+  
+  
+  
 
 rpc_status_codes = {
     0x00000005 : 'rpc_s_access_denied',
     0x00000008 : 'Authentication type not recognized',
     0x000006D8 : 'rpc_fault_cant_perform', 
-    0x000006C6 : 'rpc_x_invalid_bound',                # the arrays bound are invalid
-    0x000006E4 : 'rpc_s_cannot_support: The requested operation is not supported.',               # some operation is not supported
-    0x000006F7 : 'rpc_x_bad_stub_data',                # the stub data is invalid, doesn't match with the IDL definition
-    0x1C010001 : 'nca_s_comm_failure',                 # unable to get response from server:
-    0x1C010002 : 'nca_s_op_rng_error',                 # bad operation number in call
-    0x1C010003 : 'nca_s_unk_if',                       # unknown interface
-    0x1C010006 : 'nca_s_wrong_boot_time',              # client passed server wrong server boot time
-    0x1C010009 : 'nca_s_you_crashed',                  # a restarted server called back a client
-    0x1C01000B : 'nca_s_proto_error',                  # someone messed up the protocol
-    0x1C010013 : 'nca_s_out_args_too_big ',            # output args too big
-    0x1C010014 : 'nca_s_server_too_busy',              # server is too busy to handle call
-    0x1C010015 : 'nca_s_fault_string_too_long',        # string argument longer than declared max len
-    0x1C010017 : 'nca_s_unsupported_type ',            # no implementation of generic operation for object
+    0x000006C6 : 'rpc_x_invalid_bound',                  
+    0x000006E4 : 'rpc_s_cannot_support: The requested operation is not supported.',                 
+    0x000006F7 : 'rpc_x_bad_stub_data',                  
+    0x1C010001 : 'nca_s_comm_failure',                   
+    0x1C010002 : 'nca_s_op_rng_error',                   
+    0x1C010003 : 'nca_s_unk_if',                         
+    0x1C010006 : 'nca_s_wrong_boot_time',                
+    0x1C010009 : 'nca_s_you_crashed',                    
+    0x1C01000B : 'nca_s_proto_error',                    
+    0x1C010013 : 'nca_s_out_args_too_big ',              
+    0x1C010014 : 'nca_s_server_too_busy',                
+    0x1C010015 : 'nca_s_fault_string_too_long',          
+    0x1C010017 : 'nca_s_unsupported_type ',              
     0x1C000001 : 'nca_s_fault_int_div_by_zero',
     0x1C000002 : 'nca_s_fault_addr_error ',
     0x1C000003 : 'nca_s_fault_fp_div_zero',
@@ -562,7 +562,7 @@ class DCERPCException(Exception):
         else:
             return 'DCERPC Runtime Error: unknown error code: 0x%x' % self.error_code
 
-# Context Item
+  
 class CtxItem(Structure):
     structure = (
         ('ContextID','<H=0'),
@@ -591,14 +591,14 @@ class SEC_TRAILER(Structure):
 class MSRPCHeader(Structure):
     _SIZE = 16
     commonHdr = ( 
-        ('ver_major','B=5'),                              # 0
-        ('ver_minor','B=0'),                              # 1
-        ('type','B=0'),                                   # 2
-        ('flags','B=0'),                                  # 3
-        ('representation','<L=0x10'),                     # 4
-        ('frag_len','<H=self._SIZE+len(auth_data)+(16 if (self["flags"] & 0x80) > 0 else 0)+len(pduData)+len(pad)+len(sec_trailer)'),  # 8
-        ('auth_len','<H=len(auth_data)'),                 # 10
-        ('call_id','<L=1'),                               # 12    <-- Common up to here (including this)
+        ('ver_major','B=5'),                                
+        ('ver_minor','B=0'),                                
+        ('type','B=0'),                                     
+        ('flags','B=0'),                                    
+        ('representation','<L=0x10'),                       
+        ('frag_len','<H=self._SIZE+len(auth_data)+(16 if (self["flags"] & 0x80) > 0 else 0)+len(pduData)+len(pad)+len(sec_trailer)'),    
+        ('auth_len','<H=len(auth_data)'),                   
+        ('call_id','<L=1'),                                 
     )
 
     structure = ( 
@@ -632,21 +632,21 @@ class MSRPCHeader(Structure):
     def get_packet(self):
         if self['auth_data'] != b'':
             self['auth_len'] = len(self['auth_data'])
-        # The sec_trailer structure MUST be 4-byte aligned with respect to 
-        # the beginning of the PDU. Padding octets MUST be used to align the 
-        # sec_trailer structure if its natural beginning is not already 4-byte aligned
-        ##self['pad'] = '\xAA' * (4 - ((self._SIZE + len(self['pduData'])) & 3) & 3)
+          
+          
+          
+          
 
         return self.getData()
 
 class MSRPCRequestHeader(MSRPCHeader):
     _SIZE = 24
     commonHdr = MSRPCHeader.commonHdr + ( 
-        ('alloc_hint','<L=0'),                            # 16
-        ('ctx_id','<H=0'),                                # 20
-        ('op_num','<H=0'),                                # 22
-        ('_uuid','_-uuid','16 if self["flags"] & 0x80 > 0 else 0' ), # 22
-        ('uuid',':'),                                # 22
+        ('alloc_hint','<L=0'),                              
+        ('ctx_id','<H=0'),                                  
+        ('op_num','<H=0'),                                  
+        ('_uuid','_-uuid','16 if self["flags"] & 0x80 > 0 else 0' ),   
+        ('uuid',':'),                                  
     )
 
     def __init__(self, data = None, alignment = 0):
@@ -659,10 +659,10 @@ class MSRPCRequestHeader(MSRPCHeader):
 class MSRPCRespHeader(MSRPCHeader):
     _SIZE = 24
     commonHdr = MSRPCHeader.commonHdr + ( 
-        ('alloc_hint','<L=0'),                          # 16   
-        ('ctx_id','<H=0'),                              # 20
-        ('cancel_count','<B=0'),                        # 22
-        ('padding','<B=0'),                             # 23
+        ('alloc_hint','<L=0'),                            
+        ('ctx_id','<H=0'),                                
+        ('cancel_count','<B=0'),                          
+        ('padding','<B=0'),                               
     )
 
     def __init__(self, aBuffer = None, alignment = 0):
@@ -704,14 +704,14 @@ class MSRPCBind(Structure):
         return Structure.getData(self)
 
 class MSRPCBindAck(MSRPCHeader):
-    _SIZE = 26 # Up to SecondaryAddr
+    _SIZE = 26   
     _CTX_ITEM_LEN = len(CtxItemResult())
     structure = ( 
         ('max_tfrag','<H=0'),
         ('max_rfrag','<H=0'),
         ('assoc_group','<L=0'),
         ('SecondaryAddrLen','<H&SecondaryAddr'), 
-        ('SecondaryAddr','z'),                          # Optional if SecondaryAddrLen == 0
+        ('SecondaryAddr','z'),                            
         ('PadLen','_-Pad','(4-((self["SecondaryAddrLen"]+self._SIZE) % 4))%4'),
         ('Pad',':'),
         ('ctx_num','B=0'),
@@ -741,7 +741,7 @@ class MSRPCBindAck(MSRPCHeader):
 
     def fromString(self, data):
         Structure.fromString(self,data)
-        # Parse the ctx_items
+          
         data = self['ctx_items']
         for i in range(self['ctx_num']):
             item = CtxItemResult(data)
@@ -759,9 +759,9 @@ class MSRPCBindNak(Structure):
             self['SupportedVersions'] = b''
 
 class DCERPC:
-    # Standard NDR Representation
+      
     NDRSyntax   = uuidtup_to_bin(('8a885d04-1ceb-11c9-9fe8-08002b104860', '2.0'))
-    # NDR 64
+      
     NDR64Syntax = uuidtup_to_bin(('71710533-BEBA-4937-8319-B5DBEF9CCC36', '1.0'))
     transfer_syntax =  NDRSyntax
 
@@ -785,16 +785,16 @@ class DCERPC:
         return self._transport.disconnect()
 
     def set_max_fragment_size(self, fragment_size):
-        # -1 is default fragment size: 0 for v5, 1300 y pico for v4
-        #  0 is don't fragment
-        #    other values are max fragment size
+          
+          
+          
         if fragment_size == -1:
             self.set_default_max_fragment_size()
         else:
             self._max_user_frag = fragment_size
 
     def set_default_max_fragment_size(self):
-        # default is 0: don'fragment. v4 will override this method
+          
         self._max_user_frag = 0
 
     def send(self, data):
@@ -844,15 +844,15 @@ class DCERPC:
         if  answer[-4:] != b'\x00\x00\x00\x00' and checkError is True:
             error_code = unpack('<L', answer[-4:])[0]
             if error_code in rpc_status_codes:
-                # This is an error we can handle
+                  
                 exception = DCERPCException(error_code = error_code)
             else:    
                 sessionErrorClass = getattr(module, 'DCERPCSessionError')
                 try:
-                    # Try to unpack the answer, even if it is an error, it works most of the times
+                      
                     response =  respClass(answer, isNDR64 = isNDR64)
                 except:
-                    # No luck :(
+                      
                     exception = sessionErrorClass(error_code = error_code)
                 else:
                     exception = sessionErrorClass(packet = response, error_code = error_code)
@@ -870,7 +870,7 @@ class DCERPC_v5(DCERPC):
         self.__auth_level = RPC_C_AUTHN_LEVEL_NONE
         self.__auth_type = RPC_C_AUTHN_WINNT
         self.__auth_type_callback = None
-        # Flags of the authenticated session. We will need them throughout the connection
+          
         self.__auth_flags = 0
         self.__username = None
         self.__password = None
@@ -934,7 +934,7 @@ class DCERPC_v5(DCERPC):
                 lmhash = '0%s' % lmhash
             if len(nthash) % 2:
                 nthash = '0%s' % nthash
-            try: # just in case they were converted already
+            try:   
                 self.__lmhash = unhexlify(lmhash)
                 self.__nthash = unhexlify(nthash)
             except:
@@ -944,21 +944,21 @@ class DCERPC_v5(DCERPC):
 
     def bind(self, iface_uuid, alter = 0, bogus_binds = 0, transfer_syntax = ('8a885d04-1ceb-11c9-9fe8-08002b104860', '2.0')):
         bind = MSRPCBind()
-        #item['TransferSyntax']['Version'] = 1
+          
         ctx = self._ctx
         for i in range(bogus_binds):
             item = CtxItem()
             item['ContextID'] = ctx
             item['TransItems'] = 1
             item['ContextID'] = ctx
-            # We generate random UUIDs for bogus binds
+              
             item['AbstractSyntax'] = generate() + stringver_to_bin('2.0')
             item['TransferSyntax'] = uuidtup_to_bin(transfer_syntax)
             bind.addCtxItem(item)
             self._ctx += 1
             ctx += 1
 
-        # The true one :)
+          
         item = CtxItem()
         item['AbstractSyntax'] = iface_uuid
         item['TransferSyntax'] = uuidtup_to_bin(transfer_syntax)
@@ -1014,7 +1014,7 @@ class DCERPC_v5(DCERPC):
         if s != 0:
             resp = MSRPCHeader(s)
         else:
-            return 0 #mmm why not None?
+            return 0   
 
         if resp['type'] == MSRPC_BINDACK or resp['type'] == MSRPC_ALTERCTX_R:
             bindResp = MSRPCBindAck(resp.getData())
@@ -1034,7 +1034,7 @@ class DCERPC_v5(DCERPC):
         else:
             raise DCERPCException('Unknown DCE RPC packet type received: %d' % resp['type'])
 
-        # check ack results for each context, except for the bogus ones
+          
         for ctx in range(bogus_binds+1,bindResp['ctx_num']+1):
             ctxItems = bindResp.getCtxItem(ctx)
             if ctxItems['Result'] != 0:
@@ -1043,14 +1043,14 @@ class DCERPC_v5(DCERPC):
                 msg += "; "
                 reason = bindResp.getCtxItem(ctx)['Reason']
                 msg += rpc_provider_reason.get(reason, 'Unknown reason code: %.4x' % reason)
-                if (ctxItems['Result'], reason) == (2, 1): # provider_rejection, abstract syntax not supported
+                if (ctxItems['Result'], reason) == (2, 1):   
                     msg += " (this usually means the interface isn't listening on the given endpoint)"
                 raise DCERPCException(msg)
 
-            # Save the transfer syntax for later use
+              
             self.transfer_syntax = ctxItems['TransferSyntax'] 
 
-        # The received transmit size becomes the client's receive size, and the received receive size becomes the client's transmit size.
+          
         self.__max_xmit_size = bindResp['max_rfrag']
 
         if self.__auth_level != RPC_C_AUTHN_LEVEL_NONE:
@@ -1076,13 +1076,13 @@ class DCERPC_v5(DCERPC):
                         self.__serverSigningKey = ntlm.SIGNKEY(self.__flags, self.__sessionKey,b"Server")
                         self.__clientSealingKey = ntlm.SEALKEY(self.__flags, self.__sessionKey)
                         self.__serverSealingKey = ntlm.SEALKEY(self.__flags, self.__sessionKey,b"Server")
-                        # Preparing the keys handle states
+                          
                         cipher3 = ARC4.new(self.__clientSealingKey)
                         self.__clientSealingHandle = cipher3.encrypt
                         cipher4 = ARC4.new(self.__serverSealingKey)
                         self.__serverSealingHandle = cipher4.encrypt
                     else:
-                        # Same key for everything
+                          
                         self.__clientSigningKey = self.__sessionKey
                         self.__serverSigningKey = self.__sessionKey
                         self.__clientSealingKey = self.__sessionKey
@@ -1116,22 +1116,22 @@ class DCERPC_v5(DCERPC):
                 else:
                     auth3 = MSRPCHeader()
                     auth3['type'] = MSRPC_AUTH3
-                    # pad (4 bytes): Can be set to any arbitrary value when set and MUST be 
-                    # ignored on receipt. The pad field MUST be immediately followed by a 
-                    # sec_trailer structure whose layout, location, and alignment are as 
-                    # specified in section 2.2.2.11
+                      
+                      
+                      
+                      
                     auth3['pduData'] = b'    '
                     auth3['sec_trailer'] = sec_trailer
                     auth3['auth_data'] = response.getData()
 
-                    # Use the same call_id
+                      
                     self.__callid = resp['call_id']
                     auth3['call_id'] = self.__callid
                     self._transport.send(auth3.get_packet(), forceWriteAndx = 1)
 
             self.__callid += 1
 
-        return resp     # means packet is signed, if verifier is wrong it fails
+        return resp       
 
     def _transport_send(self, rpc_packet, forceWriteAndx = 0, forceRecv = 0):
         rpc_packet['ctx_id'] = self._ctx
@@ -1139,7 +1139,7 @@ class DCERPC_v5(DCERPC):
         rpc_packet['auth_data'] = b''
 
         if self.__auth_level in [RPC_C_AUTHN_LEVEL_PKT_INTEGRITY, RPC_C_AUTHN_LEVEL_PKT_PRIVACY]:
-            # Dummy verifier, just for the calculations
+              
             sec_trailer = SEC_TRAILER()
             sec_trailer['auth_type'] = self.__auth_type
             sec_trailer['auth_level'] = self.__auth_level
@@ -1158,8 +1158,8 @@ class DCERPC_v5(DCERPC):
             if self.__auth_level == RPC_C_AUTHN_LEVEL_PKT_PRIVACY:
                 if self.__auth_type == RPC_C_AUTHN_WINNT:
                     if self.__flags & ntlm.NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY:
-                        # When NTLM2 is on, we sign the whole pdu, but encrypt just
-                        # the data, not the dcerpc header. Weird..
+                          
+                          
                         sealedMessage, signature =  ntlm.SEAL(self.__flags, 
                                self.__clientSigningKey, 
                                self.__clientSealingKey,  
@@ -1185,8 +1185,8 @@ class DCERPC_v5(DCERPC):
             elif self.__auth_level == RPC_C_AUTHN_LEVEL_PKT_INTEGRITY: 
                 if self.__auth_type == RPC_C_AUTHN_WINNT:
                     if self.__flags & ntlm.NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY:
-                        # Interesting thing.. with NTLM2, what is is signed is the 
-                        # whole PDU, not just the data
+                          
+                          
                         signature =  ntlm.SIGN(self.__flags,
                                self.__clientSigningKey, 
                                rpc_packet.get_packet()[:-16], 
@@ -1217,40 +1217,40 @@ class DCERPC_v5(DCERPC):
 
     def send(self, data):
         if isinstance(data, MSRPCHeader) is not True:
-            # Must be an libs, transform to structure
+              
             data = DCERPC_RawCall(data.OP_NUM, data.get_packet())
 
         try:
             if data['uuid'] != b'':
                 data['flags'] |= PFC_OBJECT_UUID
         except:
-            # Structure doesn't have uuid
+              
             pass
         data['ctx_id'] = self._ctx
         data['call_id'] = self.__callid
         data['alloc_hint'] = len(data['pduData'])
-        # We should fragment PDUs if:
-        # 1) Payload exceeds __max_xmit_size received during BIND response
-        # 2) We'e explicitly fragmenting packets with lower values
+          
+          
+          
         should_fragment = False
 
-        # Let's decide what will drive fragmentation for this request
+          
         if self._max_user_frag > 0:
-            # User set a frag size, let's compare it with the max transmit size agreed when binding the interface
+              
             fragment_size = min(self._max_user_frag, self.__max_xmit_size)
         else:
             fragment_size = self.__max_xmit_size
 
-        # Sanity check. Fragmentation can't be too low, otherwise sec_trailer won't fit
+          
 
         if self.__auth_level in [RPC_C_AUTHN_LEVEL_PKT_INTEGRITY, RPC_C_AUTHN_LEVEL_PKT_PRIVACY]:
             if fragment_size <= 8:
-                # Minimum pdu fragment size is 8, important when doing PKT_INTEGRITY/PRIVACY. We need a minimum size of 8
-                # (Kerberos)
+                  
+                  
                 fragment_size = 8
 
-        # ToDo: Better calculate the size needed. Now I'm setting a number that surely is enough for Kerberos and NTLM
-        # ToDo: trailers, both for INTEGRITY and PRIVACY. This means we're not truly honoring the user's frag request.
+          
+          
         if len(data['pduData']) + 128 > fragment_size:
             should_fragment = True
             if fragment_size+128 > self.__max_xmit_size:
@@ -1284,13 +1284,13 @@ class DCERPC_v5(DCERPC):
         forceRecv = 0
         retAnswer = b''
         while not finished:
-            # At least give me the MSRPCRespHeader, especially important for 
-            # TCP/UDP Transports
+              
+              
             response_data = self._transport.recv(forceRecv, count=MSRPCRespHeader._SIZE)
             response_header = MSRPCRespHeader(response_data)
-            # Ok, there might be situation, especially with large packets, that 
-            # the transport layer didn't send us the full packet's contents
-            # So we gotta check we received it all
+              
+              
+              
             while len(response_data) < response_header['frag_len']:
                response_data += self._transport.recv(forceRecv, count=(response_header['frag_len']-len(response_data)))
 
@@ -1311,10 +1311,10 @@ class DCERPC_v5(DCERPC):
                         raise DCERPCException('Unknown DCE RPC fault status code: %.8x' % status_code)
 
             if response_header['flags'] & PFC_LAST_FRAG:
-                # No need to reassembly DCERPC
+                  
                 finished = True
             else:
-                # Forcing Read Recv, we need more packets!
+                  
                 forceRecv = 1
 
             answer = response_data[off:]
@@ -1328,8 +1328,8 @@ class DCERPC_v5(DCERPC):
                 if sec_trailer['auth_level'] == RPC_C_AUTHN_LEVEL_PKT_PRIVACY:
                     if self.__auth_type == RPC_C_AUTHN_WINNT:
                         if self.__flags & ntlm.NTLMSSP_NEGOTIATE_EXTENDED_SESSIONSECURITY:
-                            # TODO: FIX THIS, it's not calculating the signature well
-                            # Since I'm not testing it we don't care... yet
+                              
+                              
                             answer, signature =  ntlm.SEAL(self.__flags, 
                                     self.__serverSigningKey, 
                                     self.__serverSealingKey,  
@@ -1373,8 +1373,8 @@ class DCERPC_v5(DCERPC):
                                     ntlmssp, 
                                     self.__sequence, 
                                     self.__serverSealingHandle)
-                            # Yes.. NTLM2 doesn't increment sequence when receiving
-                            # the packet :P
+                              
+                              
                             self.__sequence += 1
                     elif self.__auth_type == RPC_C_AUTHN_NETLOGON:
                         from libs.dcerpc.v5 import nrpc
@@ -1386,8 +1386,8 @@ class DCERPC_v5(DCERPC):
                                False)
                         self.__sequence += 1
                     elif self.__auth_type == RPC_C_AUTHN_GSS_NEGOTIATE:
-                        # Do NOT increment the sequence number when Signing Kerberos
-                        #self.__sequence += 1
+                          
+                          
                         pass
 
                 
@@ -1422,7 +1422,7 @@ class DCERPC_RawCall(MSRPCRequestHeader):
     def setData(self, data):
         self['pduData'] = data
 
-# 2.2.6 Type Serialization Version 1
+  
 class CommonHeader(NDRSTRUCT):
     structure = (
         ('Version', UCHAR),
@@ -1508,20 +1508,20 @@ class DCERPCServer(Thread):
         retAnswer = b''
         response_data = b''
         while not finished:
-            # At least give me the MSRPCRespHeader, especially important for TCP/UDP Transports
+              
             response_data = self._clientSock.recv(MSRPCRespHeader._SIZE)
-            # No data?, connection might have closed
+              
             if response_data == b'':
                 return None
             response_header = MSRPCRespHeader(response_data)
-            # Ok, there might be situation, especially with large packets, 
-            # that the transport layer didn't send us the full packet's contents
-            # So we gotta check we received it all
+              
+              
+              
             while len(response_data) < response_header['frag_len']:
                response_data += self._clientSock.recv(response_header['frag_len']-len(response_data))
             response_header = MSRPCRespHeader(response_data)
             if response_header['flags'] & PFC_LAST_FRAG:
-                # No need to reassembly DCERPC
+                  
                 finished = True
             answer = response_header['pduData']
             auth_len = response_header['auth_len']
@@ -1544,21 +1544,21 @@ class DCERPCServer(Thread):
                 while True:
                     data = self.recv()
                     if data is None:
-                        # No data.. connection closed
+                          
                         break
                     answer = self.processRequest(data)
                     if answer is not None:
                         self.send(answer)
             except Exception:
-                #import traceback
-                #traceback.print_exc()
+                  
+                  
                 pass
             self._clientSock.close()
 
     def send(self, data):
         max_frag       = self._max_frag
         if len(data['pduData']) > self._max_xmit_size - 32:
-            max_frag   = self._max_xmit_size - 32    # XXX: 32 is a safe margin for auth data
+            max_frag   = self._max_xmit_size - 32      
 
         if self._max_frag:
             max_frag   = min(max_frag, self._max_frag)
@@ -1583,7 +1583,7 @@ class DCERPCServer(Thread):
         self._callid += 1
 
     def bind(self,packet, bind):
-        # Standard NDR Representation
+          
         NDRSyntax   = ('8a885d04-1ceb-11c9-9fe8-08002b104860', '2.0')
         resp = MSRPCBindAck()
 
@@ -1606,20 +1606,20 @@ class DCERPCServer(Thread):
             item   = CtxItem(data)
             data   = data[len(item):]
 
-            # First we check the Transfer Syntax is NDR32, what we support
+              
             if item['TransferSyntax'] == uuidtup_to_bin(NDRSyntax):
-                # Now Check if the interface is what we listen
-                reason = 1 # Default, Abstract Syntax not supported
+                  
+                reason = 1   
                 for j in self._listenUUIDS:
                     if item['AbstractSyntax'] == j:
-                        # Match, we accept the bind request
+                          
                         resp['SecondaryAddr']    = self._listenUUIDS[item['AbstractSyntax']]['SecondaryAddr']
                         resp['SecondaryAddrLen'] = len(resp['SecondaryAddr'])+1
                         reason           = 0
                         self._boundUUID = j
             else:
-                # Fail the bind request for this context
-                reason = 2 # Transfer Syntax not supported
+                  
+                reason = 2   
             if reason == 0:
                result = MSRPC_CONT_RESULT_ACCEPT
             if reason == 1:
@@ -1649,9 +1649,9 @@ class DCERPCServer(Thread):
             request          = MSRPCRequestHeader(data)
             response         = MSRPCRespHeader(data)
             response['type'] = MSRPC_RESPONSE
-            # Serve the opnum requested, if not, fails
+              
             if request['op_num'] in self._listenUUIDS[self._boundUUID]['CallBacks']:
-                # Call the function 
+                  
                 returnData          = self._listenUUIDS[self._boundUUID]['CallBacks'][request['op_num']](request['pduData'])
                 response['pduData'] = returnData
             else:
@@ -1661,7 +1661,7 @@ class DCERPCServer(Thread):
             response['frag_len'] = len(response)
             return response
         else:
-            # Defaults to a fault
+              
             packet         = MSRPCRespHeader(data)
             packet['type'] = MSRPC_FAULT
 

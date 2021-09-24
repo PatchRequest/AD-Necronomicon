@@ -34,13 +34,13 @@ class LPBYTE(NDRPOINTER):
     )
 PBYTE = LPBYTE
 
-# 2.2.4 BOOLEAN
+  
 BOOLEAN = NDRBOOLEAN
 
-# 2.2.6 BYTE
+  
 BYTE = NDRUSMALL
 
-# 2.2.7 CHAR
+  
 CHAR = NDRSMALL
 class PCHAR(NDRPOINTER):
     referent = (
@@ -59,7 +59,7 @@ class WIDESTR(NDRUniFixedArray):
                 import sys
                 self.fields[key] = value.decode(sys.getfilesystemencoding()).encode('utf-16le')
 
-            self.data = None        # force recompute
+            self.data = None          
         else:
             return NDR.__setitem__(self, key, value)
 
@@ -89,7 +89,7 @@ class STR(NDRSTRUCT):
             msg = self.__class__.__name__
         if msg != '':
             print("%s" % msg, end=' ')
-        # Here just print the data
+          
         print(" %r" % (self['Data']), end=' ')
 
     def __setitem__(self, key, value):
@@ -98,14 +98,14 @@ class STR(NDRSTRUCT):
                 if not isinstance(value, binary_type):
                     self.fields[key] = value.encode('utf-8')
                 else:
-                    # if it is a binary type (str in Python 2, bytes in Python 3), then we assume it is a raw buffer
+                      
                     self.fields[key] = value
             except UnicodeDecodeError:
                 import sys
                 self.fields[key] = value.decode(sys.getfilesystemencoding()).encode('utf-8')
             self.fields['MaximumCount'] = None
             self.fields['ActualCount'] = None
-            self.data = None        # force recompute
+            self.data = None          
         else:
             return NDR.__setitem__(self, key, value)
 
@@ -114,7 +114,7 @@ class STR(NDRSTRUCT):
             try:
                 return self.fields[key].decode('utf-8')
             except UnicodeDecodeError:
-                # if we could't decode it, we assume it is a raw buffer
+                  
                 return self.fields[key]
         else:
             return NDR.__getitem__(self,key)
@@ -147,7 +147,7 @@ class WSTR(NDRSTRUCT):
             msg = self.__class__.__name__
         if msg != '':
             print("%s" % msg, end=' ')
-        # Here just print the data
+          
         print(" %r" % (self['Data']), end=' ')
 
     def getDataLen(self, data, offset=0):
@@ -162,7 +162,7 @@ class WSTR(NDRSTRUCT):
                 self.fields[key] = value.decode(sys.getfilesystemencoding()).encode('utf-16le')
             self.fields['MaximumCount'] = None
             self.fields['ActualCount'] = None
-            self.data = None        # force recompute
+            self.data = None          
         else:
             return NDR.__setitem__(self, key, value)
 
@@ -177,41 +177,41 @@ class LPWSTR(NDRPOINTER):
         ('Data', WSTR),
     )
 
-# 2.2.5 BSTR
+  
 BSTR = LPWSTR
 
-# 2.2.8 DOUBLE
+  
 DOUBLE = NDRDOUBLEFLOAT
 class PDOUBLE(NDRPOINTER):
     referent = (
         ('Data', DOUBLE),
     )
 
-# 2.2.15 FLOAT
+  
 FLOAT = NDRFLOAT
 class PFLOAT(NDRPOINTER):
     referent = (
         ('Data', FLOAT),
     )
 
-# 2.2.18 HRESULT
+  
 HRESULT = NDRLONG
 class PHRESULT(NDRPOINTER):
     referent = (
         ('Data', HRESULT),
     )
 
-# 2.2.19 INT
+  
 INT = NDRLONG
 class PINT(NDRPOINTER):
     referent = (
         ('Data', INT),
     )
 
-# 2.2.26 LMSTR
+  
 LMSTR = LPWSTR
 
-# 2.2.27 LONG
+  
 LONG = NDRLONG
 class LPLONG(NDRPOINTER):
     referent = (
@@ -220,7 +220,7 @@ class LPLONG(NDRPOINTER):
 
 PLONG = LPLONG
 
-# 2.2.28 LONGLONG
+  
 LONGLONG = NDRHYPER
 
 class PLONGLONG(NDRPOINTER):
@@ -228,25 +228,25 @@ class PLONGLONG(NDRPOINTER):
         ('Data', LONGLONG),
     )
 
-# 2.2.31 LONG64
+  
 LONG64 = NDRUHYPER
 class PLONG64(NDRPOINTER):
     referent = (
         ('Data', LONG64),
     )
 
-# 2.2.32 LPCSTR
+  
 LPCSTR = LPSTR
 
-# 2.2.36 NET_API_STATUS
+  
 NET_API_STATUS = DWORD
 
-# 2.2.52 ULONG_PTR
+  
 ULONG_PTR = NDRULONG
-# 2.2.10 DWORD_PTR
+  
 DWORD_PTR = ULONG_PTR
 
-# 2.3.2 GUID and UUID
+  
 class GUID(NDRSTRUCT):
     structure = (
         ('Data','16s=b""'),
@@ -263,17 +263,17 @@ class PGUID(NDRPOINTER):
 UUID = GUID
 PUUID = PGUID
 
-# 2.2.37 NTSTATUS
+  
 NTSTATUS = DWORD
 
-# 2.2.45 UINT
+  
 UINT = NDRULONG
 class PUINT(NDRPOINTER):
     referent = (
         ('Data', UINT),
     )
 
-# 2.2.50 ULONG
+  
 ULONG = NDRULONG
 class PULONG(NDRPOINTER):
     referent = (
@@ -282,25 +282,25 @@ class PULONG(NDRPOINTER):
 
 LPULONG = PULONG
 
-# 2.2.54 ULONGLONG
+  
 ULONGLONG = NDRUHYPER
 class PULONGLONG(NDRPOINTER):
     referent = (
         ('Data', ULONGLONG),
     )
 
-# 2.2.57 USHORT
+  
 USHORT = NDRUSHORT
 class PUSHORT(NDRPOINTER):
     referent = (
         ('Data', USHORT),
     )
 
-# 2.2.59 WCHAR
+  
 WCHAR = WSTR
 PWCHAR = LPWSTR
 
-# 2.2.61 WORD
+  
 WORD = NDRUSHORT
 class PWORD(NDRPOINTER):
     referent = (
@@ -308,7 +308,7 @@ class PWORD(NDRPOINTER):
     )
 LPWORD = PWORD
 
-# 2.3.1 FILETIME
+  
 class FILETIME(NDRSTRUCT):
     structure = (
         ('dwLowDateTime', DWORD),
@@ -320,36 +320,36 @@ class PFILETIME(NDRPOINTER):
         ('Data', FILETIME),
     )
 
-# 2.3.3 LARGE_INTEGER
+  
 LARGE_INTEGER = NDRHYPER
 class PLARGE_INTEGER(NDRPOINTER):
     referent = (
         ('Data', LARGE_INTEGER),
     )
 
-# 2.3.5 LUID
+  
 class LUID(NDRSTRUCT):
     structure = (
         ('LowPart', DWORD),
         ('HighPart', LONG),
     )
 
-# 2.3.8 RPC_UNICODE_STRING
+  
 class RPC_UNICODE_STRING(NDRSTRUCT):
-    # Here we're doing some tricks to make this data type
-    # easier to use. It's exactly the same as defined. I changed the
-    # Buffer name for Data, so users can write directly to the datatype
-    # instead of writing to datatype['Buffer'].
-    # The drawback is you cannot directly access the Length and 
-    # MaximumLength fields. 
-    # If you really need it, you will need to do it this way:
-    # class TT(NDRCALL):
-    # structure = (
-    #     ('str1', RPC_UNICODE_STRING),
-    #  )
-    # 
-    # nn = TT()
-    # nn.fields['str1'].fields['MaximumLength'] = 30
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
     structure = (
         ('Length','<H=0'),
         ('MaximumLength','<H=0'),
@@ -385,7 +385,7 @@ class PRPC_UNICODE_STRING(NDRPOINTER):
        ('Data', RPC_UNICODE_STRING ),
     )
 
-# 2.3.9 OBJECT_TYPE_LIST
+  
 ACCESS_MASK = DWORD
 class OBJECT_TYPE_LIST(NDRSTRUCT):
     structure = (
@@ -399,7 +399,7 @@ class POBJECT_TYPE_LIST(NDRPOINTER):
        ('Data', OBJECT_TYPE_LIST ),
     )
 
-# 2.3.13 SYSTEMTIME
+  
 class SYSTEMTIME(NDRSTRUCT):
     structure = (
         ('wYear', WORD),
@@ -417,7 +417,7 @@ class PSYSTEMTIME(NDRPOINTER):
        ('Data', SYSTEMTIME ),
     )
 
-# 2.3.15 ULARGE_INTEGER
+  
 class ULARGE_INTEGER(NDRSTRUCT):
     structure = (
         ('QuadPart', LONG64),
@@ -428,7 +428,7 @@ class PULARGE_INTEGER(NDRPOINTER):
         ('Data', ULARGE_INTEGER),
     )
 
-# 2.4.2.3 RPC_SID
+  
 class DWORD_ARRAY(NDRUniConformantArray):
     item = '<L'
 
@@ -470,7 +470,7 @@ class PRPC_SID(NDRPOINTER):
 
 PSID = PRPC_SID
 
-# 2.4.3 ACCESS_MASK
+  
 GENERIC_READ            = 0x80000000
 GENERIC_WRITE           = 0x40000000
 GENERIC_EXECUTE         = 0x20000000
@@ -483,7 +483,7 @@ WRITE_DACL              = 0x00040000
 READ_CONTROL            = 0x00020000
 DELETE                  = 0x00010000
 
-# 2.4.5.1 ACL--RPC Representation
+  
 class ACL(NDRSTRUCT):
     structure = (
         ('AclRevision',NDRSMALL),
@@ -498,7 +498,7 @@ class PACL(NDRPOINTER):
         ('Data', ACL),
     )
 
-# 2.4.6.1 SECURITY_DESCRIPTOR--RPC Representation
+  
 class SECURITY_DESCRIPTOR(NDRSTRUCT):
     structure = (
         ('Revision',UCHAR),
@@ -510,7 +510,7 @@ class SECURITY_DESCRIPTOR(NDRSTRUCT):
         ('Dacl',PACL),
     )
 
-# 2.4.7 SECURITY_INFORMATION
+  
 OWNER_SECURITY_INFORMATION            = 0x00000001
 GROUP_SECURITY_INFORMATION            = 0x00000002
 DACL_SECURITY_INFORMATION             = 0x00000004

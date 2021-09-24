@@ -25,18 +25,18 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'Mimikatz SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
+  
+  
+  
 CALG_DH_EPHEM = 0x0000aa02
 TPUBLICKEYBLOB = 0x6
 CUR_BLOB_VERSION = 0x2
 ALG_ID = DWORD
 CALG_RC4 = 0x6801
 
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 class PUBLICKEYSTRUC(Structure):
     structure = (
         ('bType','B=0'),
@@ -102,9 +102,9 @@ class PMIMI_PUBLICKEY(NDRPOINTER):
         ('Data',MIMI_PUBLICKEY),
     )
 
-################################################################################
-# RPC CALLS
-################################################################################
+  
+  
+  
 class MimiBind(NDRCALL):
     opnum = 0
     structure = (
@@ -146,25 +146,25 @@ class MimiCommandResponse(NDRCALL):
     )
 
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  0 : (MimiBind, MimiBindResponse),
  1 : (MimiUnbind, MimiUnbindResponse),
  2 : (MimiCommand, MimiCommandResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 
 class MimiDiffeH:
     def __init__(self):
         self.G = 2
         self.P = 0xFFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD129024E088A67CC74020BBEA63B139B22514A08798E3404DDEF9519B3CD3A431B302B0A6DF25F14374FE1356D6D51C245E485B576625E7EC6F44C42E9A637ED6B0BFF5CB6F406B7EDEE386BFB5A899FA5AE9F24117C4B1FE649286651ECE65381FFFFFFFFFFFFFFFF
         self.privateKey = random.getrandbits(1024)
-        #self.privateKey = int('A'*128, base=16)
+          
 
     def genPublicKey(self):
         self.publicKey = pow(self.G, self.privateKey, self.P)

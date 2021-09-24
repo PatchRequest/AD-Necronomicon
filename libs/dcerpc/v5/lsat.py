@@ -23,16 +23,16 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'LSAT SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
-# 2.2.10 ACCESS_MASK
+  
+  
+  
+  
 POLICY_LOOKUP_NAMES             = 0x00000800
 
-################################################################################
-# STRUCTURES
-################################################################################
-# 2.2.12 LSAPR_REFERENCED_DOMAIN_LIST
+  
+  
+  
+  
 class LSAPR_REFERENCED_DOMAIN_LIST(NDRSTRUCT):
     structure = (
         ('Entries', ULONG),
@@ -45,7 +45,7 @@ class PLSAPR_REFERENCED_DOMAIN_LIST(NDRPOINTER):
         ('Data', LSAPR_REFERENCED_DOMAIN_LIST),
     )
 
-# 2.2.14 LSA_TRANSLATED_SID
+  
 class LSA_TRANSLATED_SID(NDRSTRUCT):
     structure = (
         ('Use', SID_NAME_USE),
@@ -53,7 +53,7 @@ class LSA_TRANSLATED_SID(NDRSTRUCT):
         ('DomainIndex', LONG),
     )
 
-# 2.2.15 LSAPR_TRANSLATED_SIDS
+  
 class LSA_TRANSLATED_SID_ARRAY(NDRUniConformantArray):
     item = LSA_TRANSLATED_SID
 
@@ -68,7 +68,7 @@ class LSAPR_TRANSLATED_SIDS(NDRSTRUCT):
         ('Sids', PLSA_TRANSLATED_SID_ARRAY),
     )
 
-# 2.2.16 LSAP_LOOKUP_LEVEL
+  
 class LSAP_LOOKUP_LEVEL(NDRENUM):
     class enumItems(Enum):
         LsapLookupWksta                = 1
@@ -79,13 +79,13 @@ class LSAP_LOOKUP_LEVEL(NDRENUM):
         LsapLookupXForestResolve       = 6
         LsapLookupRODCReferralToFullDC = 7
 
-# 2.2.17 LSAPR_SID_INFORMATION
+  
 class LSAPR_SID_INFORMATION(NDRSTRUCT):
     structure = (
         ('Sid', PRPC_SID),
     )
 
-# 2.2.18 LSAPR_SID_ENUM_BUFFER
+  
 class LSAPR_SID_INFORMATION_ARRAY(NDRUniConformantArray):
     item = LSAPR_SID_INFORMATION
 
@@ -100,7 +100,7 @@ class LSAPR_SID_ENUM_BUFFER(NDRSTRUCT):
         ('SidInfo', PLSAPR_SID_INFORMATION_ARRAY),
     )
 
-# 2.2.19 LSAPR_TRANSLATED_NAME
+  
 class LSAPR_TRANSLATED_NAME(NDRSTRUCT):
     structure = (
         ('Use', SID_NAME_USE),
@@ -108,7 +108,7 @@ class LSAPR_TRANSLATED_NAME(NDRSTRUCT):
         ('DomainIndex', LONG),
     )
 
-# 2.2.20 LSAPR_TRANSLATED_NAMES
+  
 class LSAPR_TRANSLATED_NAME_ARRAY(NDRUniConformantArray):
     item = LSAPR_TRANSLATED_NAME
 
@@ -123,7 +123,7 @@ class LSAPR_TRANSLATED_NAMES(NDRSTRUCT):
         ('Names', PLSAPR_TRANSLATED_NAME_ARRAY),
     )
 
-# 2.2.21 LSAPR_TRANSLATED_NAME_EX
+  
 class LSAPR_TRANSLATED_NAME_EX(NDRSTRUCT):
     structure = (
         ('Use', SID_NAME_USE),
@@ -132,7 +132,7 @@ class LSAPR_TRANSLATED_NAME_EX(NDRSTRUCT):
         ('Flags', ULONG),
     )
 
-# 2.2.22 LSAPR_TRANSLATED_NAMES_EX
+  
 class LSAPR_TRANSLATED_NAME_EX_ARRAY(NDRUniConformantArray):
     item = LSAPR_TRANSLATED_NAME_EX
 
@@ -147,7 +147,7 @@ class LSAPR_TRANSLATED_NAMES_EX(NDRSTRUCT):
         ('Names', PLSAPR_TRANSLATED_NAME_EX_ARRAY),
     )
 
-# 2.2.23 LSAPR_TRANSLATED_SID_EX
+  
 class LSAPR_TRANSLATED_SID_EX(NDRSTRUCT):
     structure = (
         ('Use', SID_NAME_USE),
@@ -156,7 +156,7 @@ class LSAPR_TRANSLATED_SID_EX(NDRSTRUCT):
         ('Flags', ULONG),
     )
 
-# 2.2.24 LSAPR_TRANSLATED_SIDS_EX
+  
 class LSAPR_TRANSLATED_SID_EX_ARRAY(NDRUniConformantArray):
     item = LSAPR_TRANSLATED_SID_EX
 
@@ -171,7 +171,7 @@ class LSAPR_TRANSLATED_SIDS_EX(NDRSTRUCT):
         ('Sids', PLSAPR_TRANSLATED_SID_EX_ARRAY),
     )
 
-# 2.2.25 LSAPR_TRANSLATED_SID_EX2
+  
 class LSAPR_TRANSLATED_SID_EX2(NDRSTRUCT):
     structure = (
         ('Use', SID_NAME_USE),
@@ -180,7 +180,7 @@ class LSAPR_TRANSLATED_SID_EX2(NDRSTRUCT):
         ('Flags', ULONG),
     )
 
-# 2.2.26 LSAPR_TRANSLATED_SIDS_EX2
+  
 class LSAPR_TRANSLATED_SID_EX2_ARRAY(NDRUniConformantArray):
     item = LSAPR_TRANSLATED_SID_EX2
 
@@ -198,10 +198,10 @@ class LSAPR_TRANSLATED_SIDS_EX2(NDRSTRUCT):
 class RPC_UNICODE_STRING_ARRAY(NDRUniConformantArray):
     item = RPC_UNICODE_STRING
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 3.1.4.4 LsarGetUserName (Opnum 45)
+  
+  
+  
+  
 class LsarGetUserName(NDRCALL):
     opnum = 45
     structure = (
@@ -217,7 +217,7 @@ class LsarGetUserNameResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.5 LsarLookupNames4 (Opnum 77)
+  
 class LsarLookupNames4(NDRCALL):
     opnum = 77
     structure = (
@@ -238,7 +238,7 @@ class LsarLookupNames4Response(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.6 LsarLookupNames3 (Opnum 68)
+  
 class LsarLookupNames3(NDRCALL):
     opnum = 68
     structure = (
@@ -260,7 +260,7 @@ class LsarLookupNames3Response(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.7 LsarLookupNames2 (Opnum 58)
+  
 class LsarLookupNames2(NDRCALL):
     opnum = 58
     structure = (
@@ -282,7 +282,7 @@ class LsarLookupNames2Response(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.8 LsarLookupNames (Opnum 14)
+  
 class LsarLookupNames(NDRCALL):
     opnum = 14
     structure = (
@@ -302,7 +302,7 @@ class LsarLookupNamesResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.9 LsarLookupSids3 (Opnum 76)
+  
 class LsarLookupSids3(NDRCALL):
     opnum = 76
     structure = (
@@ -322,7 +322,7 @@ class LsarLookupSids3Response(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.10 LsarLookupSids2 (Opnum 57)
+  
 class LsarLookupSids2(NDRCALL):
     opnum = 57
     structure = (
@@ -343,7 +343,7 @@ class LsarLookupSids2Response(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-# 3.1.4.11 LsarLookupSids (Opnum 15)
+  
 class LsarLookupSids(NDRCALL):
     opnum = 15
     structure = (
@@ -362,9 +362,9 @@ class LsarLookupSidsResponse(NDRCALL):
        ('ErrorCode', NTSTATUS),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  14 : (LsarLookupNames, LsarLookupNamesResponse),
  15 : (LsarLookupSids, LsarLookupSidsResponse),
@@ -376,9 +376,9 @@ OPNUMS = {
  77 : (LsarLookupNames4, LsarLookupNames4Response),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def hLsarGetUserName(dce, userName = NULL, domainName = NULL):
     request = LsarGetUserName()
     request['SystemName'] = NULL

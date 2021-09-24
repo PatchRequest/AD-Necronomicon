@@ -19,17 +19,17 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'TSCH SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
+  
+  
+  
 ATSVC_HANDLE = LPWSTR
-# 2.3.1 Constant Values
+  
 CNLEN = 15
 DNLEN = CNLEN
 UNLEN = 256
 MAX_BUFFER_SIZE = (DNLEN+UNLEN+1+1)
 
-# 2.3.7 Flags
+  
 TASK_FLAG_INTERACTIVE                  = 0x1
 TASK_FLAG_DELETE_WHEN_DONE             = 0x2
 TASK_FLAG_DISABLED                     = 0x4
@@ -44,10 +44,10 @@ TASK_FLAG_RESTART_ON_IDLE_RESUME       = 0x800
 TASK_FLAG_SYSTEM_REQUIRED              = 0x1000
 TASK_FLAG_RUN_ONLY_IF_LOGGED_ON        = 0x2000
 
-################################################################################
-# STRUCTURES
-################################################################################
-# 2.3.4 AT_INFO
+  
+  
+  
+  
 class AT_INFO(NDRSTRUCT):
     structure =  (
         ('JobTime',DWORD),
@@ -62,7 +62,7 @@ class LPAT_INFO(NDRPOINTER):
         ('Data',AT_INFO),
     )
 
-# 2.3.6 AT_ENUM
+  
 class AT_ENUM(NDRSTRUCT):
     structure =  (
         ('JobId',DWORD),
@@ -81,17 +81,17 @@ class LPAT_ENUM_ARRAY(NDRPOINTER):
         ('Data',AT_ENUM_ARRAY),
     )
 
-# 2.3.5 AT_ENUM_CONTAINER
+  
 class AT_ENUM_CONTAINER(NDRSTRUCT):
     structure =  (
         ('EntriesRead',DWORD),
         ('Buffer',LPAT_ENUM_ARRAY),
     )
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 3.2.5.2.1 NetrJobAdd (Opnum 0)
+  
+  
+  
+  
 class NetrJobAdd(NDRCALL):
     opnum = 0
     structure = (
@@ -105,7 +105,7 @@ class NetrJobAddResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.2.2 NetrJobDel (Opnum 1)
+  
 class NetrJobDel(NDRCALL):
     opnum = 1
     structure = (
@@ -119,7 +119,7 @@ class NetrJobDelResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.2.3 NetrJobEnum (Opnum 2)
+  
 class NetrJobEnum(NDRCALL):
     opnum = 2
     structure = (
@@ -137,7 +137,7 @@ class NetrJobEnumResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.2.4 NetrJobGetInfo (Opnum 3)
+  
 class NetrJobGetInfo(NDRCALL):
     opnum = 3
     structure = (
@@ -151,9 +151,9 @@ class NetrJobGetInfoResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  0 : (NetrJobAdd,NetrJobAddResponse ),
  1 : (NetrJobDel,NetrJobDelResponse ),
@@ -161,9 +161,9 @@ OPNUMS = {
  3 : (NetrJobGetInfo,NetrJobGetInfoResponse ),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def hNetrJobAdd(dce, serverName = NULL, atInfo = NULL):
     netrJobAdd = NetrJobAdd()
     netrJobAdd['ServerName'] = serverName

@@ -1,11 +1,11 @@
 import re
 
 
-# Regular expression to parse target information
+  
 target_regex = re.compile(r"(?:(?:([^/@:]*)/)?([^@:]*)(?::([^@]*))?@)?(.*)")
 
 
-# Regular expression to parse credentials information
+  
 credential_regex = re.compile(r"(?:(?:([^/:]*)/)?([^:]*)(?::(.*))?)?")
 
 
@@ -22,7 +22,7 @@ def parse_target(target):
     """
     domain, username, password, remote_name = target_regex.match(target).groups('')
 
-    # In case the password contains '@'
+      
     if '@' in remote_name:
         password = password + '@' + remote_name.rpartition('@')[0]
         remote_name = remote_name.rpartition('@')[2]

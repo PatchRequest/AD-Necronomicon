@@ -19,27 +19,27 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'TSCH SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
+  
+  
+  
 SASEC_HANDLE = WSTR
 PSASEC_HANDLE = LPWSTR
 
 MAX_BUFFER_SIZE = 273
 
-# 3.2.5.3.4 SASetAccountInformation (Opnum 0)
+  
 TASK_FLAG_RUN_ONLY_IF_LOGGED_ON = 0x40000
 
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 class WORD_ARRAY(NDRUniConformantArray):
     item = '<H'
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 3.2.5.3.4 SASetAccountInformation (Opnum 0)
+  
+  
+  
+  
 class SASetAccountInformation(NDRCALL):
     opnum = 0
     structure = (
@@ -55,7 +55,7 @@ class SASetAccountInformationResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.3.5 SASetNSAccountInformation (Opnum 1)
+  
 class SASetNSAccountInformation(NDRCALL):
     opnum = 1
     structure = (
@@ -69,7 +69,7 @@ class SASetNSAccountInformationResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.3.6 SAGetNSAccountInformation (Opnum 2)
+  
 class SAGetNSAccountInformation(NDRCALL):
     opnum = 2
     structure = (
@@ -84,7 +84,7 @@ class SAGetNSAccountInformationResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.3.7 SAGetAccountInformation (Opnum 3)
+  
 class SAGetAccountInformation(NDRCALL):
     opnum = 3
     structure = (
@@ -99,9 +99,9 @@ class SAGetAccountInformationResponse(NDRCALL):
         ('wszBuffer',WORD_ARRAY),
         ('ErrorCode',ULONG),
     )
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  0 : (SASetAccountInformation, SASetAccountInformationResponse),
  1 : (SASetNSAccountInformation, SASetNSAccountInformationResponse),
@@ -109,9 +109,9 @@ OPNUMS = {
  3 : (SAGetAccountInformation, SAGetAccountInformationResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def checkNullString(string):
     if string == NULL:
         return string

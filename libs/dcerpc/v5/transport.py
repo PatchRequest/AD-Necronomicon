@@ -18,10 +18,10 @@ from libs.smbconnection import SMBConnection
 
 
 class DCERPCStringBinding:
-    parser = re.compile(r"(?:([a-fA-F0-9-]{8}(?:-[a-fA-F0-9-]{4}){3}-[a-fA-F0-9-]{12})@)?" +  # UUID (opt.)
-                        r"([_a-zA-Z0-9]*):" +  # Protocol Sequence
-                        r"([^\[]*)" +  # Network Address (opt.)
-                        r"(?:\[([^]]*)])?")  # Endpoint and options (opt.)
+    parser = re.compile(r"(?:([a-fA-F0-9-]{8}(?:-[a-fA-F0-9-]{4}){3}-[a-fA-F0-9-]{12})@)?" +    
+                        r"([_a-zA-Z0-9]*):" +    
+                        r"([^\[]*)" +    
+                        r"(?:\[([^]]*)])?")    
 
     def __init__(self, stringbinding):
         match = DCERPCStringBinding.parser.match(stringbinding)
@@ -157,8 +157,8 @@ class DCERPCTransport:
         self._TGS      = None
         self._kdcHost  = None
         self.set_credentials('','')
-        # Strict host validation - off by default and currently only for
-        # SMBTransport
+          
+          
         self._strict_hostname_validation = False
         self._validation_allow_absent = True
         self._accepted_hostname = ''
@@ -223,9 +223,9 @@ class DCERPCTransport:
         return self._kdcHost
 
     def set_max_fragment_size(self, send_fragment_size):
-        # -1 is default fragment size: 0 (don't fragment)
-        #  0 is don't fragment
-        #    other values are max fragment size
+          
+          
+          
         if send_fragment_size == -1:
             self.set_default_max_fragment_size()
         else:
@@ -237,8 +237,8 @@ class DCERPCTransport:
         self._accepted_hostname = hostname
 
     def set_default_max_fragment_size(self):
-        # default is 0: don't fragment.
-        # subclasses may override this method
+          
+          
         self._max_send_frag = 0
 
     def get_credentials(self):
@@ -264,7 +264,7 @@ class DCERPCTransport:
                 lmhash = '0%s' % lmhash
             if len(nthash) % 2:
                 nthash = '0%s' % nthash
-            try: # just in case they were converted already
+            try:   
                self._lmhash = binascii.unhexlify(lmhash)
                self._nthash = binascii.unhexlify(nthash)
             except:
@@ -273,7 +273,7 @@ class DCERPCTransport:
                pass
 
     def doesSupportNTLMv2(self):
-        # By default we'll be returning the library's default. Only on SMB Transports we might be able to know it beforehand
+          
         return ntlm.USE_NTLMv2
 
     def get_dce_rpc(self):
@@ -414,22 +414,22 @@ class HTTPTransport(TCPTransport, RPCProxyClient):
             elif rpcproxy[1] == '80':
                 self.set_rpc_proxy_url('http://%s/rpc/rpcproxy.dll' % rpcproxy[0])
             else:
-                # 2.1.2.1
-                # RPC over HTTP always uses port 80 for HTTP traffic and port 443 for HTTPS traffic.
-                # But you can use set_rpc_proxy_url method to set any URL / query you want.
+                  
+                  
+                  
                 raise DCERPCException("RPC Proxy port must be 80 or 443")
 
     def connect(self):
         if self._useRpcProxy == False:
-            # Connecting directly to the ncacn_http port
-            #
-            # Here we using RPC over HTTPv1 instead complex RPC over HTTP v2 syntax
-            # RPC over HTTP v2 here can be implemented in the future
+              
+              
+              
+              
             self._version = RPC_OVER_HTTP_v1
 
             TCPTransport.connect(self)
 
-            # Reading legacy server response
+              
             data = self.get_socket().recv(8192)
 
             if data != b'ncacn_http/1.0':
@@ -491,7 +491,7 @@ class SMBTransport(DCERPCTransport):
                 self.__smb_connection.setHostnameValidation(self._strict_hostname_validation, self._validation_allow_absent, self._accepted_hostname)
 
     def connect(self):
-        # Check if we have a smb connection already setup
+          
         if self.__smb_connection == 0:
             self.setup_smb_connection()
             if self._doKerberos is False:
@@ -507,8 +507,8 @@ class SMBTransport(DCERPCTransport):
 
     def disconnect(self):
         self.__smb_connection.disconnectTree(self.__tid)
-        # If we created the SMB connection, we close it, otherwise
-        # that's up for the caller
+          
+          
         if self.__existing_smb is False:
             self.__smb_connection.logoff()
             self.__smb_connection.close()
@@ -530,8 +530,8 @@ class SMBTransport(DCERPCTransport):
 
     def recv(self, forceRecv = 0, count = 0 ):
         if self._max_send_frag or self.__pending_recv:
-            # _max_send_frag is checked because it's the same condition we checked
-            # to decide whether to use write_andx() or send_trans() in send() above.
+              
+              
             if self.__pending_recv:
                 self.__pending_recv -= 1
             return self.__smb_connection.readFile(self.__tid, self.__handle, bytesToRead = self._max_recv_frag)
@@ -547,7 +547,7 @@ class SMBTransport(DCERPCTransport):
         self.__existing_smb = True
 
     def get_smb_server(self):
-        # Raw Access to the SMBServer (whatever type it is)
+          
         return self.__smb_connection.getSMBServer()
 
     def get_socket(self):

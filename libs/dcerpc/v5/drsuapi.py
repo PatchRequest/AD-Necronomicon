@@ -44,10 +44,10 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'DRSR SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
-# 4.1.10.2.17 EXOP_ERR Codes
+  
+  
+  
+  
 class EXOP_ERR(NDRENUM):
     align = 4
     align64 = 4
@@ -83,7 +83,7 @@ class EXOP_ERR(NDRENUM):
         except ValueError:
             print(" %d" % self.fields['Data'])
 
-# 4.1.10.2.18 EXOP_REQ Codes
+  
 EXOP_FSMO_REQ_ROLE = 0x00000001
 EXOP_FSMO_REQ_RID_ALLOC = 0x00000002
 EXOP_FSMO_RID_REQ_ROLE = 0x00000003
@@ -92,13 +92,13 @@ EXOP_FSMO_ABANDON_ROLE = 0x00000005
 EXOP_REPL_OBJ = 0x00000006
 EXOP_REPL_SECRETS = 0x00000007
 
-# 5.14 ATTRTYP
+  
 ATTRTYP = ULONG
 
-# 5.51 DSTIME
+  
 DSTIME = LONGLONG
 
-# 5.39 DRS_EXTENSIONS_INT
+  
 DRS_EXT_BASE = 0x00000001
 DRS_EXT_ASYNCREPL = 0x00000002
 DRS_EXT_REMOVEAPI = 0x00000004
@@ -133,12 +133,12 @@ DRS_EXT_GETCHGREQ_V10 = 0x20000000
 DRS_EXT_RESERVED_FOR_WIN2K_OR_DOTNET_PART2 = 0x40000000
 DRS_EXT_RESERVED_FOR_WIN2K_OR_DOTNET_PART3 = 0x80000000
 
-# dwFlagsExt
+  
 DRS_EXT_ADAM = 0x00000001
 DRS_EXT_LH_BETA2 = 0x00000002
 DRS_EXT_RECYCLE_BIN = 0x00000004
 
-# 5.41 DRS_OPTIONS
+  
 DRS_ASYNC_OP = 0x00000001
 DRS_GETCHG_CHECK = 0x00000002
 DRS_UPDATE_NOTIFICATION = 0x00000002
@@ -180,7 +180,7 @@ DRS_SYNC_PAS = 0x40000000
 DRS_GET_ALL_GROUP_MEMBERSHIP = 0x80000000
 
 
-# 5.113 LDAP_CONN_PROPERTIES
+  
 BND = 0x00000001
 SSL = 0x00000002
 UDP = 0x00000004
@@ -192,16 +192,16 @@ MD5 = 0x00000080
 SGN = 0x00000100
 SL = 0x00000200
 
-# 5.137 NTSAPI_CLIENT_GUID
+  
 NTDSAPI_CLIENT_GUID = string_to_bin('e24d201a-4fd6-11d1-a3da-0000f875ae0d')
 
-# 5.139 NULLGUID
+  
 NULLGUID = string_to_bin('00000000-0000-0000-0000-000000000000')
 
-# 5.205 USN
+  
 USN = LONGLONG
 
-# 4.1.4.1.2 DRS_MSG_CRACKREQ_V1
+  
 DS_NAME_FLAG_GCVERIFY = 0x00000004
 DS_NAME_FLAG_TRUST_REFERRAL = 0x00000008
 DS_NAME_FLAG_PRIVATE_RESOLVE_FPOS = 0x80000000
@@ -225,27 +225,27 @@ DS_USER_PRINCIPAL_NAME_AND_ALTSECID = 0xFFFFFFEF
 
 DS_USER_PRINCIPAL_NAME_FOR_LOGON = 0xFFFFFFF2
 
-# 5.53 ENTINF
+  
 ENTINF_FROM_MASTER = 0x00000001
 ENTINF_DYNAMIC_OBJECT = 0x00000002
 ENTINF_REMOTE_MODIFY = 0x00010000
 
-# 4.1.27.1.2 DRS_MSG_VERIFYREQ_V1
+  
 DRS_VERIFY_DSNAMES = 0x00000000
 DRS_VERIFY_SIDS = 0x00000001
 DRS_VERIFY_SAM_ACCOUNT_NAMES = 0x00000002
 DRS_VERIFY_FPOS = 0x00000003
 
-# 4.1.11.1.2 DRS_MSG_NT4_CHGLOG_REQ_V1
+  
 DRS_NT4_CHGLOG_GET_CHANGE_LOG = 0x00000001
 DRS_NT4_CHGLOG_GET_SERIAL_NUMBERS = 0x00000002
 
-# 4.1.10.2.15 DRS_MSG_GETCHGREPLY_NATIVE_VERSION_NUMBER
+  
 DRS_MSG_GETCHGREPLY_NATIVE_VERSION_NUMBER = 9
-################################################################################
-# STRUCTURES
-################################################################################
-# 4.1.10.2.16 ENCRYPTED_PAYLOAD
+  
+  
+  
+  
 class ENCRYPTED_PAYLOAD(Structure):
     structure = (
         ('Salt','16s'),
@@ -253,7 +253,7 @@ class ENCRYPTED_PAYLOAD(Structure):
         ('EncryptedData',':'),
     )
 
-# 5.136 NT4SID
+  
 class NT4SID(NDRSTRUCT):
     structure =  (
         ('Data','28s=b""'),
@@ -261,7 +261,7 @@ class NT4SID(NDRSTRUCT):
     def getAlignment(self):
         return 4
 
-# 5.40 DRS_HANDLE
+  
 class DRS_HANDLE(NDRSTRUCT):
     structure =  (
         ('Data','20s=b""'),
@@ -274,7 +274,7 @@ class PDRS_HANDLE(NDRPOINTER):
         ('Data',DRS_HANDLE),
     )
 
-# 5.38 DRS_EXTENSIONS
+  
 class BYTE_ARRAY(NDRUniConformantArray):
     item = 'c'
 
@@ -294,7 +294,7 @@ class PDRS_EXTENSIONS(NDRPOINTER):
         ('Data',DRS_EXTENSIONS),
     )
 
-# 5.39 DRS_EXTENSIONS_INT
+  
 class DRS_EXTENSIONS_INT(Structure):
     structure =  (
         ('dwFlags','<L=0'),
@@ -306,14 +306,14 @@ class DRS_EXTENSIONS_INT(Structure):
         ('dwExtCaps','<L=0'),
     )
 
-# 4.1.5.1.2 DRS_MSG_DCINFOREQ_V1
+  
 class DRS_MSG_DCINFOREQ_V1(NDRSTRUCT):
     structure =  (
         ('Domain',LPWSTR),
         ('InfoLevel',DWORD),
     )
 
-# 4.1.5.1.1 DRS_MSG_DCINFOREQ
+  
 class DRS_MSG_DCINFOREQ(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -322,7 +322,7 @@ class DRS_MSG_DCINFOREQ(NDRUNION):
         1  : ('V1', DRS_MSG_DCINFOREQ_V1),
     }
 
-# 4.1.5.1.8 DS_DOMAIN_CONTROLLER_INFO_1W
+  
 class DS_DOMAIN_CONTROLLER_INFO_1W(NDRSTRUCT):
     structure =  (
         ('NetbiosName',LPWSTR),
@@ -342,14 +342,14 @@ class PDS_DOMAIN_CONTROLLER_INFO_1W_ARRAY(NDRPOINTER):
         ('Data',DS_DOMAIN_CONTROLLER_INFO_1W_ARRAY),
     )
 
-# 4.1.5.1.4 DRS_MSG_DCINFOREPLY_V1
+  
 class DRS_MSG_DCINFOREPLY_V1(NDRSTRUCT):
     structure =  (
         ('cItems',DWORD),
         ('rItems',PDS_DOMAIN_CONTROLLER_INFO_1W_ARRAY),
     )
 
-# 4.1.5.1.9 DS_DOMAIN_CONTROLLER_INFO_2W
+  
 class DS_DOMAIN_CONTROLLER_INFO_2W(NDRSTRUCT):
     structure =  (
         ('NetbiosName',LPWSTR),
@@ -376,14 +376,14 @@ class PDS_DOMAIN_CONTROLLER_INFO_2W_ARRAY(NDRPOINTER):
         ('Data',DS_DOMAIN_CONTROLLER_INFO_2W_ARRAY),
     )
 
-# 4.1.5.1.5 DRS_MSG_DCINFOREPLY_V2
+  
 class DRS_MSG_DCINFOREPLY_V2(NDRSTRUCT):
     structure =  (
         ('cItems',DWORD),
         ('rItems',PDS_DOMAIN_CONTROLLER_INFO_2W_ARRAY),
     )
 
-# 4.1.5.1.10 DS_DOMAIN_CONTROLLER_INFO_3W
+  
 class DS_DOMAIN_CONTROLLER_INFO_3W(NDRSTRUCT):
     structure =  (
         ('NetbiosName',LPWSTR),
@@ -411,14 +411,14 @@ class PDS_DOMAIN_CONTROLLER_INFO_3W_ARRAY(NDRPOINTER):
         ('Data',DS_DOMAIN_CONTROLLER_INFO_3W_ARRAY),
     )
 
-# 4.1.5.1.6 DRS_MSG_DCINFOREPLY_V3
+  
 class DRS_MSG_DCINFOREPLY_V3(NDRSTRUCT):
     structure =  (
         ('cItems',DWORD),
         ('rItems',PDS_DOMAIN_CONTROLLER_INFO_3W_ARRAY),
     )
 
-# 4.1.5.1.11 DS_DOMAIN_CONTROLLER_INFO_FFFFFFFFW
+  
 class DS_DOMAIN_CONTROLLER_INFO_FFFFFFFFW(NDRSTRUCT):
     structure =  (
         ('IPAddress',DWORD),
@@ -438,14 +438,14 @@ class PDS_DOMAIN_CONTROLLER_INFO_FFFFFFFFW_ARRAY(NDRPOINTER):
         ('Data',DS_DOMAIN_CONTROLLER_INFO_FFFFFFFFW_ARRAY),
     )
 
-# 4.1.5.1.7 DRS_MSG_DCINFOREPLY_VFFFFFFFF
+  
 class DRS_MSG_DCINFOREPLY_VFFFFFFFF(NDRSTRUCT):
     structure =  (
         ('cItems',DWORD),
         ('rItems',PDS_DOMAIN_CONTROLLER_INFO_FFFFFFFFW_ARRAY),
     )
 
-# 4.1.5.1.3 DRS_MSG_DCINFOREPLY
+  
 class DRS_MSG_DCINFOREPLY(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -457,7 +457,7 @@ class DRS_MSG_DCINFOREPLY(NDRUNION):
         0xffffffff  : ('V1', DRS_MSG_DCINFOREPLY_VFFFFFFFF),
     }
 
-# 4.1.4.1.2 DRS_MSG_CRACKREQ_V1
+  
 class LPWSTR_ARRAY(NDRUniConformantArray):
     item = LPWSTR
 
@@ -477,7 +477,7 @@ class DRS_MSG_CRACKREQ_V1(NDRSTRUCT):
         ('rpNames',PLPWSTR_ARRAY),
     )
 
-# 4.1.4.1.1 DRS_MSG_CRACKREQ
+  
 class DRS_MSG_CRACKREQ(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -486,7 +486,7 @@ class DRS_MSG_CRACKREQ(NDRUNION):
         1  : ('V1', DRS_MSG_CRACKREQ_V1),
     }
 
-# 4.1.4.1.3 DS_NAME_FORMAT
+  
 class DS_NAME_FORMAT(NDRENUM):
     class enumItems(Enum):
         DS_UNKNOWN_NAME            = 0
@@ -501,7 +501,7 @@ class DS_NAME_FORMAT(NDRENUM):
         DS_SID_OR_SID_HISTORY_NAME = 11
         DS_DNS_DOMAIN_NAME         = 12
 
-# 4.1.4.1.4 DS_NAME_RESULT_ITEMW
+  
 class DS_NAME_RESULT_ITEMW(NDRSTRUCT):
     structure =  (
         ('status',DWORD),
@@ -517,7 +517,7 @@ class PDS_NAME_RESULT_ITEMW_ARRAY(NDRPOINTER):
         ('Data',DS_NAME_RESULT_ITEMW_ARRAY),
     )
 
-# 4.1.4.1.5 DS_NAME_RESULTW
+  
 class DS_NAME_RESULTW(NDRSTRUCT):
     structure =  (
         ('cItems',DWORD),
@@ -529,13 +529,13 @@ class PDS_NAME_RESULTW(NDRPOINTER):
         ('Data',DS_NAME_RESULTW),
     )
 
-# 4.1.4.1.7 DRS_MSG_CRACKREPLY_V1
+  
 class DRS_MSG_CRACKREPLY_V1(NDRSTRUCT):
     structure =  (
         ('pResult',PDS_NAME_RESULTW),
     )
 
-# 4.1.4.1.6 DRS_MSG_CRACKREPLY
+  
 class DRS_MSG_CRACKREPLY(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -544,7 +544,7 @@ class DRS_MSG_CRACKREPLY(NDRUNION):
         1  : ('V1', DRS_MSG_CRACKREPLY_V1),
     }
 
-# 5.198 UPTODATE_CURSOR_V1
+  
 class UPTODATE_CURSOR_V1(NDRSTRUCT):
     structure =  (
         ('uuidDsa',UUID),
@@ -554,7 +554,7 @@ class UPTODATE_CURSOR_V1(NDRSTRUCT):
 class UPTODATE_CURSOR_V1_ARRAY(NDRUniConformantArray):
     item = UPTODATE_CURSOR_V1
 
-# 5.200 UPTODATE_VECTOR_V1_EXT
+  
 class UPTODATE_VECTOR_V1_EXT(NDRSTRUCT):
     structure =  (
         ('dwVersion',DWORD),
@@ -569,7 +569,7 @@ class PUPTODATE_VECTOR_V1_EXT(NDRPOINTER):
         ('Data',UPTODATE_VECTOR_V1_EXT),
     )
 
-# 5.206 USN_VECTOR
+  
 class USN_VECTOR(NDRSTRUCT):
     structure =  (
         ('usnHighObjUpdate',USN),
@@ -577,13 +577,13 @@ class USN_VECTOR(NDRSTRUCT):
         ('usnHighPropUpdate',USN),
     )
 
-# 5.50 DSNAME
+  
 class WCHAR_ARRAY(NDRUniConformantArray):
     item  = 'H'
 
     def __setitem__(self, key, value):
         self.fields['MaximumCount'] = None
-        self.data = None        # force recompute
+        self.data = None          
         return NDRUniConformantArray.__setitem__(self, key, [ord(c) for c in value])
 
     def __getitem__(self, key):
@@ -626,7 +626,7 @@ class PPDSNAME_ARRAY(NDRPOINTER):
 class ATTRTYP_ARRAY(NDRUniConformantArray):
     item = ATTRTYP
 
-# 5.145 PARTIAL_ATTR_VECTOR_V1_EXT
+  
 class PARTIAL_ATTR_VECTOR_V1_EXT(NDRSTRUCT):
     structure =  (
         ('dwVersion',DWORD),
@@ -640,14 +640,14 @@ class PPARTIAL_ATTR_VECTOR_V1_EXT(NDRPOINTER):
         ('Data',PARTIAL_ATTR_VECTOR_V1_EXT),
     )
 
-# 5.142 OID_t
+  
 class OID_t(NDRSTRUCT):
     structure =  (
         ('length',ULONG),
         ('elements',PBYTE_ARRAY),
     )
 
-# 5.153 PrefixTableEntry
+  
 class PrefixTableEntry(NDRSTRUCT):
     structure =  (
         ('ndx',ULONG),
@@ -662,14 +662,14 @@ class PPrefixTableEntry_ARRAY(NDRPOINTER):
         ('Data',PrefixTableEntry_ARRAY),
     )
 
-# 5.177 SCHEMA_PREFIX_TABLE
+  
 class SCHEMA_PREFIX_TABLE(NDRSTRUCT):
     structure =  (
         ('PrefixCount',DWORD),
         ('pPrefixEntry',PPrefixTableEntry_ARRAY),
     )
 
-# 4.1.10.2.2 DRS_MSG_GETCHGREQ_V3
+  
 class DRS_MSG_GETCHGREQ_V3(NDRSTRUCT):
     structure =  (
         ('uuidDsaObjDest',UUID),
@@ -685,7 +685,7 @@ class DRS_MSG_GETCHGREQ_V3(NDRSTRUCT):
         ('ulExtendedOp',ULONG),
     )
 
-# 5.131 MTX_ADDR
+  
 class MTX_ADDR(NDRSTRUCT):
     structure =  (
         ('mtx_namelen',ULONG),
@@ -697,7 +697,7 @@ class PMTX_ADDR(NDRPOINTER):
         ('Data',MTX_ADDR),
     )
 
-# 4.1.10.2.3 DRS_MSG_GETCHGREQ_V4
+  
 class DRS_MSG_GETCHGREQ_V4(NDRSTRUCT):
     structure =  (
         ('uuidTransportObj',UUID),
@@ -705,7 +705,7 @@ class DRS_MSG_GETCHGREQ_V4(NDRSTRUCT):
         ('V3',DRS_MSG_GETCHGREQ_V3),
     )
 
-# 4.1.10.2.4 DRS_MSG_GETCHGREQ_V5
+  
 class DRS_MSG_GETCHGREQ_V5(NDRSTRUCT):
     structure =  (
         ('uuidDsaObjDest',UUID),
@@ -720,7 +720,7 @@ class DRS_MSG_GETCHGREQ_V5(NDRSTRUCT):
         ('liFsmoInfo',ULARGE_INTEGER),
     )
 
-# 4.1.10.2.5 DRS_MSG_GETCHGREQ_V7
+  
 class DRS_MSG_GETCHGREQ_V7(NDRSTRUCT):
     structure =  (
         ('uuidTransportObj',UUID),
@@ -731,7 +731,7 @@ class DRS_MSG_GETCHGREQ_V7(NDRSTRUCT):
         ('PrefixTableDest',SCHEMA_PREFIX_TABLE),
     )
 
-# 4.1.10.2.6 DRS_MSG_GETCHGREQ_V8
+  
 class DRS_MSG_GETCHGREQ_V8(NDRSTRUCT):
     structure =  (
         ('uuidDsaObjDest',UUID),
@@ -749,7 +749,7 @@ class DRS_MSG_GETCHGREQ_V8(NDRSTRUCT):
         ('PrefixTableDest',SCHEMA_PREFIX_TABLE),
     )
 
-# 4.1.10.2.7 DRS_MSG_GETCHGREQ_V10
+  
 class DRS_MSG_GETCHGREQ_V10(NDRSTRUCT):
     structure =  (
         ('uuidDsaObjDest',UUID),
@@ -768,7 +768,7 @@ class DRS_MSG_GETCHGREQ_V10(NDRSTRUCT):
         ('ulMoreFlags',ULONG),
     )
 
-# 4.1.10.2.1 DRS_MSG_GETCHGREQ
+  
 class DRS_MSG_GETCHGREQ(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -781,7 +781,7 @@ class DRS_MSG_GETCHGREQ(NDRUNION):
         10 : ('V10', DRS_MSG_GETCHGREQ_V10),
     }
 
-# 5.16 ATTRVAL
+  
 class ATTRVAL(NDRSTRUCT):
     structure =  (
         ('valLen',ULONG),
@@ -796,14 +796,14 @@ class PATTRVAL_ARRAY(NDRPOINTER):
         ('Data',ATTRVAL_ARRAY),
     )
 
-# 5.17 ATTRVALBLOCK
+  
 class ATTRVALBLOCK(NDRSTRUCT):
     structure =  (
         ('valCount',ULONG),
         ('pAVal',PATTRVAL_ARRAY),
     )
 
-# 5.9 ATTR
+  
 class ATTR(NDRSTRUCT):
     structure =  (
         ('attrTyp',ATTRTYP),
@@ -818,14 +818,14 @@ class PATTR_ARRAY(NDRPOINTER):
         ('Data',ATTR_ARRAY),
     )
 
-# 5.10 ATTRBLOCK
+  
 class ATTRBLOCK(NDRSTRUCT):
     structure =  (
         ('attrCount',ULONG),
         ('pAttr',PATTR_ARRAY),
     )
 
-# 5.53 ENTINF
+  
 class ENTINF(NDRSTRUCT):
     structure =  (
         ('pName',PDSNAME),
@@ -841,7 +841,7 @@ class PENTINF_ARRAY(NDRPOINTER):
         ('Data',ENTINF_ARRAY),
     )
 
-# 5.154 PROPERTY_META_DATA_EXT
+  
 class PROPERTY_META_DATA_EXT(NDRSTRUCT):
     structure =  (
         ('dwVersion',DWORD),
@@ -853,7 +853,7 @@ class PROPERTY_META_DATA_EXT(NDRSTRUCT):
 class PROPERTY_META_DATA_EXT_ARRAY(NDRUniConformantArray):
     item = PROPERTY_META_DATA_EXT
 
-# 5.155 PROPERTY_META_DATA_EXT_VECTOR
+  
 class PROPERTY_META_DATA_EXT_VECTOR(NDRSTRUCT):
     structure =  (
         ('cNumProps',DWORD),
@@ -865,7 +865,7 @@ class PPROPERTY_META_DATA_EXT_VECTOR(NDRPOINTER):
         ('Data',PROPERTY_META_DATA_EXT_VECTOR),
     )
 
-# 5.161 REPLENTINFLIST
+  
 
 class REPLENTINFLIST(NDRSTRUCT):
     structure =  (
@@ -875,9 +875,9 @@ class REPLENTINFLIST(NDRSTRUCT):
         ('pParentGuidm',PUUID),
         ('pMetaDataExt',PPROPERTY_META_DATA_EXT_VECTOR),
     )
-    # ToDo: Here we should work with getData and fromString because we're cheating with pNextEntInf
+      
     def fromString(self, data, soFar = 0 ):
-        # Here we're changing the struct so we can represent a linked list with NDR
+          
         self.fields['pNextEntInf'] = PREPLENTINFLIST(isNDR64 = self._isNDR64)
         retVal = NDRSTRUCT.fromString(self, data, soFar)
         return retVal
@@ -887,7 +887,7 @@ class PREPLENTINFLIST(NDRPOINTER):
         ('Data',REPLENTINFLIST),
     )
 
-# 4.1.10.2.9 DRS_MSG_GETCHGREPLY_V1
+  
 class DRS_MSG_GETCHGREPLY_V1(NDRSTRUCT):
     structure =  (
         ('uuidDsaObjSrc',UUID),
@@ -904,7 +904,7 @@ class DRS_MSG_GETCHGREPLY_V1(NDRSTRUCT):
         ('fMoreData',BOOL),
     )
 
-# 4.1.10.2.15 DRS_COMPRESSED_BLOB
+  
 class DRS_COMPRESSED_BLOB(NDRSTRUCT):
     structure =  (
         ('cbUncompressedSize',DWORD),
@@ -912,13 +912,13 @@ class DRS_COMPRESSED_BLOB(NDRSTRUCT):
         ('pbCompressedData',BYTE_ARRAY),
     )
 
-# 4.1.10.2.10 DRS_MSG_GETCHGREPLY_V2
+  
 class DRS_MSG_GETCHGREPLY_V2(NDRSTRUCT):
     structure =  (
         ('CompressedV1',DRS_COMPRESSED_BLOB),
     )
 
-# 5.199 UPTODATE_CURSOR_V2
+  
 class UPTODATE_CURSOR_V2(NDRSTRUCT):
     structure =  (
         ('uuidDsa',UUID),
@@ -929,7 +929,7 @@ class UPTODATE_CURSOR_V2(NDRSTRUCT):
 class UPTODATE_CURSOR_V2_ARRAY(NDRUniConformantArray):
     item = UPTODATE_CURSOR_V2
 
-# 5.201 UPTODATE_VECTOR_V2_EXT
+  
 class UPTODATE_VECTOR_V2_EXT(NDRSTRUCT):
     structure =  (
         ('dwVersion',DWORD),
@@ -944,14 +944,14 @@ class PUPTODATE_VECTOR_V2_EXT(NDRPOINTER):
         ('Data',UPTODATE_VECTOR_V2_EXT),
     )
 
-# 5.211 VALUE_META_DATA_EXT_V1
+  
 class VALUE_META_DATA_EXT_V1(NDRSTRUCT):
     structure =  (
         ('timeCreated',DSTIME),
         ('MetaData',PROPERTY_META_DATA_EXT),
     )
 
-# 5.215 VALUE_META_DATA_EXT_V3
+  
 class VALUE_META_DATA_EXT_V3(NDRSTRUCT):
     structure =  (
         ('timeCreated',DSTIME),
@@ -962,7 +962,7 @@ class VALUE_META_DATA_EXT_V3(NDRSTRUCT):
         ('timeExpired',DSTIME),
     )
 
-# 5.167 REPLVALINF_V1
+  
 class REPLVALINF_V1(NDRSTRUCT):
     structure =  (
         ('pObject',PDSNAME),
@@ -974,7 +974,7 @@ class REPLVALINF_V1(NDRSTRUCT):
 
     def fromString(self, data, soFar = 0):
         retVal = NDRSTRUCT.fromString(self, data, soFar)
-        #self.dumpRaw()
+          
         return retVal
 
 class REPLVALINF_V1_ARRAY(NDRUniConformantArray):
@@ -985,7 +985,7 @@ class PREPLVALINF_V1_ARRAY(NDRPOINTER):
         ('Data', REPLVALINF_V1_ARRAY),
     )
 
-# 5.168 REPLVALINF_V3
+  
 class REPLVALINF_V3(NDRSTRUCT):
     structure = (
         ('pObject', PDSNAME),
@@ -997,7 +997,7 @@ class REPLVALINF_V3(NDRSTRUCT):
 
     def fromString(self, data, soFar=0):
         retVal = NDRSTRUCT.fromString(self, data, soFar)
-        # self.dumpRaw()
+          
         return retVal
 
 class REPLVALINF_V3_ARRAY(NDRUniConformantArray):
@@ -1008,10 +1008,10 @@ class PREPLVALINF_V3_ARRAY(NDRPOINTER):
         ('Data', REPLVALINF_V3_ARRAY),
     )
 
-# 5.169 REPLVALINF_NATIVE
+  
 REPLVALINF_NATIVE = REPLVALINF_V3
 
-# 4.1.10.2.11 DRS_MSG_GETCHGREPLY_V6
+  
 class DRS_MSG_GETCHGREPLY_V6(NDRSTRUCT):
     structure =  (
         ('uuidDsaObjSrc',UUID),
@@ -1029,14 +1029,14 @@ class DRS_MSG_GETCHGREPLY_V6(NDRSTRUCT):
         ('cNumNcSizeObjectsc',ULONG),
         ('cNumNcSizeValues',ULONG),
         ('cNumValues',DWORD),
-        #('rgValues',PREPLVALINF_V1_ARRAY),
-        # ToDo: Once we find out what's going on with PREPLVALINF_ARRAY get it back
-        # Seems there's something in there that is not being parsed correctly
+          
+          
+          
         ('rgValues',DWORD),
         ('dwDRSError',DWORD),
     )
 
-# 4.1.10.2.14 DRS_COMP_ALG_TYPE
+  
 class DRS_COMP_ALG_TYPE(NDRENUM):
     class enumItems(Enum):
         DRS_COMP_ALG_NONE   = 0
@@ -1044,7 +1044,7 @@ class DRS_COMP_ALG_TYPE(NDRENUM):
         DRS_COMP_ALG_MSZIP  = 2
         DRS_COMP_ALG_WIN2K3 = 3
 
-# 4.1.10.2.12 DRS_MSG_GETCHGREPLY_V7
+  
 class DRS_MSG_GETCHGREPLY_V7(NDRSTRUCT):
     structure =  (
         ('dwCompressedVersion',DWORD),
@@ -1052,7 +1052,7 @@ class DRS_MSG_GETCHGREPLY_V7(NDRSTRUCT):
         ('CompressedAny',DRS_COMPRESSED_BLOB),
     )
 
-# 4.1.10.2.13 DRS_MSG_GETCHGREPLY_V9
+  
 class DRS_MSG_GETCHGREPLY_V9(NDRSTRUCT):
     structure =  (
         ('uuidDsaObjSrc',UUID),
@@ -1070,17 +1070,17 @@ class DRS_MSG_GETCHGREPLY_V9(NDRSTRUCT):
         ('cNumNcSizeObjectsc',ULONG),
         ('cNumNcSizeValues',ULONG),
         ('cNumValues',DWORD),
-        #('rgValues',PREPLVALINF_V3_ARRAY),
-        # ToDo: Once we find out what's going on with PREPLVALINF_ARRAY get it back
-        # Seems there's something in there that is not being parsed correctly
+          
+          
+          
         ('rgValues',DWORD),
         ('dwDRSError',DWORD),
     )
 
-# 4.1.10.2.14 DRS_MSG_GETCHGREPLY_NATIVE
+  
 DRS_MSG_GETCHGREPLY_NATIVE = DRS_MSG_GETCHGREPLY_V9
 
-# 4.1.10.2.8 DRS_MSG_GETCHGREPLY
+  
 class DRS_MSG_GETCHGREPLY(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -1093,7 +1093,7 @@ class DRS_MSG_GETCHGREPLY(NDRUNION):
         9  : ('V9', DRS_MSG_GETCHGREPLY_V9),
     }
 
-# 4.1.27.1.2 DRS_MSG_VERIFYREQ_V1
+  
 class DRS_MSG_VERIFYREQ_V1(NDRSTRUCT):
     structure =  (
         ('dwFlags',DWORD),
@@ -1103,7 +1103,7 @@ class DRS_MSG_VERIFYREQ_V1(NDRSTRUCT):
         ('PrefixTable',SCHEMA_PREFIX_TABLE),
     )
 
-# 4.1.27.1.1 DRS_MSG_VERIFYREQ
+  
 class DRS_MSG_VERIFYREQ(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -1112,7 +1112,7 @@ class DRS_MSG_VERIFYREQ(NDRUNION):
         1  : ('V1', DRS_MSG_VERIFYREQ_V1),
     }
 
-# 4.1.27.1.4 DRS_MSG_VERIFYREPLY_V1
+  
 class DRS_MSG_VERIFYREPLY_V1(NDRSTRUCT):
     structure =  (
         ('error',DWORD),
@@ -1121,7 +1121,7 @@ class DRS_MSG_VERIFYREPLY_V1(NDRSTRUCT):
         ('PrefixTable',SCHEMA_PREFIX_TABLE),
     )
 
-# 4.1.27.1.3 DRS_MSG_VERIFYREPLY
+  
 class DRS_MSG_VERIFYREPLY(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -1130,7 +1130,7 @@ class DRS_MSG_VERIFYREPLY(NDRUNION):
         1  : ('V1', DRS_MSG_VERIFYREPLY_V1),
     }
 
-# 4.1.11.1.2 DRS_MSG_NT4_CHGLOG_REQ_V1
+  
 class DRS_MSG_NT4_CHGLOG_REQ_V1(NDRSTRUCT):
     structure =  (
         ('dwFlags',DWORD),
@@ -1139,7 +1139,7 @@ class DRS_MSG_NT4_CHGLOG_REQ_V1(NDRSTRUCT):
         ('pRestart',PBYTE_ARRAY),
     )
 
-# 4.1.11.1.1 DRS_MSG_NT4_CHGLOG_REQ
+  
 class DRS_MSG_NT4_CHGLOG_REQ(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -1148,7 +1148,7 @@ class DRS_MSG_NT4_CHGLOG_REQ(NDRUNION):
         1  : ('V1', DRS_MSG_NT4_CHGLOG_REQ_V1),
     }
 
-# 4.1.11.1.5 NT4_REPLICATION_STATE
+  
 class NT4_REPLICATION_STATE(NDRSTRUCT):
     structure =  (
         ('SamSerialNumber',LARGE_INTEGER),
@@ -1159,7 +1159,7 @@ class NT4_REPLICATION_STATE(NDRSTRUCT):
         ('LsaCreationTime',LARGE_INTEGER),
     )
 
-# 4.1.11.1.4 DRS_MSG_NT4_CHGLOG_REPLY_V1
+  
 class DRS_MSG_NT4_CHGLOG_REPLY_V1(NDRSTRUCT):
     structure =  (
         ('cbRestart',DWORD),
@@ -1170,7 +1170,7 @@ class DRS_MSG_NT4_CHGLOG_REPLY_V1(NDRSTRUCT):
         ('pLog',PBYTE_ARRAY),
     )
 
-# 4.1.11.1.3 DRS_MSG_NT4_CHGLOG_REPLY
+  
 class DRS_MSG_NT4_CHGLOG_REPLY(NDRUNION):
     commonHdr = (
         ('tag', DWORD),
@@ -1179,10 +1179,10 @@ class DRS_MSG_NT4_CHGLOG_REPLY(NDRUNION):
         1  : ('V1', DRS_MSG_NT4_CHGLOG_REPLY_V1),
     }
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 4.1.3 IDL_DRSBind (Opnum 0)
+  
+  
+  
+  
 class DRSBind(NDRCALL):
     opnum = 0
     structure = (
@@ -1197,7 +1197,7 @@ class DRSBindResponse(NDRCALL):
         ('ErrorCode',DWORD),
     )
 
-# 4.1.25 IDL_DRSUnbind (Opnum 1)
+  
 class DRSUnbind(NDRCALL):
     opnum = 1
     structure = (
@@ -1210,7 +1210,7 @@ class DRSUnbindResponse(NDRCALL):
         ('ErrorCode',DWORD),
     )
 
-# 4.1.10 IDL_DRSGetNCChanges (Opnum 3)
+  
 class DRSGetNCChanges(NDRCALL):
     opnum = 3
     structure = (
@@ -1226,7 +1226,7 @@ class DRSGetNCChangesResponse(NDRCALL):
         ('ErrorCode',DWORD),
     )
 
-# 4.1.27 IDL_DRSVerifyNames (Opnum 8)
+  
 class DRSVerifyNames(NDRCALL):
     opnum = 8
     structure = (
@@ -1241,7 +1241,7 @@ class DRSVerifyNamesResponse(NDRCALL):
         ('pmsgOut', DRS_MSG_VERIFYREPLY),
         ('ErrorCode',DWORD),
     )
-# 4.1.11 IDL_DRSGetNT4ChangeLog (Opnum 11)
+  
 class DRSGetNT4ChangeLog(NDRCALL):
     opnum = 11
     structure = (
@@ -1257,7 +1257,7 @@ class DRSGetNT4ChangeLogResponse(NDRCALL):
         ('ErrorCode',DWORD),
     )
 
-# 4.1.4 IDL_DRSCrackNames (Opnum 12)
+  
 class DRSCrackNames(NDRCALL):
     opnum = 12
     structure = (
@@ -1273,7 +1273,7 @@ class DRSCrackNamesResponse(NDRCALL):
         ('ErrorCode',DWORD),
     )
 
-# 4.1.5 IDL_DRSDomainControllerInfo (Opnum 16)
+  
 class DRSDomainControllerInfo(NDRCALL):
     opnum = 16
     structure = (
@@ -1289,9 +1289,9 @@ class DRSDomainControllerInfoResponse(NDRCALL):
         ('ErrorCode',DWORD),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  0 : (DRSBind,DRSBindResponse ),
  1 : (DRSUnbind,DRSUnbindResponse ),
@@ -1300,9 +1300,9 @@ OPNUMS = {
  16: (DRSDomainControllerInfo,DRSDomainControllerInfoResponse ),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def checkNullString(string):
     if string == NULL:
         return string
@@ -1347,12 +1347,12 @@ def hDRSCrackNames(dce, hDrs, flags, formatOffered, formatDesired, rpNames = ())
     return dce.request(request)
 
 def deriveKey(baseKey):
-        # 2.2.11.1.3 Deriving Key1 and Key2 from a Little-Endian, Unsigned Integer Key
-        # Let I be the little-endian, unsigned integer.
-        # Let I[X] be the Xth byte of I, where I is interpreted as a zero-base-index array of bytes.
-        # Note that because I is in little-endian byte order, I[0] is the least significant byte.
-        # Key1 is a concatenation of the following values: I[0], I[1], I[2], I[3], I[0], I[1], I[2].
-        # Key2 is a concatenation of the following values: I[3], I[0], I[1], I[2], I[3], I[0], I[1]
+          
+          
+          
+          
+          
+          
         key = pack('<L',baseKey)
         key1 = [key[0] , key[1] , key[2] , key[3] , key[0] , key[1] , key[2]]
         key2 = [key[3] , key[0] , key[1] , key[2] , key[3] , key[0] , key[1]]
@@ -1373,9 +1373,9 @@ def removeDESLayer(cryptedHash, rid):
 
 def DecryptAttributeValue(dce, attribute):
     sessionKey = dce.get_session_key()
-    # Is it a Kerberos Session Key?
+      
     if isinstance(sessionKey, crypto.Key):
-        # Extract its contents and move on
+          
         sessionKey = sessionKey.contents
 
     encryptedPayload = ENCRYPTED_PAYLOAD(attribute)
@@ -1388,32 +1388,32 @@ def DecryptAttributeValue(dce, attribute):
     cipher = ARC4.new(finalMD5)
     plainText = cipher.decrypt(attribute[16:])
 
-    #chkSum = (binascii.crc32(plainText[4:])) & 0xffffffff
-    #if unpack('<L',plainText[:4])[0] != chkSum:
-    #    print "RECEIVED 0x%x" % unpack('<L',plainText[:4])[0]
-    #    print "CALCULATED 0x%x" % chkSum
+      
+      
+      
+      
 
     return plainText[4:]
 
-# 5.16.4 ATTRTYP-to-OID Conversion
+  
 def MakeAttid(prefixTable, oid):
-    # get the last value in the original OID: the value * after the last '.'
+      
     lastValue = int(oid.split('.')[-1])
 
-    # convert the dotted form of OID into a BER encoded binary * format.
-    # The BER encoding of OID is described in section * 8.19 of [ITUX690]
+      
+      
     from pyasn1.type import univ
     from pyasn1.codec.ber import encoder
     binaryOID = encoder.encode(univ.ObjectIdentifier(oid))[2:]
 
-    # get the prefix of the OID
+      
     if lastValue < 128:
         oidPrefix = list(binaryOID[:-1])
     else:
         oidPrefix = list(binaryOID[:-2])
 
-    # search the prefix in the prefix table, if none found, add
-    # one entry for the new prefix.
+      
+      
     fToAdd = True
     pos = len(prefixTable)
     for j, item in enumerate(prefixTable):
@@ -1429,10 +1429,10 @@ def MakeAttid(prefixTable, oid):
         entry['prefix']['elements'] = oidPrefix
         prefixTable.append(entry)
 
-    # compose the attid
+      
     lowerWord = lastValue % 16384
     if lastValue >= 16384:
-        # mark it so that it is known to not be the whole lastValue
+          
         lowerWord += 32768
 
     upperWord = pos
@@ -1442,13 +1442,13 @@ def MakeAttid(prefixTable, oid):
     return attrTyp
 
 def OidFromAttid(prefixTable, attr):
-    # separate the ATTRTYP into two parts
+      
     upperWord = attr // 65536
     lowerWord = attr % 65536
 
-    # search in the prefix table to find the upperWord, if found,
-    # construct the binary OID by appending lowerWord to the end of
-    # found prefix.
+      
+      
+      
 
     binaryOID = None
     for j, item in enumerate(prefixTable):

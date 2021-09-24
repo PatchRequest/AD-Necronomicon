@@ -24,16 +24,16 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'TSCH SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
-# 2.3.1 Constant Values
+  
+  
+  
+  
 CNLEN = 15
 DNLEN = CNLEN
 UNLEN = 256
 MAX_BUFFER_SIZE = (DNLEN+UNLEN+1+1)
 
-# 2.3.7 Flags
+  
 TASK_FLAG_INTERACTIVE                  = 0x1
 TASK_FLAG_DELETE_WHEN_DONE             = 0x2
 TASK_FLAG_DISABLED                     = 0x4
@@ -48,7 +48,7 @@ TASK_FLAG_RESTART_ON_IDLE_RESUME       = 0x800
 TASK_FLAG_SYSTEM_REQUIRED              = 0x1000
 TASK_FLAG_RUN_ONLY_IF_LOGGED_ON        = 0x2000
 
-# 2.3.9 TASK_LOGON_TYPE
+  
 TASK_LOGON_NONE                          = 0
 TASK_LOGON_PASSWORD                      = 1
 TASK_LOGON_S4U                           = 2
@@ -57,24 +57,24 @@ TASK_LOGON_GROUP                         = 4
 TASK_LOGON_SERVICE_ACCOUNT               = 5
 TASK_LOGON_INTERACTIVE_TOKEN_OR_PASSWORD = 6
 
-# 2.3.13 TASK_STATE
+  
 TASK_STATE_UNKNOWN  = 0
 TASK_STATE_DISABLED = 1
 TASK_STATE_QUEUED   = 2
 TASK_STATE_READY    = 3
 TASK_STATE_RUNNING  = 4
 
-# 2.4.1 FIXDLEN_DATA
+  
 SCHED_S_TASK_READY         = 0x00041300
 SCHED_S_TASK_RUNNING       = 0x00041301
 SCHED_S_TASK_NOT_SCHEDULED = 0x00041301
 
-# 2.4.2.11 Triggers
+  
 TASK_TRIGGER_FLAG_HAS_END_DATE         = 0
 TASK_TRIGGER_FLAG_KILL_AT_DURATION_END = 0
 TASK_TRIGGER_FLAG_DISABLED             = 0
 
-# ToDo: Change this to enums
+  
 ONCE                 = 0
 DAILY                = 1
 WEEKLY               = 2
@@ -105,17 +105,17 @@ OCTOBER   = 10
 NOVEMBER  = 11
 DECEMBER  = 12
 
-# 2.4.2.11.8 MONTHLYDOW Trigger
+  
 FIRST_WEEK  = 1
 SECOND_WEEK = 2
 THIRD_WEEK  = 3
 FOURTH_WEEK = 4
 LAST_WEEK   = 5
 
-# 2.3.12 TASK_NAMES
+  
 TASK_NAMES = LPWSTR
 
-# 3.2.5.4.2 SchRpcRegisterTask (Opnum 1)
+  
 TASK_VALIDATE_ONLY                = 1<<(31-31)
 TASK_CREATE                       = 1<<(31-30)
 TASK_UPDATE                       = 1<<(31-29)
@@ -123,27 +123,27 @@ TASK_DISABLE                      = 1<<(31-28)
 TASK_DON_ADD_PRINCIPAL_ACE        = 1<<(31-27)
 TASK_IGNORE_REGISTRATION_TRIGGERS = 1<<(31-26)
 
-# 3.2.5.4.5 SchRpcSetSecurity (Opnum 4)
+  
 TASK_DONT_ADD_PRINCIPAL_ACE = 1<<(31-27)
 SCH_FLAG_FOLDER             = 1<<(31-2)
 SCH_FLAG_TASK               = 1<<(31-1) 
 
-# 3.2.5.4.7 SchRpcEnumFolders (Opnum 6)
+  
 TASK_ENUM_HIDDEN = 1
 
-# 3.2.5.4.13 SchRpcRun (Opnum 12)
+  
 TASK_RUN_AS_SELF            = 1<<(31-31)
 TASK_RUN_IGNORE_CONSTRAINTS = 1<<(31-30)
 TASK_RUN_USE_SESSION_ID     = 1<<(31-29)
 TASK_RUN_USER_SID           = 1<<(31-28)
 
-# 3.2.5.4.18 SchRpcGetTaskInfo (Opnum 17)
+  
 SCH_FLAG_STATE            = 1<<(31-3)
 
-################################################################################
-# STRUCTURES
-################################################################################
-# 2.3.12 TASK_NAMES
+  
+  
+  
+  
 class TASK_NAMES_ARRAY(NDRUniConformantArray):
     item = TASK_NAMES
 
@@ -168,7 +168,7 @@ class PGUID_ARRAY(NDRPOINTER):
         ('Data',GUID_ARRAY),
     )
 
-# 3.2.5.4.13 SchRpcRun (Opnum 12)
+  
 class SYSTEMTIME_ARRAY(NDRUniConformantArray):
     item = SYSTEMTIME
 
@@ -177,7 +177,7 @@ class PSYSTEMTIME_ARRAY(NDRPOINTER):
         ('Data',SYSTEMTIME_ARRAY),
     )
 
-# 2.3.8 TASK_USER_CRED
+  
 class TASK_USER_CRED(NDRSTRUCT):
     structure =  (
         ('userId',LPWSTR),
@@ -193,7 +193,7 @@ class LPTASK_USER_CRED_ARRAY(NDRPOINTER):
         ('Data',TASK_USER_CRED_ARRAY),
     )
 
-# 2.3.10 TASK_XML_ERROR_INFO
+  
 class TASK_XML_ERROR_INFO(NDRSTRUCT):
     structure =  (
         ('line',DWORD),
@@ -207,7 +207,7 @@ class PTASK_XML_ERROR_INFO(NDRPOINTER):
         ('Data',TASK_XML_ERROR_INFO),
     )
 
-# 2.4.1 FIXDLEN_DATA
+  
 class FIXDLEN_DATA(Structure):
     structure = (
         ('Product Version','<H=0'),
@@ -226,7 +226,7 @@ class FIXDLEN_DATA(Structure):
         ('Flags','<L=0'),
     )
 
-# 2.4.2.11 Triggers
+  
 class TRIGGERS(Structure):
     structure = (
         ('Trigger Size','<H=0'),
@@ -251,7 +251,7 @@ class TRIGGERS(Structure):
         ('Reserved3','<H=0'),
     )
 
-# 2.4.2.11.6 WEEKLY Trigger
+  
 class WEEKLY(Structure):
     structure = (
         ('Trigger Type','<L=0'),
@@ -261,7 +261,7 @@ class WEEKLY(Structure):
         ('Padding','<H=0'),
     )
 
-# 2.4.2.11.7 MONTHLYDATE Trigger
+  
 class MONTHLYDATE(Structure):
     structure = (
         ('Trigger Type','<L=0'),
@@ -270,7 +270,7 @@ class MONTHLYDATE(Structure):
         ('Padding','<H=0'),
     )
 
-# 2.4.2.11.8 MONTHLYDOW Trigger
+  
 class MONTHLYDOW(Structure):
     structure = (
         ('Trigger Type','<L=0'),
@@ -282,7 +282,7 @@ class MONTHLYDOW(Structure):
         ('Reserved3','<H=0'),
     )
 
-# 2.4.2.12 Job Signature
+  
 class JOB_SIGNATURE(Structure):
     structure = (
         ('SignatureVersion','<HH0'),
@@ -290,10 +290,10 @@ class JOB_SIGNATURE(Structure):
         ('Signature','64s="'),
     )
 
-################################################################################
-# RPC CALLS
-################################################################################
-# 3.2.5.4.1 SchRpcHighestVersion (Opnum 0)
+  
+  
+  
+  
 class SchRpcHighestVersion(NDRCALL):
     opnum = 0
     structure = (
@@ -305,7 +305,7 @@ class SchRpcHighestVersionResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.2 SchRpcRegisterTask (Opnum 1)
+  
 class SchRpcRegisterTask(NDRCALL):
     opnum = 1
     structure = (
@@ -325,7 +325,7 @@ class SchRpcRegisterTaskResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.3 SchRpcRetrieveTask (Opnum 2)
+  
 class SchRpcRetrieveTask(NDRCALL):
     opnum = 2
     structure = (
@@ -340,7 +340,7 @@ class SchRpcRetrieveTaskResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.4 SchRpcCreateFolder (Opnum 3)
+  
 class SchRpcCreateFolder(NDRCALL):
     opnum = 3
     structure = (
@@ -354,7 +354,7 @@ class SchRpcCreateFolderResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.5 SchRpcSetSecurity (Opnum 4)
+  
 class SchRpcSetSecurity(NDRCALL):
     opnum = 4
     structure = (
@@ -368,7 +368,7 @@ class SchRpcSetSecurityResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.6 SchRpcGetSecurity (Opnum 5)
+  
 class SchRpcGetSecurity(NDRCALL):
     opnum = 5
     structure = (
@@ -382,7 +382,7 @@ class SchRpcGetSecurityResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.7 SchRpcEnumFolders (Opnum 6)
+  
 class SchRpcEnumFolders(NDRCALL):
     opnum = 6
     structure = (
@@ -400,7 +400,7 @@ class SchRpcEnumFoldersResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.8 SchRpcEnumTasks (Opnum 7)
+  
 class SchRpcEnumTasks(NDRCALL):
     opnum = 7
     structure = (
@@ -418,7 +418,7 @@ class SchRpcEnumTasksResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.9 SchRpcEnumInstances (Opnum 8)
+  
 class SchRpcEnumInstances(NDRCALL):
     opnum = 8
     structure = (
@@ -433,7 +433,7 @@ class SchRpcEnumInstancesResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.10 SchRpcGetInstanceInfo (Opnum 9)
+  
 class SchRpcGetInstanceInfo(NDRCALL):
     opnum = 9
     structure = (
@@ -452,7 +452,7 @@ class SchRpcGetInstanceInfoResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.11 SchRpcStopInstance (Opnum 10)
+  
 class SchRpcStopInstance(NDRCALL):
     opnum = 10
     structure = (
@@ -465,7 +465,7 @@ class SchRpcStopInstanceResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.12 SchRpcStop (Opnum 11)
+  
 class SchRpcStop(NDRCALL):
     opnum = 11
     structure = (
@@ -478,7 +478,7 @@ class SchRpcStopResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.13 SchRpcRun (Opnum 12)
+  
 class SchRpcRun(NDRCALL):
     opnum = 12
     structure = (
@@ -496,7 +496,7 @@ class SchRpcRunResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.14 SchRpcDelete (Opnum 13)
+  
 class SchRpcDelete(NDRCALL):
     opnum = 13
     structure = (
@@ -509,7 +509,7 @@ class SchRpcDeleteResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.15 SchRpcRename (Opnum 14)
+  
 class SchRpcRename(NDRCALL):
     opnum = 14
     structure = (
@@ -523,7 +523,7 @@ class SchRpcRenameResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.16 SchRpcScheduledRuntimes (Opnum 15)
+  
 class SchRpcScheduledRuntimes(NDRCALL):
     opnum = 15
     structure = (
@@ -541,7 +541,7 @@ class SchRpcScheduledRuntimesResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.17 SchRpcGetLastRunInfo (Opnum 16)
+  
 class SchRpcGetLastRunInfo(NDRCALL):
     opnum = 16
     structure = (
@@ -555,7 +555,7 @@ class SchRpcGetLastRunInfoResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.18 SchRpcGetTaskInfo (Opnum 17)
+  
 class SchRpcGetTaskInfo(NDRCALL):
     opnum = 17
     structure = (
@@ -570,7 +570,7 @@ class SchRpcGetTaskInfoResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.19 SchRpcGetNumberOfMissedRuns (Opnum 18)
+  
 class SchRpcGetNumberOfMissedRuns(NDRCALL):
     opnum = 18
     structure = (
@@ -583,7 +583,7 @@ class SchRpcGetNumberOfMissedRunsResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-# 3.2.5.4.20 SchRpcEnableTask (Opnum 19)
+  
 class SchRpcEnableTask(NDRCALL):
     opnum = 19
     structure = (
@@ -596,9 +596,9 @@ class SchRpcEnableTaskResponse(NDRCALL):
         ('ErrorCode',ULONG),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 OPNUMS = {
  0 : (SchRpcHighestVersion,SchRpcHighestVersionResponse ),
  1 : (SchRpcRegisterTask,SchRpcRegisterTaskResponse ),
@@ -622,9 +622,9 @@ OPNUMS = {
  19 : (SchRpcEnableTask,SchRpcEnableTaskResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 def checkNullString(string):
     if string == NULL:
         return string

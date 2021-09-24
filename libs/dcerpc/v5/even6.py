@@ -19,19 +19,19 @@ class DCERPCSessionError(DCERPCException):
         else:
             return 'EVEN6 SessionError: unknown error code: 0x%x' % self.error_code
 
-################################################################################
-# CONSTANTS
-################################################################################
+  
+  
+  
 
-# Evt Path Flags
+  
 EvtQueryChannelName = 0x00000001
 EvtQueryFilePath = 0x00000002
 EvtReadOldestToNewest = 0x00000100
 EvtReadNewestToOldest = 0x00000200
 
-################################################################################
-# STRUCTURES
-################################################################################
+  
+  
+  
 
 class CONTEXT_HANDLE_LOG_HANDLE(NDRSTRUCT):
     align = 1
@@ -71,7 +71,7 @@ class PCONTEXT_HANDLE_OPERATION_CONTROL(NDRPOINTER):
         ('Data', CONTEXT_HANDLE_OPERATION_CONTROL),
     )
 
-# 2.2.11 EvtRpcQueryChannelInfo
+  
 class EvtRpcQueryChannelInfo(NDRSTRUCT):
     structure = (
         ('Name', LPWSTR),
@@ -126,7 +126,7 @@ class LPBYTE_ARRAY(NDRPOINTER):
 class ULONG_ARRAY(NDRUniVaryingArray):
     item = ULONG
 
-# 2.3.1 EVENT_DESCRIPTOR
+  
 class EVENT_DESCRIPTOR(NDRSTRUCT):
     structure = (
         ('Id', WORD),
@@ -150,7 +150,7 @@ class BOOKMARK(NDRSTRUCT):
     )
 
 
-#2.2.17 RESULT_SET
+  
 class RESULT_SET(NDRSTRUCT):
     structure = (
         ('TotalSize', DWORD),
@@ -159,14 +159,14 @@ class RESULT_SET(NDRSTRUCT):
         ('BookmarkOffset', DWORD),
         ('BinXmlSize', DWORD),
         ('EventData', BYTE_ARRAY),
-        #('NumberOfSubqueryIDs', '<L=0'),
-        #('SubqueryIDs', BYTE_ARRAY),
-        #('BookMarkData', BOOKMARK),
+          
+          
+          
     )
 
-################################################################################
-# RPC CALLS
-################################################################################
+  
+  
+  
 
 class EvtRpcRegisterLogQuery(NDRCALL):
     opnum = 5
@@ -256,9 +256,9 @@ class EvtRpcGetChannelListResponse(NDRCALL):
         ('ErrorCode', ULONG),
     )
 
-################################################################################
-# OPNUMs and their corresponding structures
-################################################################################
+  
+  
+  
 
 OPNUMS = {
     5   : (EvtRpcRegisterLogQuery, EvtRpcRegisterLogQueryResponse),
@@ -269,9 +269,9 @@ OPNUMS = {
     19  : (EvtRpcGetChannelList, EvtRpcGetChannelListResponse),
 }
 
-################################################################################
-# HELPER FUNCTIONS
-################################################################################
+  
+  
+  
 
 def hEvtRpcRegisterLogQuery(dce, path, flags, query='*\x00'):
     request = EvtRpcRegisterLogQuery()

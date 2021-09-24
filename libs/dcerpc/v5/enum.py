@@ -104,19 +104,19 @@ class _EnumDict(dict):
         elif _is_dunder(key):
             pass
         elif key in self._member_names:
-            # descriptor overwriting an enum?
+              
             raise TypeError('Attempted to reuse key: %r' % key)
         elif not _is_descriptor(value):
             if key in self:
-                # enum overwriting a descriptor?
+                  
                 raise TypeError('Key already defined as: %r' % self[key])
             self._member_names.append(key)
         super(_EnumDict, self).__setitem__(key, value)
 
 
-# Dummy value for Enum as EnumMeta explicitly checks for it, but of course until
-# EnumMeta finishes running the first time the Enum class doesn't exist.  This
-# is also why there are checks in EnumMeta like `if Enum is not None`
+  
+  
+  
 Enum = None
 
 
@@ -127,10 +127,10 @@ class EnumMeta(type):
         return _EnumDict()
 
     def __new__(metacls, cls, bases, classdict):
-        # an Enum class is final once enumeration items have been defined; it
-        # cannot be mixed with other types (int, float, etc.) if it has an
-        # inherited __new__ unless a new __new__ is defined (or the resulting
-        # class will fail).
+          
+          
+          
+          
         if type(classdict) is dict:
             original_dict = classdict
             classdict = _EnumDict()
@@ -138,19 +138,19 @@ class EnumMeta(type):
                 classdict[k] = v
 
         member_type, first_enum = metacls._get_mixins_(bases)
-        #if member_type is object:
-        #    use_args = False
-        #else:
-        #    use_args = True
+          
+          
+          
+          
         __new__, save_new, use_args = metacls._find_new_(classdict, member_type,
                                                         first_enum)
-        # save enum items into separate mapping so they don't get baked into
-        # the new class
+          
+          
         members = dict((k, classdict[k]) for k in classdict._member_names)
         for name in classdict._member_names:
             del classdict[name]
 
-        # py2 support for definition order
+          
         __order__ = classdict.get('__order__')
         if __order__ is None:
             __order__ = classdict._member_names
@@ -166,32 +166,32 @@ class EnumMeta(type):
                 aliases = [name for name in members if name not in __order__]
                 __order__ += aliases
 
-        # check for illegal enum names (any others?)
+          
         invalid_names = set(members) & set(['mro'])
         if invalid_names:
             raise ValueError('Invalid enum member name(s): %s' % (
                 ', '.join(invalid_names), ))
 
-        # create our new Enum type
+          
         enum_class = super(EnumMeta, metacls).__new__(metacls, cls, bases, classdict)
-        enum_class._member_names_ = []               # names in random order
-        enum_class._member_map_ = {}                 # name->value map
+        enum_class._member_names_ = []                 
+        enum_class._member_map_ = {}                   
         enum_class._member_type_ = member_type
 
-        # Reverse value->name map for hashable values.
+          
         enum_class._value2member_map_ = {}
 
-        # check for a __getnewargs__, and if not present sabotage
-        # pickling, since it won't work anyway
+          
+          
         if (member_type is not object and
             member_type.__dict__.get('__getnewargs__') is None
             ):
             _make_class_unpicklable(enum_class)
 
-        # instantiate them, checking for duplicates as we go
-        # we instantiate first instead of checking for duplicates first in case
-        # a custom __new__ is doing something funky with the values -- such as
-        # auto-numbering ;)
+          
+          
+          
+          
         if __new__ is None:
             __new__ = enum_class.__new__
         for member_name in __order__:
@@ -200,8 +200,8 @@ class EnumMeta(type):
                 args = (value, )
             else:
                 args = value
-            if member_type is tuple:   # special case for tuple enums
-                args = (args, )     # wrap it one more time
+            if member_type is tuple:     
+                args = (args, )       
             if not use_args or not args:
                 enum_member = __new__(enum_class)
                 if not hasattr(enum_member, '_value_'):
@@ -214,26 +214,26 @@ class EnumMeta(type):
             enum_member._name_ = member_name
             enum_member.__objclass__ = enum_class
             enum_member.__init__(*args)
-            # If another member with the same value was already defined, the
-            # new member becomes an alias to the existing one.
+              
+              
             for name, canonical_member in enum_class._member_map_.items():
                 if canonical_member.value == enum_member._value_:
                     enum_member = canonical_member
                     break
             else:
-                # Aliases don't appear in member names (only in __members__).
+                  
                 enum_class._member_names_.append(member_name)
             enum_class._member_map_[member_name] = enum_member
             try:
-                # This may fail if value is not hashable. We can't add the value
-                # to the map, and by-value lookups for this value will be
-                # linear.
+                  
+                  
+                  
                 enum_class._value2member_map_[value] = enum_member
             except TypeError:
                 pass
 
-        # in Python2.x we cannot know definition order, so go with value order
-        # unless __order__ was specified in the class definition
+          
+          
         if not order_specified:
             enum_class._member_names_ = [
                 e[0] for e in sorted(
@@ -241,8 +241,8 @@ class EnumMeta(type):
                  key=lambda t: t[1]._value_
                         )]
 
-        # double check that repr and friends are not the mixin's or various
-        # things break (such as pickle)
+          
+          
         if Enum is not None:
             setattr(enum_class, '__getnewargs__', Enum.__getnewargs__)
         for name in ('__repr__', '__str__', '__format__'):
@@ -252,8 +252,8 @@ class EnumMeta(type):
             if obj_method is not None and obj_method is class_method:
                 setattr(enum_class, name, enum_method)
 
-        # method resolution and int's are not playing nice
-        # Python's less than 2.6 use __cmp__
+          
+          
 
         if pyver < 2.6:
 
@@ -274,11 +274,11 @@ class EnumMeta(type):
                         ):
                     setattr(enum_class, method, getattr(int, method))
 
-        # replace any other __new__ with our own (as long as Enum is not None,
-        # anyway) -- again, this is to support pickle
+          
+          
         if Enum is not None:
-            # if the user defined their own __new__, save it before it gets
-            # clobbered in case they subclass later
+              
+              
             if save_new:
                 setattr(enum_class, '__member_new__', enum_class.__dict__['__new__'])
             setattr(enum_class, '__new__', Enum.__dict__['__new__'])
@@ -300,17 +300,17 @@ class EnumMeta(type):
         the resulting class will not be pickleable.
 
         """
-        if names is None:  # simple value lookup
+        if names is None:    
             return cls.__new__(cls, value)
-        # otherwise, functional API: we're creating a new Enum type
+          
         return cls._create_(value, names, module=module, type=type)
 
     def __contains__(cls, member):
         return isinstance(member, cls) and member.name in cls._member_map_
 
     def __delattr__(cls, attr):
-        # nicer error message when someone tries to delete an attribute
-        # (see issue19025).
+          
+          
         if attr in cls._member_map_:
             raise AttributeError(
                     "%s: cannot delete Enum member." % cls.__name__)
@@ -394,13 +394,13 @@ class EnumMeta(type):
         classdict = metacls.__prepare__(class_name, bases)
         __order__ = []
 
-        # special processing needed for names?
+          
         if isinstance(names, str):
             names = names.replace(',', ' ').split()
         if isinstance(names, (tuple, list)) and isinstance(names[0], str):
             names = [(e, i+1) for (i, e) in enumerate(names)]
 
-        # Here, names is either an iterable of (name, value) or a mapping.
+          
         for item in names:
             if isinstance(item, str):
                 member_name, member_value = item, names[item]
@@ -408,13 +408,13 @@ class EnumMeta(type):
                 member_name, member_value = item
             classdict[member_name] = member_value
             __order__.append(member_name)
-        # only set __order__ in classdict if name/value was not from a mapping
+          
         if not isinstance(item, str):
             classdict['__order__'] = ' '.join(__order__)
         enum_class = metacls.__new__(metacls, class_name, bases, classdict)
 
-        # TODO: replace the frame hack if a blessed way to know the calling
-        # module is ever developed
+          
+          
         if module is None:
             try:
                 module = _sys._getframe(2).f_globals['__name__']
@@ -439,31 +439,31 @@ class EnumMeta(type):
             return object, Enum
         
 
-        # double check that we are not subclassing a class with existing
-        # enumeration members; while we're at it, see if any other data
-        # type has been mixed in so we can use the correct __new__
+          
+          
+          
         member_type = first_enum = None
         for base in bases:
             if  (base is not Enum and
                     issubclass(base, Enum) and
                     base._member_names_):
                 raise TypeError("Cannot extend enumerations")
-        # base is now the last base in bases
+          
         if not issubclass(base, Enum):
             raise TypeError("new enumerations must be created as "
                     "`ClassName([mixin_type,] enum_type)`")
 
-        # get correct mix-in type (either mix-in type of Enum subclass, or
-        # first base if last base is Enum)
+          
+          
         if not issubclass(bases[0], Enum):
-            member_type = bases[0]     # first data type
-            first_enum = bases[-1]  # enum type
+            member_type = bases[0]       
+            first_enum = bases[-1]    
         else:
             for base in bases[0].__mro__:
-                # most common: (IntEnum, int, Enum, object)
-                # possible:    (<Enum 'AutoIntEnum'>, <Enum 'IntEnum'>,
-                #               <class 'int'>, <Enum 'Enum'>,
-                #               <class 'object'>)
+                  
+                  
+                  
+                  
                 if issubclass(base, Enum):
                     if first_enum is None:
                         first_enum = base
@@ -483,12 +483,12 @@ class EnumMeta(type):
             first_enum: enumeration to check for an overriding __new__
 
             """
-            # now find the correct __new__, checking to see of one was defined
-            # by the user; also check earlier enum classes in case a __new__ was
-            # saved as __member_new__
+              
+              
+              
             __new__ = classdict.get('__new__', None)
             if __new__:
-                return None, True, True      # __new__, save_new, use_args
+                return None, True, True        
 
             N__new__ = getattr(None, '__new__')
             O__new__ = getattr(object, '__new__')
@@ -496,8 +496,8 @@ class EnumMeta(type):
                 E__new__ = N__new__
             else:
                 E__new__ = Enum.__dict__['__new__']
-            # check all possibles for __member_new__ before falling back to
-            # __new__
+              
+              
             for method in ('__member_new__', '__new__'):
                 for possible in (member_type, first_enum):
                     try:
@@ -522,9 +522,9 @@ class EnumMeta(type):
             else:
                 __new__ = object.__new__
 
-            # if a non-object.__new__ is used then whatever value/tuple was
-            # assigned to the enum member name will be passed to __new__ and to the
-            # new enum member's __init__
+              
+              
+              
             if __new__ is object.__new__:
                 use_args = False
             else:
@@ -541,17 +541,17 @@ class EnumMeta(type):
             first_enum: enumeration to check for an overriding __new__
 
             """
-            # now find the correct __new__, checking to see of one was defined
-            # by the user; also check earlier enum classes in case a __new__ was
-            # saved as __member_new__
+              
+              
+              
             __new__ = classdict.get('__new__', None)
 
-            # should __new__ be saved as __member_new__ later?
+              
             save_new = __new__ is not None
 
             if __new__ is None:
-                # check all possibles for __member_new__ before falling back to
-                # __new__
+                  
+                  
                 for method in ('__member_new__', '__new__'):
                     for possible in (member_type, first_enum):
                         target = getattr(possible, method, None)
@@ -568,9 +568,9 @@ class EnumMeta(type):
                 else:
                     __new__ = object.__new__
 
-            # if a non-object.__new__ is used then whatever value/tuple was
-            # assigned to the enum member name will be passed to __new__ and to the
-            # new enum member's __init__
+              
+              
+              
             if __new__ is object.__new__:
                 use_args = False
             else:
@@ -579,30 +579,30 @@ class EnumMeta(type):
             return __new__, save_new, use_args
 
 
-########################################################
-# In order to support Python 2 and 3 with a single
-# codebase we have to create the Enum methods separately
-# and then use the `type(name, bases, dict)` method to
-# create the class.
-########################################################
+  
+  
+  
+  
+  
+  
 temp_enum_dict = {}
 temp_enum_dict['__doc__'] = "Generic enumeration.\n\n    Derive from this class to define new enumerations.\n\n"
 
 def __new__(cls, value):
-    # all enum instances are actually created during class construction
-    # without calling this method; this method is called by the metaclass'
-    # __call__ (i.e. Color(3) ), and by pickle
+      
+      
+      
     if type(value) is cls:
-        # For lookups like Color(Color.red)
+          
         value = value.value
-        #return value
-    # by-value search for a matching enum member
-    # see if it's in the reverse mapping (for hashable values)
+          
+      
+      
     try:
         if value in cls._value2member_map_:
             return cls._value2member_map_[value]
     except TypeError:
-        # not there, now do long search -- O(n) behavior
+          
         for member in cls._member_map_.values():
             if member.value == value:
                 return member
@@ -628,15 +628,15 @@ temp_enum_dict['__dir__'] = __dir__
 del __dir__
 
 def __format__(self, format_spec):
-    # mixed-in Enums should use the mixed-in type's __format__, otherwise
-    # we can get strange results with the Enum name showing up instead of
-    # the value
+      
+      
+      
 
-    # pure Enum branch
+      
     if self._member_type_ is object:
         cls = str
         val = str(self)
-    # mix-in branch
+      
     else:
         cls = self._member_type_
         val = self.value
@@ -645,8 +645,8 @@ temp_enum_dict['__format__'] = __format__
 del __format__
 
 
-####################################
-# Python's less than 2.6 use __cmp__
+  
+  
 
 if pyver < 2.6:
 
@@ -707,12 +707,12 @@ def __hash__(self):
 temp_enum_dict['__hash__'] = __hash__
 del __hash__
 
-# _RouteClassAttributeToGetattr is used to provide access to the `name`
-# and `value` properties of enum members while keeping some measure of
-# protection from modification, while still allowing for an enumeration
-# to have members named `name` and `value`.  This works because enumeration
-# members are not set directly on the enum class -- __getattr__ is
-# used to look them up.
+  
+  
+  
+  
+  
+  
 
 @_RouteClassAttributeToGetattr
 def name(self):
@@ -729,8 +729,8 @@ del value
 Enum = EnumMeta('Enum', (object, ), temp_enum_dict)
 del temp_enum_dict
 
-# Enum has now been created
-###########################
+  
+  
 
 class IntEnum(int, Enum):
     """Enum where members are also (and must be) ints"""

@@ -1794,7 +1794,7 @@ ERROR_MESSAGES = {
         0xC03A0019: ("STATUS_VHD_DIFFERENCING_CHAIN_ERROR_IN_PARENT","The chain of virtual hard disks is inaccessible. There was an error opening a virtual hard disk further up the chain."),
 }
 
-# Error Codes
+  
 
 STATUS_SUCCESS                                                    = 0x00000000
 STATUS_WAIT_1                                                     = 0x00000001

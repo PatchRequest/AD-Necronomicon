@@ -3,7 +3,7 @@ from pyasn1.type import univ, namedtype, namedval, tag, constraint
 
 __all__ = [
     'CONTROL_PAGEDRESULTS', 'CONTROL_SDFLAGS', 'KNOWN_CONTROLS', 'NOTIFICATION_DISCONNECT', 'KNOWN_NOTIFICATIONS',
-    # classes
+      
     'ResultCode', 'Scope', 'DerefAliases', 'Operation', 'MessageID', 'LDAPString', 'LDAPOID', 'LDAPDN',
     'RelativeLDAPDN', 'AttributeDescription', 'AttributeValue', 'AssertionValue', 'MatchingRuleID', 'URI',
     'AttributeValueAssertion', 'PartialAttribute', 'PartialAttributeList', 'Attribute', 'AttributeList',
@@ -15,13 +15,13 @@ __all__ = [
     'Controls', 'SimplePagedResultsControlValue', 'SimplePagedResultsControl', 'LDAPMessage'
 ]
 
-# Controls
+  
 CONTROL_PAGEDRESULTS = '1.2.840.113556.1.4.319'
 CONTROL_SDFLAGS = '1.2.840.113556.1.4.801'
 
 KNOWN_CONTROLS = {}
 
-# Unsolicited notifications
+  
 NOTIFICATION_DISCONNECT = '1.3.6.1.4.1.1466.20036'
 
 KNOWN_NOTIFICATIONS = {NOTIFICATION_DISCONNECT: 'Notice of Disconnection'}
@@ -34,11 +34,11 @@ class DefaultSequenceAndSetBaseMixin:
         for cls in self.__class__.__bases__:
             if cls is not DefaultSequenceAndSetBaseMixin:
                 try:
-                    component = cls.getComponentByPosition(self, idx)#, default, instantiate)
+                    component = cls.getComponentByPosition(self, idx)  
                 except AttributeError:
                     continue
                 if component is None:
-                    return self.setComponentByPosition(idx).getComponentByPosition(idx)# , default, instantiate)
+                    return self.setComponentByPosition(idx).getComponentByPosition(idx)  
                 return component
 
 
@@ -325,7 +325,7 @@ Filter.componentType = namedtype.NamedTypes(
     namedtype.NamedType(
         'not',
         univ.SetOf(componentType=Filter()).subtype(implicitTag=tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 2))
-        #Filter().subtype(implicitTag=tag.Tag(tag.tagClassContext, tag.tagFormatConstructed, 2))
+          
     ),
     namedtype.NamedType(
         'equalityMatch',
@@ -522,7 +522,7 @@ class Control(univ.Sequence):
                                verifyConstraints=True,
                                matchTags=True,
                                matchConstraints=True):
-        if idx == 0:  # controlType
+        if idx == 0:    
             try:
                 cls = KNOWN_CONTROLS[value]
                 if self.__class__ is not cls:
@@ -670,7 +670,7 @@ class LDAPMessage(DefaultSequenceAndSetBaseMixin, univ.Sequence):
             'controls',
             Controls().subtype(implicitTag=tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 0))
         ),
-        # fix AD nonconforming to RFC4511
+          
         namedtype.OptionalNamedType(
             'responseName',
             LDAPOID().subtype(implicitTag=tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 10))

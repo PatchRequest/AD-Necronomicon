@@ -6,7 +6,7 @@ from libs.utils import parse_target
 
 
 
-#py.exe .\main.py target=mylab.local/syncer:Abcdefghij1!@192.168.2.156
+  
 
 
 if __name__ == "__main__":
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     smbConnection.login(username, password, domain, lmhash, nthash)
     remoteOps  = RemoteOperations(smbConnection, False, remoteHost)
     remoteOps.setExecMethod(exec_method)
-    #NTDSFileName = remoteOps.saveNTDS()
+      
     NTDSFileName = None
     bootKey = None
     NTDSHashes = NTDSHashes(NTDSFileName, bootKey, True, history=False,

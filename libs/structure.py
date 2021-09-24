@@ -125,7 +125,7 @@ class Structure:
                 if len(data) % self.alignment:
                     data += (b'\x00'*self.alignment)[:-(len(data) % self.alignment)]
             
-        #if len(data) % self.alignment: data += ('\x00'*self.alignment)[:-(len(data) % self.alignment)]
+          
         return data
 
     def fromString(self, data):
@@ -154,7 +154,7 @@ class Structure:
         
     def __setitem__(self, key, value):
         self.fields[key] = value
-        self.data = None        # force recompute
+        self.data = None          
 
     def __getitem__(self, key):
         return self.fields[key]
@@ -166,7 +166,7 @@ class Structure:
         return self.getData()
 
     def __len__(self):
-        # XXX: improve
+          
         return len(self.getData())
 
     def pack(self, format, data, field = None):
@@ -178,15 +178,15 @@ class Structure:
             if (addressField is not None) and (data is None):
                 return b''
 
-        # void specifier
+          
         if format[:1] == '_':
             return b''
 
-        # quote specifier
+          
         if format[:1] == "'" or format[:1] == '"':
             return b(format[1:])
 
-        # code specifier
+          
         two = format.split('=')
         if len(two) >= 2:
             try:
@@ -196,7 +196,7 @@ class Structure:
                 fields.update(self.fields)
                 return self.pack(two[0], eval(two[1], {}, fields))
 
-        # address specifier
+          
         two = format.split('&')
         if len(two) == 2:
             try:
@@ -207,7 +207,7 @@ class Structure:
                 else:
                     return self.pack(two[0], 0)
 
-        # length specifier
+          
         two = format.split('-')
         if len(two) == 2:
             try:
@@ -215,7 +215,7 @@ class Structure:
             except:
                 return self.pack(two[0], self.calcPackFieldSize(two[1]))
 
-        # array specifier
+          
         two = format.split('*')
         if len(two) == 2:
             answer = bytes()
@@ -229,22 +229,22 @@ class Structure:
                     return self.pack(two[0], len(data))+answer
             return answer
 
-        # "printf" string specifier
+          
         if format[:1] == '%':
-            # format string like specifier
+              
             return b(format % data)
 
-        # asciiz specifier
+          
         if format[:1] == 'z':
             if isinstance(data,bytes):
                 return data + b('\0')
             return bytes(b(data)+b('\0'))
 
-        # unicode specifier
+          
         if format[:1] == 'u':
             return bytes(data+b('\0\0') + (len(data) & 1 and b('\0') or b''))
 
-        # DCE-RPC/NDR string specifier
+          
         if format[:1] == 'w':
             if len(data) == 0:
                 data = b('\0\0')
@@ -256,11 +256,11 @@ class Structure:
         if data is None:
             raise Exception("Trying to pack None")
         
-        # literal specifier
+          
         if format[:1] == ':':
             if isinstance(data, Structure):
                 return data.getData()
-            # If we have an object that can serialize itself, go ahead
+              
             elif hasattr(data, "getData"):
                 return data.getData()
             elif isinstance(data, int):
@@ -271,13 +271,13 @@ class Structure:
                 return data
 
         if format[-1:] == 's':
-            # Let's be sure we send the right type
+              
             if isinstance(data, bytes) or isinstance(data, bytearray):
                 return pack(format, data)
             else:
                 return pack(format, b(data))
 
-        # struct like specifier
+          
         return pack(format, data)
 
     def unpack(self, format, data, dataClassOrCode = b, field = None):
@@ -290,7 +290,7 @@ class Structure:
                 if not self[addressField]:
                     return
 
-        # void specifier
+          
         if format[:1] == '_':
             if dataClassOrCode != b:
                 fields = {'self':self, 'inputDataLeft':data}
@@ -299,29 +299,29 @@ class Structure:
             else:
                 return None
 
-        # quote specifier
+          
         if format[:1] == "'" or format[:1] == '"':
             answer = format[1:]
             if b(answer) != data:
                 raise Exception("Unpacked data doesn't match constant value '%r' should be '%r'" % (data, answer))
             return answer
 
-        # address specifier
+          
         two = format.split('&')
         if len(two) == 2:
             return self.unpack(two[0],data)
 
-        # code specifier
+          
         two = format.split('=')
         if len(two) >= 2:
             return self.unpack(two[0],data)
 
-        # length specifier
+          
         two = format.split('-')
         if len(two) == 2:
             return self.unpack(two[0],data)
 
-        # array specifier
+          
         two = format.split('*')
         if len(two) == 2:
             answer = []
@@ -341,12 +341,12 @@ class Structure:
                 sofar = nsofar
             return answer
 
-        # "printf" string specifier
+          
         if format[:1] == '%':
-            # format string like specifier
+              
             return format % data
 
-        # asciiz specifier
+          
         if format == 'z':
             if data[-1:] != b('\x00'):
                 raise Exception("%s 'z' field is not NUL terminated: %r" % (field, data))
@@ -355,58 +355,58 @@ class Structure:
             else:
                 return data[:-1]
 
-        # unicode specifier
+          
         if format == 'u':
             if data[-2:] != b('\x00\x00'):
                 raise Exception("%s 'u' field is not NUL-NUL terminated: %r" % (field, data))
-            return data[:-2] # remove trailing NUL
+            return data[:-2]   
 
-        # DCE-RPC/NDR string specifier
+          
         if format == 'w':
             l = unpack('<L', data[:4])[0]
             return data[12:12+l*2]
 
-        # literal specifier
+          
         if format == ':':
             if isinstance(data, bytes) and dataClassOrCode is b:
                 return data
             return dataClassOrCode(data)
 
-        # struct like specifier
+          
         return unpack(format, data)[0]
 
     def calcPackSize(self, format, data, field = None):
-#        # print "  calcPackSize  %s:%r" %  (format, data)
+  
         if field:
             addressField = self.findAddressFieldFor(field)
             if addressField is not None:
                 if not self[addressField]:
                     return 0
 
-        # void specifier
+          
         if format[:1] == '_':
             return 0
 
-        # quote specifier
+          
         if format[:1] == "'" or format[:1] == '"':
             return len(format)-1
 
-        # address specifier
+          
         two = format.split('&')
         if len(two) == 2:
             return self.calcPackSize(two[0], data)
 
-        # code specifier
+          
         two = format.split('=')
         if len(two) >= 2:
             return self.calcPackSize(two[0], data)
 
-        # length specifier
+          
         two = format.split('-')
         if len(two) == 2:
             return self.calcPackSize(two[0], data)
 
-        # array specifier
+          
         two = format.split('*')
         if len(two) == 2:
             answer = 0
@@ -420,37 +420,37 @@ class Structure:
                 answer += self.calcPackSize(two[1], each)
             return answer
 
-        # "printf" string specifier
+          
         if format[:1] == '%':
-            # format string like specifier
+              
             return len(format % data)
 
-        # asciiz specifier
+          
         if format[:1] == 'z':
             return len(data)+1
 
-        # asciiz specifier
+          
         if format[:1] == 'u':
             l = len(data)
             return l + (l & 1 and 3 or 2)
 
-        # DCE-RPC/NDR string specifier
+          
         if format[:1] == 'w':
             l = len(data)
             return 12+l+l % 2
 
-        # literal specifier
+          
         if format[:1] == ':':
             return len(data)
 
-        # struct like specifier
+          
         return calcsize(format)
 
     def calcUnpackSize(self, format, data, field = None):
         if self.debug:
             print("  calcUnpackSize( %s | %s | %r)" %  (field, format, data))
 
-        # void specifier
+          
         if format[:1] == '_':
             return 0
 
@@ -465,28 +465,28 @@ class Structure:
         except Exception:
             pass
 
-        # XXX: Try to match to actual values, raise if no match
+          
         
-        # quote specifier
+          
         if format[:1] == "'" or format[:1] == '"':
             return len(format)-1
 
-        # address specifier
+          
         two = format.split('&')
         if len(two) == 2:
             return self.calcUnpackSize(two[0], data)
 
-        # code specifier
+          
         two = format.split('=')
         if len(two) >= 2:
             return self.calcUnpackSize(two[0], data)
 
-        # length specifier
+          
         two = format.split('-')
         if len(two) == 2:
             return self.calcUnpackSize(two[0], data)
 
-        # array specifier
+          
         two = format.split('*')
         if len(two) == 2:
             answer = 0
@@ -505,29 +505,29 @@ class Structure:
                     answer += self.calcUnpackSize(two[1], data[answer:])
             return answer
 
-        # "printf" string specifier
+          
         if format[:1] == '%':
             raise Exception("Can't guess the size of a printf like specifier for unpacking")
 
-        # asciiz specifier
+          
         if format[:1] == 'z':
             return data.index(b('\x00'))+1
 
-        # asciiz specifier
+          
         if format[:1] == 'u':
             l = data.index(b('\x00\x00'))
             return l + (l & 1 and 3 or 2)
 
-        # DCE-RPC/NDR string specifier
+          
         if format[:1] == 'w':
             l = unpack('<L', data[:4])[0]
             return 12+l*2
 
-        # literal specifier
+          
         if format[:1] == ':':
             return len(data)
 
-        # struct like specifier
+          
         return calcsize(format)
 
     def calcPackFieldSize(self, fieldName, format = None):
@@ -594,8 +594,8 @@ class Structure:
                     print("%s}" % ind)
                 else:
                     print("%s%s: {%r}" % (ind,i,self[i]))
-        # Do we have remaining fields not defined in the structures? let's 
-        # print them
+          
+          
         remainingFields = list(set(self.fields) - set(fixedFields))
         for i in remainingFields:
             if isinstance(self[i], Structure):
@@ -605,7 +605,7 @@ class Structure:
                 print("%s%s: {%r}" % (ind,i,self[i]))
 
 def pretty_print(x):
-    if chr(x) in '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ ':
+    if chr(x) in '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ ':  
        return chr(x)
     else:
        return u'.'
