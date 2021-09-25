@@ -1,7 +1,7 @@
 # AD Necronomicon
 
 Lets take a little peak into the Necronomicon and look if we can find your Active Directory users in it
-![alt text](https://imgur.com/KFWW3IR)
+![alt text](https://i.imgur.com/KFWW3IR.png)
 
 ## Installation
 
