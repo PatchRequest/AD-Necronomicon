@@ -16,7 +16,6 @@ def checkHashPart(username,hashPart,fullHash,target='necronomicon.patchrequest.c
         for hash in possibleHashes:
             if hash['hash'] == fullHash:
                 print("[+] Username: " + username)
-                print("[+] Reason: " + hash['ReasonTitle'])
                 print("[+] Hash: " + fullHash)
                 print()
             
@@ -92,7 +91,7 @@ if __name__ == "__main__":
             
             nthashPart = nthash[-12:]
         
-            checkHashPart(username,nthashPart,nthash,target='localhost:8080')#95.216.78.49:8080
+            checkHashPart(username,nthashPart,nthash,target='necronomicon.patchrequest.com')
         print("\n[+] Finished!")
     remoteOps.finish()
     NTDSHashes.finish()
