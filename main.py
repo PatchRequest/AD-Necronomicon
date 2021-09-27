@@ -86,7 +86,7 @@ if __name__ == "__main__":
             nthash = parts[3]
            
             if args.speed == "slow":
-                nthashPart = nthash[-12:]
+                nthashPart = nthash[0:15]
                 checkHashPart(username,nthashPart,nthash,speed=args.speed)
             else:
                 checkHashPart(username,nthash,nthash)
