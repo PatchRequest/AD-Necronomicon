@@ -2,6 +2,17 @@
 ![alt text](https://i.imgur.com/WvK1vPa.png)
 ![alt text](https://i.imgur.com/M0dzy5n.pngg)
 
+
+
+## What is this Ad Necronomicon
+AD Necronomicon is a passwort assesment tool for your active directory. 
+With an adminstrator account it gets all user hashes from a domain controller.
+A part of the hash gets send to the backend and compared to a database.
+All potential matches get send back and compared with the full hash.
+If there is a match you will get informed about the weak/leaked password of the user.
+
+### The server never knows the whole hash and even the script does not know the real password behind the hash
+
 ## Installation
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
