@@ -9,7 +9,7 @@ from libs.utils import parse_target
 def checkHashPart(username,hashPart,fullHash,target='necronomicon.patchrequest.com:8080'):
     data = {'username':username,'hash':hashPart}
     
-    answer = requests.post("http://"+target,data=data)
+    answer = requests.post("https://"+target,data=data)
     
     if answer.text != "null":
         possibleHashes = json.loads(answer.text)
