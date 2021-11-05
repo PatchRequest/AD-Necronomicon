@@ -1,3 +1,4 @@
+
 import argparse
 import requests
 import json
@@ -6,9 +7,14 @@ from libs.decrypter import RemoteOperations, NTDSHashes
 from libs.utils import parse_target
 
 
-def checkHashPart(username,hashPart,fullHash,target='necronomicon.patchrequest.com',speed="fast",key=""):
+def checkHashPart(username,hashPart,fullHash,backend='necronomicon.patchrequest.com',speed="fast",key="",ssl=True):
     data = {'username':username,'hash':hashPart,'speed':speed,'key':key}
-    answer = requests.post("https://"+target,data=data)
+
+    if ssl:
+        answer = requests.post("https://"+backend,data=data,timeout=10)
+    else:
+        answer = requests.post("http://"+backend,data=data,timeout=10)
+
     if answer.text != "null":
         if answer.status_code == 200:
             possibleHashes = json.loads(answer.text)
@@ -21,7 +27,14 @@ def checkHashPart(username,hashPart,fullHash,target='necronomicon.patchrequest.c
             print(answer.text)
           
     
-  
+def download_file(url):
+    local_filename = url.split('/')[-1]
+    with requests.get(url, stream=True) as r:
+        r.raise_for_status()
+        with open(local_filename, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192): 
+                f.write(chunk)
+    return local_filename
 
 
 if __name__ == "__main__":
@@ -39,18 +52,36 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(add_help = True, description = "Lets take a little peak into the Necronomicon and look if we can find your Active Directory users in it")
     parser.add_argument('target',  help='[[domain/]username[:password]@]<targetName or address>')
-    parser.add_argument('key',  help='The API-Key for the Backend')
+    parser.add_argument('--key',  help='The API-Key for the Backend', required=False)
     parser.add_argument('--speed',  help='The speed of the queries to the backend [slow,fast]\nslow: Partial hashes are send to the backend -> Slow search in the db \nfast: Full hash is send to backend -> faster search in db', required=False,default="fast")
+    parser.add_argument('--backend',  help='Address of a custom Backend. Just use it if you know what you are doing!', required=False,default="necronomicon.patchrequest.com")
+    parser.add_argument('--offline',  help='Using the offlinemode which does not use a backend. \n !!! It will download 20GB and use a local hash comparison !!!', required=False,action="store_true")
+    parser.add_argument('--nossl',  help='Using the offlinemode which does not use a backend. \n !!! It will download 20GB and use a local hash comparison !!!', required=False,action="store_true")
+
+
 
     exec_method = "smbexec"
     print("[-] Parsing arguments\n")
     args = parser.parse_args()
 
+    key = args.key
+    sslUse = not args.nossl
+    offline =  args.offline
+    backend = args.backend
+    speed = args.speed
+
     domain, username, password, remoteName = parse_target(args.target)
+
+    if offline:
+        print("[+] Offlinemode")
     print("[+] Domain: " + domain)
     print("[+] Username: " + username)
     print("[+] password: " + "*"*len(password))
     print("[+] Target: " + remoteName)
+    print("[+] Key: " + key)
+    print("[+] Using SSL: " + ("Yes" if sslUse else "No"))
+    print("[+] Backend: " + backend)
+    print("[+] Mode: " + speed)
     print()
     remoteHost = remoteName
 
@@ -82,17 +113,28 @@ if __name__ == "__main__":
 
         print("[-] Processing hashes")
         print("\n")
-        key = args.key.split("=")[1]
+        
+
+
+        if offline:
+            zip = download_file("https://downloads.pwnedpasswords.com/passwords/pwned-passwords-ntlm-ordered-by-count-v7.7z")
+        
+        
+        
         for string in strings:
             parts = string.split(':')
             username = parts[0]
             lmhash = parts[2]
             nthash = parts[3]
+
+            print(username)
+            print(nthash+"\n")
+
             if args.speed == "slow":
                 nthashPart = nthash[0:15]
-                checkHashPart(username,nthashPart,nthash,speed=args.speed,key=key)
+                checkHashPart(username,nthashPart,nthash,speed=speed,key=key,backend=backend,ssl=sslUse)
             else:
-                checkHashPart(username,nthash,nthash,key=key)
+                checkHashPart(username,nthash,nthash,key=key,backend=backend,ssl=sslUse)
 
 
 
