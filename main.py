@@ -7,35 +7,8 @@ from libs.decrypter import RemoteOperations, NTDSHashes
 from libs.utils import parse_target
 
 
-def checkHashPart(username,hashPart,fullHash,backend='necronomicon.patchrequest.com',speed="fast",key="",ssl=True):
-    data = {'username':username,'hash':hashPart,'speed':speed,'key':key}
 
-    if ssl:
-        answer = requests.post("https://"+backend,data=data,timeout=10)
-    else:
-        answer = requests.post("http://"+backend,data=data,timeout=10)
-
-    if answer.text != "null":
-        if answer.status_code == 200:
-            possibleHashes = json.loads(answer.text)
-            for hash in possibleHashes:
-                if hash['hash'] == fullHash:
-                    print("[+] Username: " + username)
-                    print("[+] Hash: " + fullHash)
-                    print()
-        else:
-            print(answer.text)
-          
     
-def download_file(url):
-    local_filename = url.split('/')[-1]
-    with requests.get(url, stream=True) as r:
-        r.raise_for_status()
-        with open(local_filename, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=8192): 
-                f.write(chunk)
-    return local_filename
-
 
 if __name__ == "__main__":
     symbol = """
@@ -78,7 +51,8 @@ if __name__ == "__main__":
     print("[+] Username: " + username)
     print("[+] password: " + "*"*len(password))
     print("[+] Target: " + remoteName)
-    print("[+] Key: " + key)
+    if key != None:
+        print("[+] Key: " + key)
     print("[+] Using SSL: " + ("Yes" if sslUse else "No"))
     print("[+] Backend: " + backend)
     print("[+] Mode: " + speed)
@@ -111,35 +85,99 @@ if __name__ == "__main__":
     print("[+] Success! Hashcount: " + str(len(strings)) + "\n")
     if len(strings) > 0:
 
-        print("[-] Processing hashes")
+        print("[-] Writing Hashes to File")
         print("\n")
         
-
-
         if offline:
-            zip = download_file("https://downloads.pwnedpasswords.com/passwords/pwned-passwords-ntlm-ordered-by-count-v7.7z")
-        
-        
-        
-        for string in strings:
-            parts = string.split(':')
-            username = parts[0]
-            lmhash = parts[2]
-            nthash = parts[3]
-
-            print(username)
-            print(nthash+"\n")
-
-            if args.speed == "slow":
-                nthashPart = nthash[0:15]
-                checkHashPart(username,nthashPart,nthash,speed=speed,key=key,backend=backend,ssl=sslUse)
+            if speed == "slow":
+                # Offline + slow
+                with open('./offlineChecker/ntds.dat', 'w') as f:
+                    for string in strings: 
+                        parts = string.split(':')
+                        username = parts[0]
+                        lmhash = parts[2]
+                        nthash = parts[3]
+                        nthashPart = nthash[0:15]
+                        f.write(nthashPart+"\n")
+                    f.close()
             else:
-                checkHashPart(username,nthash,nthash,key=key,backend=backend,ssl=sslUse)
-
-
+                # Offline + fast
+                with open('./offlineChecker/ntds.dat', 'w') as f:
+                    for string in strings: 
+                        parts = string.split(':')
+                        username = parts[0]
+                        lmhash = parts[2]
+                        nthash = parts[3]
+                        f.write(nthash+"\n")
+                    f.close()
+        else:
+            if speed == "slow":
+                # Online + slow
+                with open('./onlineChecker/ntds.dat', 'w') as f: 
+                    for string in strings:
+                        parts = string.split(':')
+                        username = parts[0]
+                        lmhash = parts[2]
+                        nthash = parts[3]
+                        nthashPart = nthash[0:15]
+                        f.write(nthashPart+"\n")
+                    f.close()
+            else:
+                # Online + fast
+                with open('./onlineChecker/ntds.dat', 'w') as f: 
+                    for string in strings:
+                        parts = string.split(':')
+                        username = parts[0]
+                        lmhash = parts[2]
+                        nthash = parts[3]
+                        f.write(nthash+"\n")
+                    f.close()
 
         print("\n[+] Finished!")
     remoteOps.finish()
     NTDSHashes.finish()
     
 
+
+
+
+"""
+        
+            for string in strings:
+                print(string)
+                parts = string.split(':')
+                username = parts[0]
+                lmhash = parts[2]
+                nthash = parts[3] 
+
+                print(username)
+                print(nthash+"\n")
+
+                if args.speed == "slow":
+                    nthashPart = nthash[0:15]
+                    checkHashPart(username,nthashPart,nthash,speed=speed,key=key,backend=backend,ssl=sslUse)
+                else:
+                    checkHashPart(username,nthash,nthash,key=key,backend=backend,ssl=sslUse)
+
+
+def checkHashPart(username,hashPart,fullHash,backend='necronomicon.patchrequest.com',speed="fast",key="",ssl=True):
+    data = {'username':username,'hash':hashPart,'speed':speed,'key':key}
+
+    if ssl:
+        answer = requests.post("https://"+backend,data=data,timeout=10)
+    else:
+        answer = requests.post("http://"+backend,data=data,timeout=10)
+
+    if answer.text != "null":
+        if answer.status_code == 200:
+            possibleHashes = json.loads(answer.text)
+            for hash in possibleHashes:
+                if hash['hash'] == fullHash:
+                    print("[+] Username: " + username)
+                    print("[+] Hash: " + fullHash)
+                    print()
+        else:
+            print(answer.text)
+          
+
+"""
