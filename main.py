@@ -1,7 +1,6 @@
 
 import argparse
-import requests
-import json
+import os
 from libs.smbconnection import SMBConnection
 from libs.decrypter import RemoteOperations, NTDSHashes
 from libs.utils import parse_target
@@ -34,7 +33,7 @@ if __name__ == "__main__":
 
 
     exec_method = "smbexec"
-    print("[-] Parsing arguments\n")
+    print("[*] Parsing arguments\n")
     args = parser.parse_args()
 
     key = args.key
@@ -59,12 +58,12 @@ if __name__ == "__main__":
     print()
     remoteHost = remoteName
 
-    print("[-] Starting SMB Connectiont to " + remoteName)
+    print("[*] Starting SMB Connectiont to " + remoteName)
     smbConnection = SMBConnection(remoteName, remoteHost)
     print("[+] Connection succesfull\n")
     nthash = ""
     lmhash = ""
-    print("[-] Logging in with user " + username)
+    print("[*] Logging in with user " + username)
     smbConnection.login(username, password, domain, lmhash, nthash)
     print("[+] Login succesfull\n")
     remoteOps  = RemoteOperations(smbConnection, False, remoteHost)
@@ -72,7 +71,7 @@ if __name__ == "__main__":
       
     NTDSFileName = None
     bootKey = None
-    print("[-] Getting NTDS File")
+    print("[*] Getting NTDS File")
     NTDSHashes = NTDSHashes(NTDSFileName, bootKey, True, history=False,
                                            noLMHash=True, remoteOps=remoteOps,
                                            useVSSMethod=False, justNTLM=True,
@@ -80,66 +79,54 @@ if __name__ == "__main__":
                                            outputFileName=None, justUser=None,
                                            printUserStatus= False)
     print("[+] Success\n")
-    print("[-] Extracting Hashes")
+    print("[*] Extracting Hashes")
     strings = NTDSHashes.dump()
     print("[+] Success! Hashcount: " + str(len(strings)) + "\n")
     if len(strings) > 0:
 
-        print("[-] Writing Hashes to File")
+        print("[*] Writing Hashes to File")
         print("\n")
         
         if offline:
-            if speed == "slow":
-                # Offline + slow
-                with open('./offlineChecker/ntds.dat', 'w') as f:
-                    for string in strings: 
-                        parts = string.split(':')
-                        username = parts[0]
-                        lmhash = parts[2]
-                        nthash = parts[3]
-                        nthashPart = nthash[0:15]
-                        f.write(nthashPart+"\n")
-                    f.close()
-            else:
-                # Offline + fast
-                with open('./offlineChecker/ntds.dat', 'w') as f:
-                    for string in strings: 
-                        parts = string.split(':')
-                        username = parts[0]
-                        lmhash = parts[2]
-                        nthash = parts[3]
-                        f.write(nthash+"\n")
-                    f.close()
+            # Offline + fast
+            with open('./checker/ntds.dat', 'w') as f:
+                for string in strings: 
+                    parts = string.split(':')
+                    username = parts[0]
+                    lmhash = parts[2]
+                    nthash = parts[3]
+                    f.write(username + "-.-" + nthash+"\n")
+                f.close()
+            print("[*] Starting second Stage\n")
+            os.chdir("checker")
+            os.system("Main.exe ntds.dat hashlist")
         else:
             if speed == "slow":
                 # Online + slow
-                with open('./onlineChecker/ntds.dat', 'w') as f: 
+                with open('./checker/ntds.dat', 'w') as f: 
                     for string in strings:
                         parts = string.split(':')
                         username = parts[0]
                         lmhash = parts[2]
                         nthash = parts[3]
                         nthashPart = nthash[0:15]
-                        f.write(nthashPart+"\n")
+                        f.write(username + "-.-" + nthashPart+"\n")
                     f.close()
             else:
                 # Online + fast
-                with open('./onlineChecker/ntds.dat', 'w') as f: 
+                with open('./checker/ntds.dat', 'w') as f: 
                     for string in strings:
                         parts = string.split(':')
                         username = parts[0]
                         lmhash = parts[2]
                         nthash = parts[3]
-                        f.write(nthash+"\n")
+                        f.write(username + "-.-" + nthash+"\n")
                     f.close()
 
         print("\n[+] Finished!")
     remoteOps.finish()
     NTDSHashes.finish()
     
-
-
-
 
 """
         
