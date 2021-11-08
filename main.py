@@ -52,6 +52,8 @@ if __name__ == "__main__":
     print("[+] Target: " + remoteName)
     if key != None:
         print("[+] Key: " + key)
+    else:
+        key = "none"
     print("[+] Using SSL: " + ("Yes" if sslUse else "No"))
     print("[+] Backend: " + backend)
     print("[+] Mode: " + speed)
@@ -99,7 +101,7 @@ if __name__ == "__main__":
                 f.close()
             print("[*] Starting second Stage\n")
             os.chdir("checker")
-            os.system("Main.exe ntds.dat hashlist")
+            os.system("Main.exe ntds.dat hashlist offline")
         else:
             if speed == "slow":
                 # Online + slow
@@ -112,6 +114,10 @@ if __name__ == "__main__":
                         nthashPart = nthash[0:15]
                         f.write(username + "-.-" + nthashPart+"\n")
                     f.close()
+                print("[*] Starting second Stage\n")
+                os.chdir("checker"),
+                sslString = "True" if sslUse else "False"
+                os.system("Main.exe ntds.dat hashlist online "+backend+" "+ sslString +" " + key +" " +speed)
             else:
                 # Online + fast
                 with open('./checker/ntds.dat', 'w') as f: 
@@ -122,6 +128,10 @@ if __name__ == "__main__":
                         nthash = parts[3]
                         f.write(username + "-.-" + nthash+"\n")
                     f.close()
+                print("[*] Starting second Stage\n")
+                os.chdir("checker")
+                sslString = "True" if sslUse else "Fasle"
+                os.system("Main.exe ntds.dat hashlist online "+backend+" "+ sslString +" " + key +" " + speed)
 
         print("\n[+] Finished!")
     remoteOps.finish()

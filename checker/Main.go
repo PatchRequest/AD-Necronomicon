@@ -3,7 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
+	"net/url"
+
 	"os"
 	"strings"
 	"sync"
@@ -26,6 +30,37 @@ func checkHash(list []string, str string) {
 	return
 }
 
+func checkOnlineHash(str string, backend string, ssl bool, key string, speed string) {
+	defer wg.Done()
+	username := strings.Split(str, "-.-")[0]
+	hash := strings.Split(str, "-.-")[1]
+	urlBackend := ""
+	if ssl {
+		urlBackend += "https://"
+	} else {
+		urlBackend += "http://"
+	}
+	urlBackend += backend
+
+	form := url.Values{}
+	form.Add("username", username)
+	form.Add("hash", hash)
+	form.Add("speed", speed)
+	form.Add("key", key)
+	//jsonStr := []byte(`{"username":"` + username + `","hash":"` + hash + `","speed":"` + speed + `","key":"` + key + `"}`)
+
+	req, err := http.NewRequest("POST", urlBackend, strings.NewReader(form.Encode()))
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("response Body:", string(body))
+}
+
 var wg sync.WaitGroup
 
 func main() {
@@ -39,6 +74,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer ntdsFile.Close()
+	var foundHashes []string
 	if mode == "offline" {
 		// Offline Mode
 		hashFile, err := os.Open(hash)
@@ -50,8 +86,6 @@ func main() {
 		scannerNTDS := bufio.NewScanner(ntdsFile)
 		fmt.Println("[*] Reading Hash Library")
 		scannerHASH := bufio.NewScanner(hashFile)
-
-		var foundHashes []string
 
 		for scannerNTDS.Scan() {
 			foundHashes = append(foundHashes, scannerNTDS.Text())
@@ -74,7 +108,36 @@ func main() {
 		fmt.Println("[+] CleanUp finished!")
 
 	} else {
+		backend := argsWithoutProg[3]
+		ssl := argsWithoutProg[4]
+		key := argsWithoutProg[5]
+		speed := argsWithoutProg[6]
 
+		fmt.Println(backend)
+		fmt.Println(ssl)
+		fmt.Println(key)
+		fmt.Println(speed)
+
+		fmt.Println("[*] Reading NTDS Dump")
+		scannerNTDS := bufio.NewScanner(ntdsFile)
+		for scannerNTDS.Scan() {
+			foundHashes = append(foundHashes, scannerNTDS.Text())
+		}
+		fmt.Println("[*] Starting Comparison \n")
+		sslBool := ssl == "True"
+
+		for _, hash := range foundHashes {
+			go checkOnlineHash(hash, backend, sslBool, key, speed)
+			wg.Add(1)
+		}
+		wg.Wait()
+		fmt.Println("\n[*] Starting CleanUp")
+		ntdsFile.Close()
+		e := os.Remove(ntds)
+		if e != nil {
+			log.Fatal(e)
+		}
+		fmt.Println("[+] CleanUp finished!")
 	}
 
 }
