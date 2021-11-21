@@ -6,10 +6,8 @@
 
 ## What is this Ad Necronomicon
 AD Necronomicon is a passwort assesment tool for your active directory. 
-With an adminstrator account it gets all user hashes from a domain controller.
-A part of the hash gets send to the backend and compared to a database.
-All potential matches get send back and compared with the full hash.
-If there is a match you will get informed about the weak/leaked password of the user.
+It compares all user und computer passwords against a list of your choice
+You can provide your own local list or own backend or use the official backend
 
 ### The server never knows the whole hash and even the script does not know the real password behind the hash
 
