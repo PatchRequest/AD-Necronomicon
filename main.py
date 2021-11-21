@@ -27,8 +27,8 @@ if __name__ == "__main__":
     parser.add_argument('--key',  help='The API-Key for the Backend', required=False)
     parser.add_argument('--speed',  help='The speed of the queries to the backend [slow,fast]\nslow: Partial hashes are send to the backend -> Slow search in the db \nfast: Full hash is send to backend -> faster search in db', required=False,default="fast")
     parser.add_argument('--backend',  help='Address of a custom Backend. Just use it if you know what you are doing!', required=False,default="necronomicon.patchrequest.com")
-    parser.add_argument('--offline',  help='Using the offlinemode which does not use a backend. \n !!! It will download 20GB and use a local hash comparison !!!', required=False,action="store_true")
-    parser.add_argument('--nossl',  help='Using the offlinemode which does not use a backend. \n !!! It will download 20GB and use a local hash comparison !!!', required=False,action="store_true")
+    parser.add_argument('--offline',  help='Using the offlinemode which does not use a backend', required=False,action="store_true")
+    parser.add_argument('--nossl',  help='Using no SSl for Backend', required=False,action="store_true")
 
 
 
