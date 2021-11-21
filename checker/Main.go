@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -12,6 +13,10 @@ import (
 	"strings"
 	"sync"
 )
+
+type result struct {
+	Hash string
+}
 
 func checkHash(list []string, str string) {
 	defer wg.Done()
@@ -41,6 +46,12 @@ func checkOnlineHash(str string, backend string, ssl bool, key string, speed str
 		urlBackend += "http://"
 	}
 	urlBackend += backend
+	hashPart := ""
+	if speed == "slow" {
+		hashPart = hash[:15]
+	} else {
+		hashPart = hash
+	}
 
 	//form := url.Values{}
 	//form.Add("username", username)
@@ -48,7 +59,7 @@ func checkOnlineHash(str string, backend string, ssl bool, key string, speed str
 	//form.Add("speed", speed)
 	//form.Add("key", key)
 	username = strings.ReplaceAll(username, "\\", "\\\\")
-	jsonStr := []byte(`{"username":"` + username + `","hash":"` + hash + `","speed":"` + speed + `","key":"` + key + `"}`)
+	jsonStr := []byte(`{"username":"` + username + `","hash":"` + hashPart + `","speed":"` + speed + `","key":"` + key + `"}`)
 	//encodedForm := form.Encode()
 	//fmt.Println(encodedForm)
 	req, err := http.NewRequest("POST", urlBackend, bytes.NewBuffer(jsonStr))
@@ -61,7 +72,29 @@ func checkOnlineHash(str string, backend string, ssl bool, key string, speed str
 
 	body, _ := ioutil.ReadAll(resp.Body)
 
-	fmt.Println("response Body:", string(body))
+	if string(body) == "null" {
+		return
+	}
+
+	var hashes []result
+	json.Unmarshal(body, &hashes)
+
+	for _, v := range hashes {
+		if speed == "fast" {
+			if v.Hash == hash {
+				fmt.Println("[+] " + username + ":" + v.Hash)
+			}
+		} else {
+			if strings.HasPrefix(v.Hash, hash) {
+
+				fmt.Println("[+] " + username + ":" + v.Hash)
+			}
+		}
+	}
+
+	//fmt.Println(jsonObj)
+
+	//fmt.Println("response Body:", string(body))
 }
 
 var wg sync.WaitGroup

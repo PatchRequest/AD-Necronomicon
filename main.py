@@ -103,35 +103,20 @@ if __name__ == "__main__":
             os.chdir("checker")
             os.system("Main.exe ntds.dat hashlist offline")
         else:
-            if speed == "slow":
-                # Online + slow
-                with open('./checker/ntds.dat', 'w') as f: 
-                    for string in strings:
-                        parts = string.split(':')
-                        username = parts[0]
-                        lmhash = parts[2]
-                        nthash = parts[3]
-                        nthashPart = nthash[0:15]
-                        f.write(username + "-.-" + nthashPart+"\n")
-                    f.close()
-                print("[*] Starting second Stage\n")
-                os.chdir("checker"),
-                sslString = "True" if sslUse else "False"
-                os.system("Main.exe ntds.dat hashlist online "+backend+" "+ sslString +" " + key +" " +speed)
-            else:
-                # Online + fast
-                with open('./checker/ntds.dat', 'w') as f: 
-                    for string in strings:
-                        parts = string.split(':')
-                        username = parts[0]
-                        lmhash = parts[2]
-                        nthash = parts[3]
-                        f.write(username + "-.-" + nthash+"\n")
-                    f.close()
-                print("[*] Starting second Stage\n")
-                os.chdir("checker")
-                sslString = "True" if sslUse else "Fasle"
-                os.system("Main.exe ntds.dat hashlist online "+backend+" "+ sslString +" " + key +" " + speed)
+            
+            # Online + fast | slow
+            with open('./checker/ntds.dat', 'w') as f: 
+                for string in strings:
+                    parts = string.split(':')
+                    username = parts[0]
+                    lmhash = parts[2]
+                    nthash = parts[3]
+                    f.write(username + "-.-" + nthash+"\n")
+                f.close()
+            print("[*] Starting second Stage\n")
+            os.chdir("checker")
+            sslString = "True" if sslUse else "Fasle"
+            os.system("Main.exe ntds.dat hashlist online "+backend+" "+ sslString +" " + key +" " + speed)
 
         print("\n[+] Finished!")
     remoteOps.finish()
