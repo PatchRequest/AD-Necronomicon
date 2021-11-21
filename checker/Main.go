@@ -2,11 +2,11 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
 
 	"os"
 	"strings"
@@ -42,14 +42,16 @@ func checkOnlineHash(str string, backend string, ssl bool, key string, speed str
 	}
 	urlBackend += backend
 
-	form := url.Values{}
-	form.Add("username", username)
-	form.Add("hash", hash)
-	form.Add("speed", speed)
-	form.Add("key", key)
-	//jsonStr := []byte(`{"username":"` + username + `","hash":"` + hash + `","speed":"` + speed + `","key":"` + key + `"}`)
-
-	req, err := http.NewRequest("POST", urlBackend, strings.NewReader(form.Encode()))
+	//form := url.Values{}
+	//form.Add("username", username)
+	//form.Add("hash", hash)
+	//form.Add("speed", speed)
+	//form.Add("key", key)
+	username = strings.ReplaceAll(username, "\\", "\\\\")
+	jsonStr := []byte(`{"username":"` + username + `","hash":"` + hash + `","speed":"` + speed + `","key":"` + key + `"}`)
+	//encodedForm := form.Encode()
+	//fmt.Println(encodedForm)
+	req, err := http.NewRequest("POST", urlBackend, bytes.NewBuffer(jsonStr))
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -58,6 +60,7 @@ func checkOnlineHash(str string, backend string, ssl bool, key string, speed str
 	defer resp.Body.Close()
 
 	body, _ := ioutil.ReadAll(resp.Body)
+
 	fmt.Println("response Body:", string(body))
 }
 
@@ -92,6 +95,7 @@ func main() {
 		}
 		fmt.Println("[*] Starting Comparison \n")
 		for scannerHASH.Scan() {
+
 			copy := scannerHASH.Text()
 
 			go checkHash(foundHashes, copy)
@@ -127,6 +131,7 @@ func main() {
 		sslBool := ssl == "True"
 
 		for _, hash := range foundHashes {
+
 			go checkOnlineHash(hash, backend, sslBool, key, speed)
 			wg.Add(1)
 		}
