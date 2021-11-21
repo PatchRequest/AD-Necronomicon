@@ -1,6 +1,6 @@
 # AD Necronomicon
-![alt text](https://i.imgur.com/WvK1vPa.png)
-![alt text](https://i.imgur.com/M0dzy5n.pngg)
+![AD Necronomicon](https://i.imgur.com/WvK1vPa.png)
+![a passwort assesment tool for your active directory](https://i.imgur.com/M0dzy5n.pngg)
 
 
 
