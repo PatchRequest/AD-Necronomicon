@@ -150,11 +150,6 @@ func main() {
 		key := argsWithoutProg[5]
 		speed := argsWithoutProg[6]
 
-		fmt.Println(backend)
-		fmt.Println(ssl)
-		fmt.Println(key)
-		fmt.Println(speed)
-
 		fmt.Println("[*] Reading NTDS Dump")
 		scannerNTDS := bufio.NewScanner(ntdsFile)
 		for scannerNTDS.Scan() {

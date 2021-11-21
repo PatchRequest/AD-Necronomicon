@@ -115,7 +115,7 @@ if __name__ == "__main__":
                 f.close()
             print("[*] Starting second Stage\n")
             os.chdir("checker")
-            sslString = "True" if sslUse else "Fasle"
+            sslString = "True" if sslUse else "False"
             os.system("Main.exe ntds.dat hashlist online "+backend+" "+ sslString +" " + key +" " + speed)
 
         print("\n[+] Finished!")
