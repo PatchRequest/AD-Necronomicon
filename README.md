@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 ## Usage
 
-```python
+```
 
 usage: main.py [-h] [--key KEY] [--speed SPEED] [--backend BACKEND] [--offline] [--nossl] target
 
