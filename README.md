@@ -24,7 +24,26 @@ pip install -r requirements.txt
 ## Usage
 
 ```python
-py.exe .\main.py target=[domain]/[domainAdminUsername]:[domainAdminPassword]@[DC-IP]
+
+usage: main.py [-h] [--key KEY] [--speed SPEED] [--backend BACKEND] [--offline] [--nossl] target
+
+Lets take a little peak into the Necronomicon and look if we can find your Active Directory users in it
+
+positional arguments:
+  target             [[domain/]username[:password]@]<targetName or address>
+
+optional arguments:
+  -h, --help         show this help message and exit
+  --key KEY          The API-Key for the Backend
+  --speed SPEED      The speed of the queries to the backend [slow,fast] slow: Partial hashes are send to the backend -> Slow search in the db fast: Full hash is send to backend ->       
+                     faster search in db
+  --backend BACKEND  Address of a custom Backend. Just use it if you know what you are doing!
+  --offline          Using the offlinemode which does not use a backend
+  --nossl            Using no SSl for Backend
+
+
+Example:
+py.exe .\main.py target=mylab.local/syncer:Abcdefghij1!@192.168.2.156  --backend=localhost:8080 --nossl --key=abc
 ```
 
 ## Contributing
