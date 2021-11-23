@@ -18,7 +18,8 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 ```bash
 pip install -r requirements.txt
 ```
-
+## Key Usage
+For your own backend you don´t need a key. If you want to use the official Backend contact [PatchRequest](https://twitter.com/PatchRequest) for a Key
 ## Usage
 
 ```
