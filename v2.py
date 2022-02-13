@@ -216,6 +216,9 @@ if __name__ == '__main__':
 
     try:
         dumper.dump()
+        # execute Main.exe within the same folder
+        output = os.system('Main.exe')
+        print(output)
     except Exception as e:
         if logging.getLogger().level == logging.DEBUG:
             import traceback
