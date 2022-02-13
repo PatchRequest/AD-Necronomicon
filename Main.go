@@ -14,6 +14,12 @@ var wg sync.WaitGroup
 
 func main() {
 
+	badUserFile, err := os.Create("badUsers.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer badUserFile.Close()
+
 	ntdsFile, err := os.Open("dumb.ntds")
 	if err != nil {
 		log.Fatal(err)
@@ -39,19 +45,23 @@ func main() {
 		foundRawData := scannerNTDS.Text()
 		foundHash := splitData(foundRawData)
 
-		go checkHash(foundHash)
+		go checkHash(foundHash, badUserFile)
 		wg.Add(1)
 	}
 	wg.Wait()
 
 	fmt.Println("[*] Cleaning up")
+
 	os.Remove("dumb.ntds")
+
 }
-func checkHash(foundHash []string) {
+func checkHash(foundHash []string, userFile *os.File) {
 	defer wg.Done()
 	for _, v := range knowHashes {
 		if v == foundHash[1] {
-			fmt.Println("[*] Found User: " + foundHash[0] + "\n Hash: " + foundHash[1])
+			fmt.Println("[+] Found User with weak password: " + foundHash[0] + "\n Hash: " + foundHash[1])
+			userFile.WriteString(foundHash[0] + "\n")
+
 		}
 	}
 }

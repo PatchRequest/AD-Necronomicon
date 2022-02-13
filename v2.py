@@ -6,6 +6,10 @@ import codecs
 import logging
 import os
 import sys
+import subprocess
+
+
+
 
 from impacket import version
 from impacket.examples import logger
@@ -216,9 +220,9 @@ if __name__ == '__main__':
 
     try:
         dumper.dump()
-        # execute Main.exe within the same folder
-        output = os.system('Main.exe')
-        print(output)
+        subprocess.call("Main.exe")
+
+        
     except Exception as e:
         if logging.getLogger().level == logging.DEBUG:
             import traceback
