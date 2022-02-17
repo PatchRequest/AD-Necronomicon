@@ -23,6 +23,9 @@ except NameError:
 
 
 def phase3():
+    with open("basUsers.txt","w") as f:
+        for user, hash in badUser.items():
+            f.write(user + "\n")
     pass
 
 
