@@ -6,22 +6,157 @@ import codecs
 import logging
 import os
 import sys
-import subprocess
-
-
-
-
-from impacket import version
 from impacket.examples import logger
 from impacket.examples.utils import parse_target
 from impacket.smbconnection import SMBConnection
 
 from impacket.examples.secretsdump import  RemoteOperations, NTDSHashes
 from impacket.krb5.keytab import Keytab
+
+import hashlib,binascii
 try:
     input = raw_input
 except NameError:
     pass
+
+
+
+
+def phase3():
+    pass
+
+
+
+def phase2(wordlist):
+    foundHashesFile = open('dumb.ntds',"r", encoding="utf8",errors="ignore")
+    foundHashes = {}   
+
+    print("[*] Reading found hashes...")
+    #loop through the file and find the hash
+    for line in foundHashesFile:
+        hash = line.split(":")[3].lower()
+        user = line.split(":")[0]
+        foundHashes[user] = hash
+        
+    print("Found {} hashes".format(len(foundHashes)))
+    wordlistFile = open(wordlist,"r", encoding="utf8",errors="replace")
+    knownBadHashes = []
+    print("[*] Reading wordlist...")
+    for line in wordlistFile:
+        line = line.strip("\n\t\r")
+        
+        ntlm_hash = binascii.hexlify(hashlib.new('md4', line.encode('UTF-16LE')).digest()).decode('utf-8').lower()
+        knownBadHashes.append(ntlm_hash)
+        
+    print("Found hashes:", len(knownBadHashes))
+   
+    print("[*] Comparing hashes...")
+    #foreach key and value in foundHashes dictonary
+    badUser = {}
+    for user, hash in foundHashes.items():
+        if hash in knownBadHashes:
+            badUser[user] = hash
+            print("[*] Hash found: " + hash + " for user: " + user)
+
+    phase3(badUser)
+    #print(knownBadHashes)
+
+
+def phase1():
+    
+    if sys.stdout.encoding is None:
+        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
+
+    parser = argparse.ArgumentParser(add_help = True, description = "Performs various techniques to dump secrets from "
+                                                      "the remote machine without executing any agent there.")
+
+    parser.add_argument('target', action='store', help='[[domain/]username[:password]@]<targetName or address>')
+    parser.add_argument('-w', action='store',  help='A wordlist file (password per line) to try.')
+    group = parser.add_argument_group('authentication')
+
+    group.add_argument('-hashes', action="store", metavar = "LMHASH:NTHASH", help='NTLM hashes, format is LMHASH:NTHASH')
+    group.add_argument('-no-pass', action="store_true", help='don\'t ask for password (useful for -k)')
+    group.add_argument('-k', action="store_true", help='Use Kerberos authentication. Grabs credentials from ccache file '
+                             '(KRB5CCNAME) based on target parameters. If valid credentials cannot be found, it will use'
+                             ' the ones specified in the command line')
+    group.add_argument('-aesKey', action="store", metavar = "hex key", help='AES key to use for Kerberos Authentication'
+                                                                            ' (128 or 256 bits)')
+    group = parser.add_argument_group('connection')
+    group.add_argument('-dc-ip', action='store',metavar = "ip address",  help='IP Address of the domain controller. If '
+                                 'ommited it use the domain part (FQDN) specified in the target parameter')
+    group.add_argument('-target-ip', action='store', metavar="ip address",
+                       help='IP Address of the target machine. If omitted it will use whatever was specified as target. '
+                            'This is useful when target is the NetBIOS name and you cannot resolve it')
+
+    if len(sys.argv)==1:
+        parser.print_help()
+        sys.exit(1)
+
+    options = parser.parse_args()
+    options.ts = False
+    options.debug = False
+    options.system = None
+    options.bootkey = None
+    options.security = None
+    options.sam = None
+    options.ntds = None
+    options.resumefile = None
+    options.outputfile = 'dumb'
+    options.use_vss = False
+    options.exec_method = 'smbexec'
+    options.just_dc = False
+    options.just_dc_user = None
+    options.just_dc_ntlm = True
+    options.pwd_last_set = True
+    options.user_status = True
+    options.history = False
+    options.hashes = None
+    options.aesKey = None
+    options.keytab = None
+    options.dc_ip = None
+
+    if options.w is None:
+        print("[!] You have to specify the location of the password file (option -w)")
+        sys.exit(1)
+    
+    logger.init(options.ts)
+
+    logging.getLogger().setLevel(logging.INFO)
+
+    domain, username, password, remoteName = parse_target(options.target)
+
+    if options.target_ip is None:
+        options.target_ip = remoteName
+
+    if domain is None:
+        print("No domain is not possible, try specifying your credentials")
+        sys.exit(1)
+
+   
+
+    if password == '' and username != '' and options.hashes is None and options.no_pass is False and options.aesKey is None:
+        from getpass import getpass
+
+        password = getpass("Password:")
+
+   
+
+    dumper = DumpSecrets(remoteName, username, password, domain, options)
+
+    try:
+        dumper.dump()
+        
+        phase2(options.w)
+    except Exception as e:
+        if logging.getLogger().level == logging.DEBUG:
+            import traceback
+            traceback.print_exc()
+        logging.error(e)
+
+    
+
+def main():
+    phase1()
 
 class DumpSecrets:
     def __init__(self, remoteName, username='', password='', domain='', options=None):
@@ -124,107 +259,19 @@ class DumpSecrets:
             logging.error(e)
             try:
                 self.cleanup()
+                
             except:
                 pass
 
     def cleanup(self):
         logging.info('Cleaning up... ')
         if self.__remoteOps:
-            
             self.__remoteOps.finish()
         if self.__NTDSHashes:
-            
             self.__NTDSHashes.finish()
 
 
-# Process command-line arguments.
+
+
 if __name__ == '__main__':
-    # Explicitly changing the stdout encoding format
-    if sys.stdout.encoding is None:
-        # Output is redirected to a file
-        sys.stdout = codecs.getwriter('utf8')(sys.stdout)
-
-    
-
-    parser = argparse.ArgumentParser(add_help = True, description = "Performs various techniques to dump secrets from "
-                                                      "the remote machine without executing any agent there.")
-
-    parser.add_argument('target', action='store', help='[[domain/]username[:password]@]<targetName or address>')
-    group = parser.add_argument_group('authentication')
-
-    group.add_argument('-hashes', action="store", metavar = "LMHASH:NTHASH", help='NTLM hashes, format is LMHASH:NTHASH')
-    group.add_argument('-no-pass', action="store_true", help='don\'t ask for password (useful for -k)')
-    group.add_argument('-k', action="store_true", help='Use Kerberos authentication. Grabs credentials from ccache file '
-                             '(KRB5CCNAME) based on target parameters. If valid credentials cannot be found, it will use'
-                             ' the ones specified in the command line')
-    group.add_argument('-aesKey', action="store", metavar = "hex key", help='AES key to use for Kerberos Authentication'
-                                                                            ' (128 or 256 bits)')
-    group = parser.add_argument_group('connection')
-    group.add_argument('-dc-ip', action='store',metavar = "ip address",  help='IP Address of the domain controller. If '
-                                 'ommited it use the domain part (FQDN) specified in the target parameter')
-    group.add_argument('-target-ip', action='store', metavar="ip address",
-                       help='IP Address of the target machine. If omitted it will use whatever was specified as target. '
-                            'This is useful when target is the NetBIOS name and you cannot resolve it')
-
-    if len(sys.argv)==1:
-        parser.print_help()
-        sys.exit(1)
-
-    options = parser.parse_args()
-    options.ts = False
-    options.debug = False
-    options.system = None
-    options.bootkey = None
-    options.security = None
-    options.sam = None
-    options.ntds = None
-    options.resumefile = None
-    options.outputfile = 'dumb'
-    options.use_vss = False
-    options.exec_method = 'smbexec'
-    options.just_dc = False
-    options.just_dc_user = None
-    options.just_dc_ntlm = True
-    options.pwd_last_set = True
-    options.user_status = True
-    options.history = False
-    options.hashes = None
-    options.aesKey = None
-    options.keytab = None
-    options.dc_ip = None
-
-    
-    logger.init(options.ts)
-
-    logging.getLogger().setLevel(logging.INFO)
-
-    domain, username, password, remoteName = parse_target(options.target)
-
-    if options.target_ip is None:
-        options.target_ip = remoteName
-
-    if domain is None:
-        print("No domain is not possible, try specifying your credentials")
-        sys.exit(1)
-
-   
-
-    if password == '' and username != '' and options.hashes is None and options.no_pass is False and options.aesKey is None:
-        from getpass import getpass
-
-        password = getpass("Password:")
-
-   
-
-    dumper = DumpSecrets(remoteName, username, password, domain, options)
-
-    try:
-        dumper.dump()
-        subprocess.call("Main.exe")
-
-        
-    except Exception as e:
-        if logging.getLogger().level == logging.DEBUG:
-            import traceback
-            traceback.print_exc()
-        logging.error(e)
+    main()

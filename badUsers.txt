@@ -1,2 +1,0 @@
-Administrator
-mylab.local\dumper
