@@ -22,16 +22,23 @@ except NameError:
 
 
 
-def phase3():
-    with open("basUsers.txt","w") as f:
+def phase3(badUser):
+    import os
+    if os.path.exists("badUser.txt"):
+        os.remove("badUser.txt")
+    if os.path.exists("dumb.ntds"):
+        os.remove("dumb.ntds")
+
+    with open("badUser.txt","w") as f:
         for user, hash in badUser.items():
             f.write(user + "\n")
+        
     pass
 
 
 
 def phase2(wordlist):
-    foundHashesFile = open('dumb.ntds',"r", encoding="utf8",errors="ignore")
+    foundHashesFile =  open('dumb.ntds',"r", encoding="utf8",errors="ignore") 
     foundHashes = {}   
 
     print("[*] Reading found hashes...")
@@ -42,6 +49,8 @@ def phase2(wordlist):
         foundHashes[user] = hash
         
     print("Found {} hashes".format(len(foundHashes)))
+    foundHashesFile.close()
+
     wordlistFile = open(wordlist,"r", encoding="utf8",errors="replace")
     knownBadHashes = []
     print("[*] Reading wordlist...")
@@ -52,7 +61,8 @@ def phase2(wordlist):
         knownBadHashes.append(ntlm_hash)
         
     print("Found hashes:", len(knownBadHashes))
-   
+    wordlistFile.close()
+
     print("[*] Comparing hashes...")
     #foreach key and value in foundHashes dictonary
     badUser = {}
